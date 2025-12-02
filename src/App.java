@@ -11,5 +11,15 @@ public class App {
         manageBoss boss = new manageBoss();
         boss.addboss("Goblin King", 1200, 30, 10);
         boss.displayboss();
+
+        SenjataShop senjata = new SenjataShop();
+        senjata.addweapon("Sword of Light", 25, 0, 100);
+        senjata.addweapon("Staff of Wisdom", 0, 30, 150);
+
+        senjata.display();
+        player.buyweapon("Aria","Sword of Light", senjata);
+        player.buyweapon("Aria","Staff of Wisdom", senjata);
+
+        player.displayfighter();
     }
 }

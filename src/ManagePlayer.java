@@ -1,5 +1,7 @@
 public class ManagePlayer {
     Character head;
+    SenjataShop shop;
+
     public void addplayer(String nama, String Role){
         Character fighter;
         if(Role.equals("Magic")){
@@ -95,6 +97,51 @@ public class ManagePlayer {
         }
     }
 
+    public void buyweapon(String namaplayer, String namasenjata, SenjataShop shop){
+        Character curr = getPlayer(namaplayer);
+        if(curr != null){
+            Weapon weaponToBuy = shop.getweapon(namasenjata);
+
+            Weapon check = curr.weapon;
+            while(check != null){
+                if(check.namasenjata.equals(namasenjata)){
+                    System.out.println(curr.orang + " sudah memiliki senjata '" + namasenjata + "' !");
+                    return;
+                }
+                check = check.next;
+            }
+            
+            if(weaponToBuy != null){
+                if(curr.gold >= weaponToBuy.cost){
+                    curr.gold -= weaponToBuy.cost;
+                    Weapon beli = new Weapon(weaponToBuy.namasenjata, weaponToBuy.physicaldamage,weaponToBuy.magicpower, weaponToBuy.cost);
+                    curr.physicaldamage += beli.physicaldamage;
+                    curr.magicpower += beli.magicpower;
+                    System.out.println(namaplayer + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
+                    System.out.println("Gold " + namaplayer + " tersisa " + curr.gold + " gold.");
+                    if(curr.weapon == null){
+                        curr.weapon = beli;
+                    }else{
+                        Weapon current = curr.weapon;
+                        while(current.next != null){
+                            current = current.next;
+                        }
+                        current.next = beli;
+                    }
+                }else{
+                    System.out.println(namaplayer + " tidak cukup gold untuk membeli " + namasenjata + ".");
+                }
+            }else{
+                System.out.println("Senjata " + namasenjata + " tidak terdapat pada toko.");
+                return;
+            }
+            
+        }else{
+            System.out.println("Player tidak ditemukan");
+            return;
+        }
+    }
+    
     public void displayfighter(){
         Character curr = head;
         while(curr != null){

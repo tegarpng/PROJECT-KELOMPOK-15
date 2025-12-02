@@ -1,5 +1,6 @@
 public class Weapon {
     String namasenjata;
+    int cost;
     int physicaldamage;
     int magicpower;
     Weapon next;
@@ -11,7 +12,16 @@ public class Weapon {
         this.next = null;
         this.prev = null;
     }
+    public Weapon(String namasenjata, int physicaldamage, int magicpower, int cost) {
+        this.namasenjata = namasenjata;
+        this.physicaldamage = physicaldamage;
+        this.magicpower = magicpower;
+        this.cost = cost;
+        this.next = null;
+        this.prev = null;
+    }
 }
+
 class Armor {
     String namaarmor;
     int physicaldefense;
