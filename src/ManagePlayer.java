@@ -75,6 +75,26 @@ public class ManagePlayer {
         }
     }
 
+    public void removeplayer(String nama){
+        if(head == null){
+            System.out.println("No players to remove.");
+            return;
+        }
+        if(head.orang.equals(nama)){
+            head = head.next;
+            return;
+        }
+        Character curr = head;
+        while(curr.next != null && !curr.next.orang.equals(nama)){
+            curr = curr.next;
+        }
+        if(curr.next != null){
+            curr.next = curr.next.next;
+        }else{
+            System.out.println("Player not found.");
+        }
+    }
+
     public void displayfighter(){
         Character curr = head;
         while(curr != null){
