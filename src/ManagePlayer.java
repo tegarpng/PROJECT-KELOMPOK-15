@@ -23,26 +23,7 @@ public class ManagePlayer {
             return;
         }
         
-        if(head == null){
         head = fighter;
-        }else{
-            Character curr = head;
-            while(curr.next != null){
-                curr = curr.next;
-            }
-            curr.next = fighter;
-        }
-    }
-
-    public Character getPlayer(String nama){
-        Character curr = head;
-        while(curr != null){
-            if(curr.orang.equals(nama)){
-                return curr;
-            }
-            curr = curr.next;
-        }
-        return null;
     }
 
     public Character getPlayerbyRole(String role){
@@ -56,11 +37,11 @@ public class ManagePlayer {
         return null;
     }
 
-    public void GiveWeapon(String namafighter, String namasenjata, int physicaldamage, int magicpower){
-        Character character = getPlayer(namafighter);
+    public void GiveWeapon(String namasenjata, int physicaldamage, int magicpower){
+        Character character = head;
         if(character != null){
             if(character.weapon == null){
-                character.weapon = new Weapon(namasenjata, physicaldamage, magicpower);
+                character.weapon = new Weapon(namasenjata, physicaldamage, magicpower, 0);
                 character.physicaldamage += physicaldamage;
                 character.magicpower += magicpower;
             }else{
@@ -68,13 +49,13 @@ public class ManagePlayer {
                 while(curr.next != null){
                     curr = curr.next;
                 }
-                curr.next = new Weapon(namasenjata, physicaldamage, magicpower);
+                curr.next = new Weapon(namasenjata, physicaldamage, magicpower, 0);
             }
         }
     }
 
-    public void GiveArmor(String namafighter, String namarmor, int physicaldefense, int magicdefense){
-        Character character = getPlayer(namafighter);
+    public void GiveArmor(String namarmor, int physicaldefense, int magicdefense){
+        Character character = head;
         if(character != null){
             if(character.armorplayer == null){
                 character.armorplayer = new Armor(namarmor, physicaldefense, magicdefense);
@@ -110,8 +91,8 @@ public class ManagePlayer {
         }
     }
 
-    public void buyweapon(String namaplayer, String namasenjata, SenjataShop shop){
-        Character curr = getPlayer(namaplayer);
+    public void buyweapon(String namasenjata, SenjataShop shop){
+        Character curr = head;
         if(curr != null){
             Weapon weaponToBuy = shop.getweapon(namasenjata);
 
@@ -132,8 +113,8 @@ public class ManagePlayer {
                     String choice = input.nextLine(); 
                     if(choice.equalsIgnoreCase("ya")){
                         curr.physicaldamage += (beli.physicaldamage * 0.4);
-                        System.out.println(namaplayer + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
-                        System.out.println("Gold " + namaplayer + " tersisa " + curr.gold + " gold.");
+                        System.out.println(curr.orang + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
+                        System.out.println("Gold " + curr.orang + " tersisa " + curr.gold + " gold.");
                         if(curr.weapon == null){
                             curr.weapon = beli;
                         }else{
@@ -147,8 +128,8 @@ public class ManagePlayer {
                     }else{
                         curr.physicaldamage += beli.physicaldamage;
                         curr.magicpower += beli.magicpower;
-                        System.out.println(namaplayer + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
-                        System.out.println("Gold " + namaplayer + " tersisa " + curr.gold + " gold.");
+                        System.out.println(curr.orang + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
+                        System.out.println("Gold " + curr.orang + " tersisa " + curr.gold + " gold.");
                         if(curr.weapon == null){
                             curr.weapon = beli;
                         }else{
@@ -160,7 +141,7 @@ public class ManagePlayer {
                         }
                     }
                 }else{
-                    System.out.println(namaplayer + " tidak cukup gold untuk membeli " + namasenjata + ".");
+                    System.out.println(curr.orang + " tidak cukup gold untuk membeli " + namasenjata + ".");
                 }
             }else{
                 System.out.println("Senjata " + namasenjata + " tidak terdapat pada toko.");
@@ -174,7 +155,7 @@ public class ManagePlayer {
     }
     
     public void sell(String namaOrang, String namaItems){
-        Character curr = getPlayer(namaOrang);
+        Character curr = head;
         if(curr != null){
             Weapon weaponChar = curr.weapon;
 
@@ -203,8 +184,10 @@ public class ManagePlayer {
     public void displayfighter(){
         Character curr = head;
         while(curr != null){
-            System.out.println("Nama : " + curr.orang + " | Role : " + curr.role );
-            System.out.println("HP : " + curr.health + " | Gold : " + curr.gold);
+            System.out.println("##==========================================================##");
+            System.out.printf("|| Nama  : " + curr.orang + "  | Role : " + curr.role + "||");
+            System.out.println("|| HP    : " + curr.health + " | Gold : " + curr.gold + "||");
+            System.out.println("|| Stats   \n|| Physical Damage :" + curr.physicaldamage + " || Magical Power : " + curr.magicpower + "||");
             System.out.println("Items:");
             Weapon weaponCurr = curr.weapon;
             System.out.println("- Weapons:");
@@ -246,17 +229,15 @@ public class ManagePlayer {
 
 class manageBoss{
     Boss head;
-    public void addboss(String namaboss, int health, int physicaldamage, int magicpower){
-        Boss boss = new Boss(namaboss, health, physicaldamage, magicpower);
-        if(head == null){
-            head = boss;
-        }else{
-            Boss curr = head;
-            while(curr.next != null){
-                curr = curr.next;
-            }
-            curr.next = boss;
-        }
+    public void loadBoss(){
+        Boss boss = new Boss("Death Knight", 20000, 100, 70);
+        Boss boss1 = new Boss("Death Knight", 20000, 100, 70);
+        Boss boss2 = new Boss("Death Knight", 20000, 100, 70);
+        Boss boss3 = new Boss("Death Knight", 20000, 100, 70);
+        head = boss;
+        boss.next = boss1;
+        boss1.next = boss2;
+        boss2.next = boss3;
     }
 
     public void displayboss(){

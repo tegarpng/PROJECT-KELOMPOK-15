@@ -27,8 +27,10 @@ public class SenjataShop {
 
     public void display(){
         Weapon curr = head;
+        int count = 1;
         while(curr != null){
-            System.out.println(curr.namasenjata + " Damage : " + curr.physicaldamage + " Magic Power : " + curr.magicpower + " Cost : " + curr.cost);
+            System.out.println(count +". "+ curr.namasenjata + " Damage : " + curr.physicaldamage + " Magic Power : " + curr.magicpower + " Cost : " + curr.cost);
+            count++;
             curr = curr.next;
         }
     }

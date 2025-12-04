@@ -5,13 +5,7 @@ public class Weapon {
     int magicpower;
     Weapon next;
     Weapon prev;
-    public Weapon(String namasenjata, int physicaldamage, int magicpower) {
-        this.namasenjata = namasenjata;
-        this.physicaldamage = physicaldamage;
-        this.magicpower = magicpower;
-        this.next = null;
-        this.prev = null;
-    }
+    Character role;
     public Weapon(String namasenjata, int physicaldamage, int magicpower, int cost) {
         this.namasenjata = namasenjata;
         this.physicaldamage = physicaldamage;
