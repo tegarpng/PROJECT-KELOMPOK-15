@@ -1,5 +1,6 @@
 public class SenjataShop {
     Weapon head;
+
     public void addweapon(String nama, int physicaldamage, int magicpower, int cost){
         Weapon weapon = new Weapon(nama, physicaldamage, magicpower, cost);
         if(head == null){
@@ -23,8 +24,6 @@ public class SenjataShop {
         }
         return null;
     }
-
-
 
     public void display(){
         Weapon curr = head;

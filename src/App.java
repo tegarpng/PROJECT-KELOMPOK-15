@@ -1,11 +1,13 @@
+import java.util.Scanner;
+
 public class App {
     public static void main(String[] args) throws Exception {
         ManagePlayer player = new ManagePlayer();
-        player.addplayer("Aria", "Magic");
-        player.addplayer("Borin", "Tank");
-        player.GiveWeapon("Aria", "Lantern of Demon", 0, 24);
-        player.GiveArmor("Aria", "Vest Level 2", 10, 10);
-        player.GiveWeapon("Borin", "Gada", 10, 5);
+        Scanner input = new Scanner(System.in);
+
+        
+        player.addplayer("Aria", "Fighter");
+
         player.displayfighter();
 
         manageBoss boss = new manageBoss();
@@ -18,7 +20,6 @@ public class App {
 
         senjata.display();
         player.buyweapon("Aria","Sword of Light", senjata);
-        player.buyweapon("Aria","Staff of Wisdom", senjata);
 
         player.displayfighter();
     }

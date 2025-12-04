@@ -1,4 +1,6 @@
+import java.util.Scanner;
 public class ManagePlayer {
+    Scanner input = new Scanner(System.in);
     Character head;
     SenjataShop shop;
 
@@ -36,6 +38,17 @@ public class ManagePlayer {
         Character curr = head;
         while(curr != null){
             if(curr.orang.equals(nama)){
+                return curr;
+            }
+            curr = curr.next;
+        }
+        return null;
+    }
+
+    public Character getPlayerbyRole(String role){
+        Character curr = head;
+        while(curr != null){
+            if(curr.orang.equals(role)){
                 return curr;
             }
             curr = curr.next;
@@ -105,7 +118,7 @@ public class ManagePlayer {
             Weapon check = curr.weapon;
             while(check != null){
                 if(check.namasenjata.equals(namasenjata)){
-                    System.out.println(curr.orang + " sudah memiliki senjata '" + namasenjata + "' !");
+                    System.out.println(curr.orang + " sudah memiliki senjata '" + namasenjata + "' !\nAnda tidak bisa membeli item yang sama");
                     return;
                 }
                 check = check.next;
@@ -115,18 +128,36 @@ public class ManagePlayer {
                 if(curr.gold >= weaponToBuy.cost){
                     curr.gold -= weaponToBuy.cost;
                     Weapon beli = new Weapon(weaponToBuy.namasenjata, weaponToBuy.physicaldamage,weaponToBuy.magicpower, weaponToBuy.cost);
-                    curr.physicaldamage += beli.physicaldamage;
-                    curr.magicpower += beli.magicpower;
-                    System.out.println(namaplayer + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
-                    System.out.println("Gold " + namaplayer + " tersisa " + curr.gold + " gold.");
-                    if(curr.weapon == null){
-                        curr.weapon = beli;
-                    }else{
-                        Weapon current = curr.weapon;
-                        while(current.next != null){
-                            current = current.next;
+                    System.out.println("Apakah kamu yakin membeli item yang bukan role mu ( " + curr.role + " ) \nYA atau TIDAK");
+                    String choice = input.nextLine(); 
+                    if(choice.equalsIgnoreCase("ya")){
+                        curr.physicaldamage += (beli.physicaldamage * 0.4);
+                        System.out.println(namaplayer + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
+                        System.out.println("Gold " + namaplayer + " tersisa " + curr.gold + " gold.");
+                        if(curr.weapon == null){
+                            curr.weapon = beli;
+                        }else{
+                            Weapon current = curr.weapon;
+                            while(current.next != null){
+                                current = current.next;
+                            }
+                            current.next = beli;
                         }
-                        current.next = beli;
+                        return;
+                    }else{
+                        curr.physicaldamage += beli.physicaldamage;
+                        curr.magicpower += beli.magicpower;
+                        System.out.println(namaplayer + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
+                        System.out.println("Gold " + namaplayer + " tersisa " + curr.gold + " gold.");
+                        if(curr.weapon == null){
+                            curr.weapon = beli;
+                        }else{
+                            Weapon current = curr.weapon;
+                            while(current.next != null){
+                                current = current.next;
+                            }
+                            current.next = beli;
+                        }
                     }
                 }else{
                     System.out.println(namaplayer + " tidak cukup gold untuk membeli " + namasenjata + ".");
@@ -142,6 +173,33 @@ public class ManagePlayer {
         }
     }
     
+    public void sell(String namaOrang, String namaItems){
+        Character curr = getPlayer(namaOrang);
+        if(curr != null){
+            Weapon weaponChar = curr.weapon;
+
+            if(weaponChar.namasenjata.equals(namaItems)){
+                curr.gold += weaponChar.cost;
+                System.out.println(weaponChar.namasenjata + " - " + weaponChar.cost + " Dijual");
+                curr.weapon = weaponChar.next;
+                return;
+            }
+
+            while(weaponChar.next != null && !weaponChar.next.namasenjata.equals(namaItems)){
+                weaponChar = weaponChar.next;
+            }
+            if(weaponChar.next == null){
+                System.out.println("Tidak ada items");
+                return;
+            }else{
+                Weapon toSell = weaponChar.next;
+                weaponChar.next = weaponChar.next.next;
+                curr.gold += toSell.cost;
+                System.out.println(toSell.namasenjata + " - " + toSell.cost + " Dijual");
+            }
+        }
+    }
+
     public void displayfighter(){
         Character curr = head;
         while(curr != null){
