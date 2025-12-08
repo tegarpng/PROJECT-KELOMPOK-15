@@ -5,8 +5,9 @@ public class Weapon {
     int magicpower;
     Weapon next;
     Weapon prev;
-    Character role;
-    public Weapon(String namasenjata, int physicaldamage, int magicpower, int cost) {
+    String role;
+    public Weapon(String namasenjata, String role, int physicaldamage, int magicpower, int cost) {
+        this.role = role;
         this.namasenjata = namasenjata;
         this.physicaldamage = physicaldamage;
         this.magicpower = magicpower;
@@ -20,10 +21,12 @@ class Armor {
     String namaarmor;
     int physicaldefense;
     int magicdefense;
+    int cost;
     Armor next;
     Armor prev;
-    public Armor(String namaarmor, int physicaldefense, int magicdefense) {
+    public Armor(String namaarmor, int physicaldefense, int magicdefense, int cost) {
         this.namaarmor = namaarmor;
+        this.cost = cost;
         this.physicaldefense = physicaldefense;
         this.magicdefense = magicdefense;
         this.next = null;
