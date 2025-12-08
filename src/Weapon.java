@@ -27,7 +27,6 @@ public class Weapon {
         this.next = null;
         this.prev = null;
     }
-
 }
 
 class Armor {
