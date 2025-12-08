@@ -100,7 +100,7 @@ public class ManagePlayer {
                 System.out.println("Role tidak tersedia!");
                 return;
             }
-
+            
             //cek apakah sudah punya senjata yang sama
             Weapon check = curr.weapon;
             while(check != null){
