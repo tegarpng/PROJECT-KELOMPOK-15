@@ -82,29 +82,36 @@ public class ManagePlayer {
         }
     }
 
-    public void buyweapon(String namasenjata, SenjataShop shop){
+    public void buyweapon(SenjataShop shop){
+        int namasenjata;
         Character curr = head;
         if(curr != null){
             Weapon weaponToBuy;
             //menentukan role senjata
             if(curr.role.equals("Fighter")){  
+                shop.displayweapon(curr.role);
+                System.out.println("Mau yang mana senjatanya? :");
+                namasenjata = input.nextInt();
                 weaponToBuy = shop.getweaponfighter(namasenjata);
-                shop.displayweapon(curr.role);
             }else if(curr.role.equals("Magic")){
-                weaponToBuy = shop.getweaponmagic(namasenjata);
                 shop.displayweapon(curr.role);
+                System.out.println("Mau yang mana senjatanya? :");
+                namasenjata = input.nextInt();
+                weaponToBuy = shop.getweaponmagic(curr.role);
             }else if(curr.role.equals("Archer")){
-                weaponToBuy = shop.getweaponarcher(namasenjata);
                 shop.displayweapon(curr.role);
+                System.out.println("Mau yang mana senjatanya? :");
+                namasenjata = input.nextInt();
+                weaponToBuy = shop.getweaponarcher(curr.role);
             }else{
                 System.out.println("Role tidak tersedia!");
                 return;
             }
-            
+
             //cek apakah sudah punya senjata yang sama
             Weapon check = curr.weapon;
             while(check != null){
-                if(check.namasenjata.equals(namasenjata)){
+                if(check.id == namasenjata){
                     System.out.println(curr.orang + " sudah memiliki senjata '" + namasenjata + "' !\nAnda tidak bisa membeli item yang sama");
                     return;
                 }
@@ -115,8 +122,8 @@ public class ManagePlayer {
             if(weaponToBuy != null){
                 if(curr.gold >= weaponToBuy.cost){
                     curr.gold -= weaponToBuy.cost;
-                    Weapon beli = new Weapon(weaponToBuy.namasenjata, weaponToBuy.role, weaponToBuy.physicaldamage, weaponToBuy.magicpower, weaponToBuy.cost);
-                    System.out.println(curr.orang + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
+                    Weapon beli = new Weapon(weaponToBuy.namasenjata, weaponToBuy.role, weaponToBuy.physicaldamage, weaponToBuy.magicpower, weaponToBuy.cost, weaponToBuy.id);
+                    System.out.println(curr.orang + " membeli " + weaponToBuy.namasenjata + " seharga " + weaponToBuy.cost + " gold.");
                     System.out.println("Gold " + curr.orang + " tersisa " + curr.gold + " gold.");
                     if(curr.weapon == null){
                         curr.weapon = beli;
@@ -131,7 +138,7 @@ public class ManagePlayer {
                     System.out.println(curr.orang + " tidak cukup gold untuk membeli " + namasenjata + ".");
                 }
             }else{
-                System.out.println("Senjata " + namasenjata + " tidak terdapat pada toko.");
+                System.out.println("Senjata dengan " + namasenjata + " tidak terdapat pada toko.");
                 return;
             }
             

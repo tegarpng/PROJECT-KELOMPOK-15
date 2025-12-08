@@ -6,18 +6,18 @@ public class SenjataShop {
     Weapon head;
 
     public void loadweapon(){
-        Weapon weapon1 = new Weapon("Excalibur", "Fighter", 20, 0, 0);
-        Weapon weapon2 = new Weapon("Excalibur", "Fighter", 20, 0, 0);
-        Weapon weapon3 = new Weapon("Excalibur", "Fighter",20 , 0, 0);
-        Weapon weapon4 = new Weapon("Excalibur", "Fighter", 20, 0, 0);
-        Weapon weapon5 = new Weapon("Busur Derajat", "Archer", 20, 0, 0);
-        Weapon weapon6 = new Weapon("Excalibur", "Archer", 20, 0, 0);
-        Weapon weapon7 = new Weapon("Excalibur", "Archer", 20, 0, 0);
-        Weapon weapon8 = new Weapon("Excalibur", "Archer", 20, 0, 0);
-        Weapon weapon9 = new Weapon("Lantern", "Magic", 20, 0, 0);
-        Weapon weapon10 = new Weapon("Excalibur", "Magic",20 , 0, 0);
-        Weapon weapon11 = new Weapon("Excalibur", "Magic", 20, 0, 0);
-        Weapon weapon12 = new Weapon("Excalibur", "Magic", 20, 0, 0);
+        Weapon weapon1 = new Weapon("Excalibur", "Fighter", 20, 0, 20, 1);
+        Weapon weapon2 = new Weapon("Axe", "Fighter", 20, 0, 30,2);
+        Weapon weapon3 = new Weapon("Sword of Light", "Fighter",20 , 0, 40, 3);
+        Weapon weapon4 = new Weapon("Biji", "Fighter", 20, 0, 0, 4);
+        Weapon weapon5 = new Weapon("Busur Derajat", "Archer", 20, 0, 0, 1);
+        Weapon weapon6 = new Weapon("Excalibur", "Archer", 20, 0, 0,2);
+        Weapon weapon7 = new Weapon("Excalibur", "Archer", 20, 0, 0,3);
+        Weapon weapon8 = new Weapon("Excalibur", "Archer", 20, 0, 0, 4);
+        Weapon weapon9 = new Weapon("Lantern", "Magic", 20, 0, 0,1);
+        Weapon weapon10 = new Weapon("Excalibur", "Magic",20 , 0, 0,2);
+        Weapon weapon11 = new Weapon("Excalibur", "Magic", 20, 0, 0,3);
+        Weapon weapon12 = new Weapon("Excalibur", "Magic", 20, 0, 0,4);
 
         headfighter = weapon1;
         weapon1.next = weapon2;
@@ -49,10 +49,10 @@ public class SenjataShop {
         armor4.next = armor5;
     }
 
-    public Weapon getweaponfighter(String nama){
+    public Weapon getweaponfighter(int nama){
         Weapon curr = headfighter;
         while(curr != null){
-            if(curr.namasenjata.equals(nama)){
+            if(curr.id == nama){
                 return curr;
             }
             curr = curr.next;
@@ -95,7 +95,7 @@ public class SenjataShop {
         
         int count = 1;
         while(curr != null){
-            System.out.println(count +". "+ curr.namasenjata + " Damage : " + curr.physicaldamage + " Magic Power : " + curr.magicpower + " Cost : " + curr.cost);
+            System.out.println(count +". "+ curr.namasenjata + " Damage : " + curr.physicaldamage + " Magic Power : " + curr.magicpower + " Cost : " + curr.cost + " - "+ curr.id);
             count++;
             curr = curr.next;
         }
