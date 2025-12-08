@@ -6,18 +6,18 @@ public class SenjataShop {
     Weapon head;
 
     public void loadweapon(){
-        Weapon weapon1 = new Weapon("Excalibur", "Fighter", 20, 0, 20, 1);
-        Weapon weapon2 = new Weapon("Axe", "Fighter", 20, 0, 30,2);
-        Weapon weapon3 = new Weapon("Sword of Light", "Fighter",20 , 0, 40, 3);
-        Weapon weapon4 = new Weapon("Biji", "Fighter", 20, 0, 0, 4);
-        Weapon weapon5 = new Weapon("Busur Derajat", "Archer", 20, 0, 0, 1);
-        Weapon weapon6 = new Weapon("Excalibur", "Archer", 20, 0, 0,2);
-        Weapon weapon7 = new Weapon("Excalibur", "Archer", 20, 0, 0,3);
-        Weapon weapon8 = new Weapon("Excalibur", "Archer", 20, 0, 0, 4);
-        Weapon weapon9 = new Weapon("Lantern", "Magic", 20, 0, 0,1);
-        Weapon weapon10 = new Weapon("Excalibur", "Magic",20 , 0, 0,2);
-        Weapon weapon11 = new Weapon("Excalibur", "Magic", 20, 0, 0,3);
-        Weapon weapon12 = new Weapon("Excalibur", "Magic", 20, 0, 0,4);
+        Weapon weapon1 = new Weapon("Garnok's Fist", "Fighter", 20, 0, 50, 1);
+        Weapon weapon2 = new Weapon("Zephyrum Cleaver", "Fighter", 20, 0, 230,2);
+        Weapon weapon3 = new Weapon("Vat'gir Jawblade", "Fighter",20 , 0, 478, 3);
+        Weapon weapon4 = new Weapon("Kraken's Gavel", "Fighter", 20, 0, 650, 4);
+        Weapon weapon5 = new Weapon("Whisperwire Cord", "Archer", 20, 0, 50, 1);
+        Weapon weapon6 = new Weapon("Thrynne's Shard", "Archer", 20, 0, 300,2);
+        Weapon weapon7 = new Weapon("Aethelwin", "Archer", 20, 0, 520,3);
+        Weapon weapon8 = new Weapon("Voidlash", "Archer", 20, 0, 680, 4);
+        Weapon weapon9 = new Weapon("Ostracon of Yl'geth", "Magic", 20, 0, 50,1);
+        Weapon weapon10 = new Weapon("Kyanix Prism", "Magic",20 , 0, 278,2);
+        Weapon weapon11 = new Weapon("Voidalith Shard", "Magic", 20, 0, 450,3);
+        Weapon weapon12 = new Weapon("Zir'ael Focus", "Magic", 20, 0, 700,4);
 
         headfighter = weapon1;
         weapon1.next = weapon2;

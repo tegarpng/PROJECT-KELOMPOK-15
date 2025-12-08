@@ -3,6 +3,7 @@ public class ManagePlayer {
     Scanner input = new Scanner(System.in);
     Character head;
     SenjataShop shop;
+    WeaponStackManager weaponStackManager;
 
     public void addplayer(String nama, String Role){
         Character fighter;
