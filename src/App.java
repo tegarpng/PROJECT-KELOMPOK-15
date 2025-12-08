@@ -70,9 +70,7 @@ public class App {
             
             SenjataShop senjata = new SenjataShop();
             senjata.loadweapon();
-            senjata.loadrmor();
-            senjata.displayweapon();
-            senjata.displayarmor();
+            player.buyweapon("Excalibur", senjata);
 
         }else if(choice == 2){
             System.out.println("Belum ada");
