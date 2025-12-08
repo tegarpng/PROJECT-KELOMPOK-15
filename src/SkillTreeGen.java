@@ -1,24 +1,27 @@
 public class SkillTreeGen {
 
-    public SkillList generateSkill(String role) {
-        SkillList list = new SkillList();
-        
-        if (role.equalsIgnoreCase("Fighter") || role.equalsIgnoreCase("Saber") || role.equalsIgnoreCase("Tank")) {
-            list.addSkill(buildSaberTree1());
-            list.addSkill(buildSaberTree2());
+    // Method Utama: Mengisi Skill List berdasarkan Role
+    public SkillList generateSkillForRole(String role) {
+        SkillList playerSkills = new SkillList();
+
+        if (role.equalsIgnoreCase("Fighter")) {
+            playerSkills.addSkill(buildSaberTree1()); // Sword
+            playerSkills.addSkill(buildSaberTree2()); // Fist
         } 
-        else if (role.equalsIgnoreCase("Archer")) {
-            list.addSkill(buildArcherTree1());
-            list.addSkill(buildArcherTree2());
-        } 
-        else if (role.equalsIgnoreCase("Magic") || role.equalsIgnoreCase("Caster")) {
-            list.addSkill(buildCasterTree1());
-            list.addSkill(buildCasterTree2());
+        else if (role.equalsIgnoreCase("Magic")) {
+            playerSkills.addSkill(buildCasterTree1()); // Fire
+            playerSkills.addSkill(buildCasterTree2()); // Ice/Heal
         }
-        return list;
+        else if (role.equalsIgnoreCase("Archer")) {
+            playerSkills.addSkill(buildArcherTree1());  // Sharpshooter
+            playerSkills.addSkill(buildArcherTree2());  // Hunter
+        }
+        return playerSkills;
     }
 
-    // --- SABER TREE ---
+    // ==========================================
+    // BUILDER FIGHTER (SABER)
+    // ==========================================
     private SkillNode buildSaberTree1() {
         SkillNode root = new SkillNode("Mana Burst", "Ledakan mana", 20, 1);
         SkillNode air = new SkillNode("Invisible Air", "Pedang angin", 40, 2);
@@ -26,7 +29,8 @@ public class SkillTreeGen {
         root.setBranches(air, clarent);
 
         SkillNode excal = new SkillNode("Excalibur", "Sinar suci", 90, 3);
-        SkillNode avalon = new SkillNode("Avalon", "Heal abadi", 0, 3);
+        // Avalon kini memberikan damage (Holy Counter)
+        SkillNode avalon = new SkillNode("Avalon", "Counter suci", 80, 3); 
         air.setBranches(excal, avalon);
         
         SkillNode morgan = new SkillNode("Excalibur Morgan", "Tebasan gelap", 100, 3);
@@ -34,16 +38,17 @@ public class SkillTreeGen {
         clarent.setBranches(morgan, rhongo);
 
         excal.setBranches(new SkillNode("Last Phantasm", "Cahaya bintang", 200, 4), new SkillNode("Star of Caliburn", "Pedang raja", 180, 4));
-        avalon.setBranches(new SkillNode("Everdistant Utopia", "Kebal total", 0, 4), new SkillNode("Dream World", "Buff All Stat", 50, 4));
+        // Update Avalon upgrades
+        avalon.setBranches(new SkillNode("Everdistant Utopia", "Refleksi cahaya", 150, 4), new SkillNode("Dream World", "Ledakan mimpi", 160, 4));
         morgan.setBranches(new SkillNode("Vortigern", "Naga hitam", 210, 4), new SkillNode("Dark Caliburn", "Ledakan hitam", 190, 4));
         rhongo.setBranches(new SkillNode("Tower of End", "Pilar kiamat", 205, 4), new SkillNode("Lion King", "Penghakiman", 200, 4));
         return root;
     }
 
     private SkillNode buildSaberTree2() {
-        SkillNode root = new SkillNode("Mind's Eye", "Melihat gerakan", 15, 1);
+        SkillNode root = new SkillNode("Mind's Eye", "Serangan titik lemah", 15, 1);
         SkillNode tsubame = new SkillNode("Tsubame Gaeshi", "3 tebasan", 50, 2);
-        SkillNode shukuchi = new SkillNode("Reduced Earth", "Teleport", 30, 2);
+        SkillNode shukuchi = new SkillNode("Reduced Earth", "Tebasan kilat", 30, 2);
         root.setBranches(tsubame, shukuchi);
 
         SkillNode sandan = new SkillNode("Sandanzuki", "Tusukan", 90, 3);
@@ -55,17 +60,21 @@ public class SkillTreeGen {
         shukuchi.setBranches(ishana, voidShiki);
 
         sandan.setBranches(new SkillNode("Mumyo Sandanzuki", "Sure Kill", 250, 4), new SkillNode("Infinity Strike", "Tanpa henti", 220, 4));
-        regend.setBranches(new SkillNode("Swallow Killer", "Anti-Air", 200, 4), new SkillNode("Temple Guard", "Defense Perfect", 0, 4));
+        // Update Temple Guard
+        regend.setBranches(new SkillNode("Swallow Killer", "Anti-Air", 200, 4), new SkillNode("Temple Guard", "Counter Slash", 170, 4));
         ishana.setBranches(new SkillNode("Niten Ichi Ryu", "Dua pedang", 230, 4), new SkillNode("Fifth Force", "4 tangan", 240, 4));
         voidShiki.setBranches(new SkillNode("Root of Akasha", "Hapus eksistensi", 999, 4), new SkillNode("Boundary", "Potong ruang", 300, 4));
         return root;
     }
 
-    // --- ARCHER TREE ---
+    // ==========================================
+    // BUILDER ARCHER
+    // ==========================================
     private SkillNode buildArcherTree1() {
-        SkillNode root = new SkillNode("Trace On", "Proyeksi", 20, 1);
+        SkillNode root = new SkillNode("Trace On", "Proyeksi Pedang", 20, 1);
         SkillNode calad = new SkillNode("Caladbolg", "Panah bor", 55, 2);
-        SkillNode rho = new SkillNode("Rho Aias", "Perisai bunga", 0, 2);
+        // Rho Aias update damage
+        SkillNode rho = new SkillNode("Rho Aias", "Hantaman Perisai", 40, 2);
         root.setBranches(calad, rho);
 
         SkillNode ubw = new SkillNode("Unlimited Blade Works", "Reality Marble", 110, 3);
@@ -73,18 +82,20 @@ public class SkillTreeGen {
         calad.setBranches(ubw, hrunting);
         
         SkillNode bell = new SkillNode("Bellerophon", "Pegasus", 100, 3);
-        SkillNode raw = new SkillNode("Raw Aias", "Defense", 0, 3);
+        // Raw Aias update damage
+        SkillNode raw = new SkillNode("Raw Aias", "Pantulan Shield", 85, 3);
         rho.setBranches(bell, raw);
 
         ubw.setBranches(new SkillNode("Infinite Swords", "Hujan pedang", 250, 4), new SkillNode("Kanshou Bakuya", "Tebasan fatal", 220, 4));
         hrunting.setBranches(new SkillNode("Broken Phantasm", "Ledakan nuklir", 240, 4), new SkillNode("Nine Lives", "9 serangan", 230, 4));
         bell.setBranches(new SkillNode("Triple Link", "Kombinasi", 180, 4), new SkillNode("Gorgon Breaker", "Membatukan", 170, 4));
-        raw.setBranches(new SkillNode("Ultimate Defense", "Kebal Magic", 0, 4), new SkillNode("Mana Tank", "Regen Mana", 0, 4));
+        // Update Ultimate Defense & Mana Tank
+        raw.setBranches(new SkillNode("Ultimate Defense", "Ledakan Perisai", 160, 4), new SkillNode("Mana Tank", "Mana Burst", 150, 4));
         return root;
     }
 
     private SkillNode buildArcherTree2() {
-        SkillNode root = new SkillNode("Golden Rule", "Drop rate", 10, 1);
+        SkillNode root = new SkillNode("Golden Rule", "Lempar Emas", 15, 1); // Ubah jadi damage kecil
         SkillNode gate = new SkillNode("Gate of Babylon", "Hujan emas", 60, 2);
         SkillNode phoebus = new SkillNode("Phoebus Catastrophe", "Hujan panah", 55, 2);
         root.setBranches(gate, phoebus);
@@ -104,46 +115,53 @@ public class SkillTreeGen {
         return root;
     }
 
-    // --- CASTER TREE ---
+    // ==========================================
+    // BUILDER CASTER
+    // ==========================================
     private SkillNode buildCasterTree1() {
-        SkillNode root = new SkillNode("Divine Words", "Cast speed", 25, 1);
+        SkillNode root = new SkillNode("Divine Words", "Sinar Laser", 25, 1);
         SkillNode rain = new SkillNode("Rain of Light", "Laser hujan", 55, 2);
-        SkillNode rule = new SkillNode("Rule Breaker", "Hapus buff", 35, 2);
+        SkillNode rule = new SkillNode("Rule Breaker", "Tusukan Magic", 35, 2);
         root.setBranches(rain, rule);
         
         SkillNode hecatic = new SkillNode("Hecatic Graea", "Bombardir", 110, 3);
-        SkillNode domus = new SkillNode("Domus Aurea", "Theater", 90, 3);
+        SkillNode domus = new SkillNode("Domus Aurea", "Theater Api", 90, 3);
         rain.setBranches(hecatic, domus);
         
-        SkillNode pain = new SkillNode("Pain Breaker", "Heal status", 0, 3);
+        // Pain Breaker update damage
+        SkillNode pain = new SkillNode("Pain Breaker", "Magic Drain", 75, 3);
         SkillNode argon = new SkillNode("Argon Coin", "Summon naga", 100, 3);
         rule.setBranches(pain, argon);
         
-        hecatic.setBranches(new SkillNode("Age of Gods", "Sihir kuno", 250, 4), new SkillNode("Infinite Mana", "Mana", 0, 4));
-        domus.setBranches(new SkillNode("Fax Caelestis", "Matahari", 280, 4), new SkillNode("Laus St. Claudius", "Api", 240, 4));
-        pain.setBranches(new SkillNode("Panacea", "Sembuh total", 0, 4), new SkillNode("Time Reversal", "Reset waktu", 0, 4));
-        argon.setBranches(new SkillNode("Golden Fleece", "Colchis Dragon", 300, 4), new SkillNode("Witchcraft", "Kontrol", 0, 4));
+        // Update Caster1 Lv 4 Skills
+        hecatic.setBranches(new SkillNode("Age of Gods", "Sihir kuno", 250, 4), new SkillNode("Infinite Mana", "Mana Overload", 200, 4));
+        domus.setBranches(new SkillNode("Fax Caelestis", "Matahari", 280, 4), new SkillNode("Laus St. Claudius", "Api Neraka", 240, 4));
+        pain.setBranches(new SkillNode("Panacea", "Racun Suci", 180, 4), new SkillNode("Time Reversal", "Kejutan Waktu", 190, 4));
+        argon.setBranches(new SkillNode("Golden Fleece", "Colchis Dragon", 300, 4), new SkillNode("Witchcraft", "Kutukan Darah", 170, 4));
         return root;
     }
     
     private SkillNode buildCasterTree2() {
-        SkillNode root = new SkillNode("Territory Creation", "Magic Passive", 15, 1);
-        SkillNode hero = new SkillNode("Hero Creation", "Buff Dmg", 0, 2);
-        SkillNode illus = new SkillNode("Illusion", "Invincible", 0, 2);
+        SkillNode root = new SkillNode("Territory Creation", "Jebakan Magic", 15, 1);
+        // Hero Creation & Illusion update damage
+        SkillNode hero = new SkillNode("Hero Creation", "Buff Strike", 35, 2);
+        SkillNode illus = new SkillNode("Illusion", "Serangan Mental", 30, 2);
         root.setBranches(hero, illus);
         
-        SkillNode garden = new SkillNode("Garden of Avalon", "Heal", 0, 3);
-        SkillNode ars = new SkillNode("Ars Almadel", "Laser", 350, 3);
+        // Garden & Dreamlike update damage
+        SkillNode garden = new SkillNode("Garden of Avalon", "Bunga Berduri", 80, 3);
+        SkillNode ars = new SkillNode("Ars Almadel", "Laser Pembakar", 350, 3);
         hero.setBranches(garden, ars);
         
-        SkillNode fou = new SkillNode("Fou-kun Kick", "Maskot", 120, 3);
-        SkillNode dream = new SkillNode("Dreamlike", "Isi mana", 0, 3);
+        SkillNode fou = new SkillNode("Fou-kun Kick", "Maskot Kick", 120, 3);
+        SkillNode dream = new SkillNode("Dreamlike", "Mimpi Buruk", 75, 3);
         illus.setBranches(fou, dream);
         
-        garden.setBranches(new SkillNode("Hope of Humanity", "Charge NP", 0, 4), new SkillNode("Eternal Tower", "Kurungan", 0, 4));
-        ars.setBranches(new SkillNode("Ring of Solomon", "No Magic", 0, 4), new SkillNode("Goetia", "72 Demon God", 600, 4));
-        fou.setBranches(new SkillNode("Primate Murder", "Beast IV", 450, 4), new SkillNode("Cath Palug", "Reset CD", 0, 4));
-        dream.setBranches(new SkillNode("Kingmaker", "Buff ATK 200%", 0, 4), new SkillNode("Incubus", "Tidur", 0, 4));
+        // Update Caster2 Lv 4 Skills
+        garden.setBranches(new SkillNode("Hope of Humanity", "Ledakan Cahaya", 160, 4), new SkillNode("Eternal Tower", "Himpitan Menara", 170, 4));
+        ars.setBranches(new SkillNode("Ring of Solomon", "Pembatal Sihir", 220, 4), new SkillNode("Goetia", "72 Demon God", 600, 4));
+        fou.setBranches(new SkillNode("Primate Murder", "Beast IV", 450, 4), new SkillNode("Cath Palug", "Cakaran Beast", 190, 4));
+        dream.setBranches(new SkillNode("Kingmaker", "Titah Raja", 180, 4), new SkillNode("Incubus", "Hisap Nyawa", 175, 4));
         return root;
     }
 }
