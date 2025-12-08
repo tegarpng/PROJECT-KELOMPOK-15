@@ -69,13 +69,11 @@ public class App {
             boss.displayboss();
             
             SenjataShop senjata = new SenjataShop();
-            senjata.addweapon("Sword of Light", 25, 0, 100);
-            senjata.addweapon("Staff of Wisdom", 0, 30, 150);
-            
-            senjata.display();
-            player.buyweapon("Sword of Light", senjata);
-            
-            player.displayfighter();
+            senjata.loadweapon();
+            senjata.loadrmor();
+            senjata.displayweapon();
+            senjata.displayarmor();
+
         }else if(choice == 2){
             System.out.println("Belum ada");
         }else{
