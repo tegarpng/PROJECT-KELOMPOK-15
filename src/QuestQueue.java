@@ -198,10 +198,10 @@ public class QuestQueue {
     private boolean pecahkanPuzzle() {
         System.out.println("\n++=========================== PUZZLE ===========================++");
         System.out.println("||   Sebuah prasasti kuno terpampang di depanmu:               ||");
-        System.out.println("||   'Aku berbicara tanpa mulut,                            ||");
-        System.out.println("||    Mendengar tanpa telinga,                               ||");
-        System.out.println("||    Tidak punya tubuh, tapi bisa bernapas.                 ||");
-        System.out.println("||    Apakah aku?'                                          ||");
+        System.out.println("||   'Aku berbicara tanpa mulut,                               ||");
+        System.out.println("||    Mendengar tanpa telinga,                                 ||");
+        System.out.println("||    Tidak punya tubuh, tapi bisa bernapas.                   ||");
+        System.out.println("||    Apakah aku?'                                             ||");
         System.out.println("++-------------------------------------------------------------++");
         
         System.out.println("\nJawaban (1 huruf): ");
@@ -266,7 +266,7 @@ public class QuestQueue {
         return areaTerselesaikan >= 2;
     }
     
-    // Method untuk menyelesaikan quest
+    // Method untuk menyelesaikan quest (DIPERBAIKI)
     private void selesaikanQuest(Character player, Quest quest) {
         quest.selesai = true;
         player.gold += quest.rewardGold;
@@ -275,11 +275,13 @@ public class QuestQueue {
         System.out.println("||    Quest '" + quest.namaQuest + "' berhasil diselesaikan!        ||");
         System.out.println("||    Anda mendapatkan " + quest.rewardGold + " Gold!                ||");
         
-        if (quest.rewardSkill != null) {
-            System.out.println("||    Skill baru diperoleh: " + quest.rewardSkill + "          ||");
-            // Di sini bisa ditambahkan logic untuk menambah skill player
+        // --- LOGIC SKILL TREE DIINTEGRASIKAN ---
+        if (player.mySkills != null) {
+            // Memanggil method yang ada di SkillList.java (Uploaded)
+            player.mySkills.pickAndUpgradeSkill();
         }
-        
+        // ---------------------------------------
+
         System.out.println("||    Gold total: " + player.gold + "                             ||");
         System.out.println("++==================================================================++");
         

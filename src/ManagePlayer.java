@@ -20,6 +20,10 @@ public class ManagePlayer {
             System.out.println("Role tidak tersedia!");
             return;
         }
+        
+        SkillTreeGen generator = new SkillTreeGen();
+        fighter.mySkills = generator.generateSkillForRole(Role);
+
         head = fighter;
     }
 
