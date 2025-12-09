@@ -36,11 +36,11 @@ public class SenjataShop {
     }
 
     public void loadrmor(){
-        Armor armor1 = new Armor("Steel Armor", 15, 10,0);
-        Armor armor2 = new Armor("Dragon Scale", 25, 20,0);
+        Armor armor1 = new Armor("Steel Armor", 10, 5,20);
+        Armor armor2 = new Armor("Dragon Scale", 25, 20,70);
         Armor armor3 = new Armor("Mystic Robe", 10, 30,0);
-        Armor armor4 = new Armor("Mystic Robe", 10, 30,0);
-        Armor armor5 = new Armor("Mystic Robe", 10, 30,0);
+        Armor armor4 = new Armor("Black Knight Armor", 10, 30,0);
+        Armor armor5 = new Armor("Abyssal Armor", 10, 30,0);
 
         headarmor = armor1;
         armor1.next = armor2;

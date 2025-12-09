@@ -37,7 +37,7 @@ public class WeaponStackManager {
     // EQUIP WEAPON
     public void equipWeapon() {
         if (character == null || character.weapon == null) {
-            System.out.println("❌ No weapons available to equip!");
+            System.out.println("No weapons available to equip!");
             return;
         }
 
@@ -62,7 +62,7 @@ public class WeaponStackManager {
         System.out.print("Choose weapon number: ");
         int choice = scanner.nextInt();
         if (choice < 1 || choice >= idx) {
-            System.out.println("❌ Invalid choice.");
+            System.out.println("Invalid choice.");
             return;
         }
 
@@ -74,7 +74,7 @@ public class WeaponStackManager {
             count++;
         }
         if (selected == null) {
-            System.out.println("❌ Weapon not found.");
+            System.out.println("Weapon not found.");
             return;
         }
 

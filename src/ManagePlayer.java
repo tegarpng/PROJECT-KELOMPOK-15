@@ -39,35 +39,6 @@ public class ManagePlayer {
         return null;
     }
 
-    public void GiveWeapon(String namasenjata,String role, int physicaldamage, int magicpower){
-        Character character = head;
-        if(character != null){
-            if(character.weapon == null){
-                if(role.equals("Fighter")){
-                    character.weapon = new Weapon(namasenjata, role, physicaldamage, magicpower, 0);
-                }else if(role.equals("Magic")){
-                    character.weapon = new Weapon(namasenjata, role, physicaldamage, magicpower, 0);
-                }else if(role.equals("Archer")){
-                    character.weapon = new Weapon(namasenjata, role, physicaldamage, magicpower, 0);
-                }else{
-                    System.out.println("Role tidak tersedia!");
-                    return;
-                }
-            }
-        }
-    }
-
-    public void GiveArmor(String namarmor, int physicaldefense, int magicdefense){
-        Character character = head;
-        if(character != null){
-            if(character.armorplayer == null){
-                character.armorplayer = new Armor(namarmor, physicaldefense, magicdefense,0);
-                character.physicaldefense += physicaldefense;
-                character.magicdefense += magicdefense;
-            }
-        }
-    }
-
     public void removeplayer(String nama){
         if(head == null){
             System.out.println("No players to remove.");
