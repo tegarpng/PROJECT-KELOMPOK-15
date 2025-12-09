@@ -36,11 +36,11 @@ public class SenjataShop {
     }
 
     public void loadrmor(){
-        Armor armor1 = new Armor("Steel Armor", 10, 5,20);
-        Armor armor2 = new Armor("Dragon Scale", 25, 20,70);
-        Armor armor3 = new Armor("Mystic Robe", 10, 30,0);
-        Armor armor4 = new Armor("Black Knight Armor", 10, 30,0);
-        Armor armor5 = new Armor("Abyssal Armor", 10, 30,0);
+        Armor armor1 = new Armor("Steel Armor", 10, 5,20,1);
+        Armor armor2 = new Armor("Dragon Scale", 25, 20,70,2);
+        Armor armor3 = new Armor("Mystic Robe", 10, 30,0,3);
+        Armor armor4 = new Armor("Black Knight Armor", 10, 30,0,4);
+        Armor armor5 = new Armor("Abyssal Armor", 10, 30,0,5);
 
         headarmor = armor1;
         armor1.next = armor2;
@@ -49,30 +49,41 @@ public class SenjataShop {
         armor4.next = armor5;
     }
 
-    public Weapon getweaponfighter(int nama){
+    public Weapon getweaponfighter(int id){
         Weapon curr = headfighter;
         while(curr != null){
-            if(curr.id == nama){
+            if(curr.id == id){
                 return curr;
             }
             curr = curr.next;
         }
         return null;
     }
-    public Weapon getweaponmagic(int nama){
+    public Weapon getweaponmagic(int id){
         Weapon curr = headmagic;
         while(curr != null){
-            if(curr.id == nama){
+            if(curr.id == id){
                 return curr;
             }
             curr = curr.next;
         }
         return null;
     }
-    public Weapon getweaponarcher(int nama){
+    public Weapon getweaponarcher(int id){
         Weapon curr = headarcher;
         while(curr != null){
-            if(curr.id == nama){
+            if(curr.id == id){
+                return curr;
+            }
+            curr = curr.next;
+        }
+        return null;
+    }
+
+    public Armor getArmor(int id){
+        Armor curr = headarmor;
+        while(curr != null){
+            if(curr.id == id){
                 return curr;
             }
             curr = curr.next;

@@ -132,4 +132,30 @@ public class PetaGame {
             x = x.nextLokasi;
         }
     }
+
+    // Tampilkan keseluruhan peta beserta jalur dari setiap lokasi
+    public void displayMap(){
+        if (head == null) {
+            System.out.println("Peta kosong.");
+            return;
+        }
+
+        System.out.println("=== Peta Game ===");
+        Lokasi cur = head;
+        while (cur != null) {
+            System.out.println("Lokasi: " + cur.nama);
+            Jalur j = cur.headJalur;
+            if (j == null) {
+                System.out.println("  - Tidak ada jalur dari lokasi ini.");
+            } else {
+                while (j != null) {
+                    String tipe = j.teleport ? "Teleport" : "Jalur";
+                    System.out.println("  -> " + j.tujuan.nama + " (Jarak: " + j.jarak + ") [" + tipe + "]");
+                    j = j.next;
+                }
+            }
+            System.out.println("--------------------------------");
+            cur = cur.nextLokasi;
+        }
+    }
 }

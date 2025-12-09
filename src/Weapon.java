@@ -34,13 +34,15 @@ class Armor {
     int physicaldefense;
     int magicdefense;
     int cost;
+    int id;
     Armor next;
     Armor prev;
-    public Armor(String namaarmor, int physicaldefense, int magicdefense, int cost) {
+    public Armor(String namaarmor, int physicaldefense, int magicdefense, int cost, int id) {
         this.namaarmor = namaarmor;
         this.cost = cost;
         this.physicaldefense = physicaldefense;
         this.magicdefense = magicdefense;
+        this.id = id;
         this.next = null;
         this.prev = null;
     }

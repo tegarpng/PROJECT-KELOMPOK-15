@@ -28,43 +28,13 @@ public class ManagePlayer {
         weaponStackManager = new WeaponStackManager(fighter);
     }
 
-    public Character getPlayerbyRole(String role){
-        Character curr = head;
-        while(curr != null){
-            if(curr.orang.equals(role)){
-                return curr;
-            }
-            curr = curr.next;
-        }
-        return null;
-    }
-
-    public void removeplayer(String nama){
-        if(head == null){
-            System.out.println("No players to remove.");
-            return;
-        }
-        if(head.orang.equals(nama)){
-            head = head.next;
-            return;
-        }
-        Character curr = head;
-        while(curr.next != null && !curr.next.orang.equals(nama)){
-            curr = curr.next;
-        }
-        if(curr.next != null){
-            curr.next = curr.next.next;
-        }else{
-            System.out.println("Player not found.");
-        }
-    }
-
     public void buyweapon(SenjataShop shop){
         int idsenjata;
         Character curr = head;
         if(curr != null){
             Weapon weaponToBuy;
             //menentukan role senjata
+            shop.loadweapon();
             if(curr.role.equals("Fighter")){  
                 shop.displayweapon(curr.role);
                 System.out.println("Mau yang mana senjatanya? :");
@@ -124,24 +94,85 @@ public class ManagePlayer {
             return;
         }
     }
-    
-    public void sell(String namaOrang, String namaItems){
+
+    public void buyarmor(SenjataShop shop){
+        int idarmor;
+        Character curr = head;
+        if(curr != null){
+            Armor Armortobuy;
+            shop.loadrmor();
+            shop.displayarmor();
+            System.out.println("Mau yang mana armornya? :");
+            idarmor = input.nextInt();
+            Armortobuy = shop.getArmor(idarmor);
+
+            //cek apakah sudah punya armor yang sama
+            Armor check = curr.armorplayer;
+            while(check != null){
+                if(check.id == idarmor){
+                    System.out.println(curr.orang + " sudah memiliki armor '" + check.namaarmor + "' !\nAnda tidak bisa membeli item yang sama");
+                    return;
+                }
+                check = check.next;
+            }
+            
+            //proses pembelian
+            if(Armortobuy != null){
+                if(curr.gold >= Armortobuy.cost){
+                    curr.gold -= Armortobuy.cost;
+                    Armor beli = new Armor(Armortobuy.namaarmor, Armortobuy.physicaldefense, Armortobuy.magicdefense, Armortobuy.cost, Armortobuy.id);
+                    System.out.println(curr.orang + " membeli " + Armortobuy.namaarmor + " seharga " + Armortobuy.cost + " gold.");
+                    System.out.println("Gold " + curr.orang + " tersisa " + curr.gold + " gold.");
+                    if(curr.armorplayer == null){
+                        curr.armorplayer = beli;
+                    }else{
+                        Armor current = curr.armorplayer;
+                        while(current.next != null){
+                            current = current.next;
+                        }
+                        current.next = beli;
+                    }
+                }else{
+                    System.out.println(curr.orang + " tidak cukup gold untuk membeli " + Armortobuy.namaarmor + ".");
+                }
+            }else{
+                System.out.println("Armor dengan id " + idarmor + " tidak terdapat pada toko.");
+                return;
+            }
+            
+        }else{
+            System.out.println("Player tidak ditemukan");
+            return;
+        }
+    }
+
+    public void sellweapon(){
+        int choice;
         Character curr = head;
         if(curr != null){
             Weapon weaponChar = curr.weapon;
 
-            if(weaponChar.namasenjata.equals(namaItems)){
+            while(weaponChar != null){
+                System.out.println(weaponChar.namasenjata + " - " + weaponChar.cost + " - " + weaponChar.id);
+                weaponChar = weaponChar.next;
+            }
+
+            weaponChar = curr.weapon;
+
+            System.out.println("Ingin menjual senjata apa :");
+            choice = input.nextInt();
+            if(weaponChar.id == choice){
                 curr.gold += weaponChar.cost;
                 System.out.println(weaponChar.namasenjata + " - " + weaponChar.cost + " Dijual");
                 curr.weapon = weaponChar.next;
                 return;
             }
 
-            while(weaponChar.next != null && !weaponChar.next.namasenjata.equals(namaItems)){
+            while(weaponChar.next != null && weaponChar.next.id != choice){
                 weaponChar = weaponChar.next;
             }
             if(weaponChar.next == null){
-                System.out.println("Tidak ada items");
+                System.out.println("Senjata dengan id " + choice + " tidak ada");
                 return;
             }else{
                 Weapon toSell = weaponChar.next;
@@ -149,6 +180,42 @@ public class ManagePlayer {
                 curr.gold += toSell.cost;
                 System.out.println(toSell.namasenjata + " - " + toSell.cost + " Dijual");
             }
+        }
+    }
+
+    public void sellArmor(){
+        int choice;
+        Character curr = head;
+        if(curr != null){
+            Armor armorChar = curr.armorplayer;
+
+            while(armorChar != null){
+                System.out.println(armorChar.namaarmor + " - " + armorChar.cost + " - " + armorChar.id);
+                armorChar = armorChar.next;
+            }
+
+            armorChar = curr.armorplayer;
+            System.out.println("Ingin menjual armor mana : ");
+            choice = input.nextInt();
+                if(armorChar.id == choice){
+                    curr.gold += armorChar.cost;
+                    System.out.println(armorChar.namaarmor + " - " + armorChar.cost + " Dijual");
+                    curr.armorplayer = armorChar.next;
+                    return;
+                }
+
+                while(armorChar.next != null && armorChar.next.id != choice){
+                    armorChar = armorChar.next;
+                }
+                if(armorChar.next == null){
+                    System.out.println("Armor dengan id " + choice + " tidak ada");
+                    return;
+                }else{
+                    Armor toSell = armorChar.next;
+                    armorChar.next = armorChar.next.next;
+                    curr.gold += toSell.cost;
+                    System.out.println(toSell.namaarmor + " - " + toSell.cost + " Dijual");
+                }
         }
     }
 

@@ -62,14 +62,19 @@ public class App {
             player.addplayer(nama, role);
             player.displayfighter();
             
-            manageBoss boss = new manageBoss();
-            boss.loadBoss();
-            boss.displayboss();
-            
             SenjataShop senjata = new SenjataShop();
-            senjata.loadweapon();
+            senjata.displayweapon(role);
+
+            System.out.println("ARMOR ==========");
+            senjata.displayarmor();
+            player.buyarmor(senjata);
             player.buyweapon(senjata);
             player.buyweapon(senjata);
+
+            System.out.println("Jual Senjata ===============");
+            player.sellweapon();
+            System.out.println("Jual Armor ===============");
+            player.sellArmor();
 
             player.displayfighter();
             player.weaponStackManager.equipWeapon();
