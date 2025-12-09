@@ -44,7 +44,7 @@ public class App {
             System.out.println("Masukkan Nama anda : ");
             String nama = input.nextLine();
             
-            System.out.println("Masukkan Role anda : \n1. Fighter\n2. Magic\n3. Archer\n4. Tank\nMasukkan Pilihan anda :");
+            System.out.println("Masukkan Role anda : \n1. Fighter\n2. Magic\n3. Archer\nMasukkan Pilihan anda :");
             int ambilrole = input.nextInt();
         
             String role;
@@ -54,8 +54,6 @@ public class App {
                 role = "Magic";
             }else if(ambilrole == 3){
                 role = "Archer";
-            }else if(ambilrole == 4){
-                role = "Tank";
             }else{
                 System.out.println("WOII GA ADA");
                 return;
@@ -71,6 +69,8 @@ public class App {
             SenjataShop senjata = new SenjataShop();
             senjata.loadweapon();
             player.buyweapon(senjata);
+
+            player.displayfighter();
 
         }else if(choice == 2){
             System.out.println("Belum ada");

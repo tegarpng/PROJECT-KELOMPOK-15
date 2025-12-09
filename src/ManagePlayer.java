@@ -84,7 +84,7 @@ public class ManagePlayer {
     }
 
     public void buyweapon(SenjataShop shop){
-        int namasenjata;
+        int idsenjata;
         Character curr = head;
         if(curr != null){
             Weapon weaponToBuy;
@@ -92,18 +92,18 @@ public class ManagePlayer {
             if(curr.role.equals("Fighter")){  
                 shop.displayweapon(curr.role);
                 System.out.println("Mau yang mana senjatanya? :");
-                namasenjata = input.nextInt();
-                weaponToBuy = shop.getweaponfighter(namasenjata);
+                idsenjata = input.nextInt();
+                weaponToBuy = shop.getweaponfighter(idsenjata);
             }else if(curr.role.equals("Magic")){
                 shop.displayweapon(curr.role);
                 System.out.println("Mau yang mana senjatanya? :");
-                namasenjata = input.nextInt();
-                weaponToBuy = shop.getweaponmagic(curr.role);
+                idsenjata = input.nextInt();
+                weaponToBuy = shop.getweaponmagic(idsenjata);
             }else if(curr.role.equals("Archer")){
                 shop.displayweapon(curr.role);
                 System.out.println("Mau yang mana senjatanya? :");
-                namasenjata = input.nextInt();
-                weaponToBuy = shop.getweaponarcher(curr.role);
+                idsenjata = input.nextInt();
+                weaponToBuy = shop.getweaponarcher(idsenjata);
             }else{
                 System.out.println("Role tidak tersedia!");
                 return;
@@ -112,8 +112,8 @@ public class ManagePlayer {
             //cek apakah sudah punya senjata yang sama
             Weapon check = curr.weapon;
             while(check != null){
-                if(check.id == namasenjata){
-                    System.out.println(curr.orang + " sudah memiliki senjata '" + namasenjata + "' !\nAnda tidak bisa membeli item yang sama");
+                if(check.id == idsenjata){
+                    System.out.println(curr.orang + " sudah memiliki senjata '" + idsenjata + "' !\nAnda tidak bisa membeli item yang sama");
                     return;
                 }
                 check = check.next;
@@ -136,10 +136,10 @@ public class ManagePlayer {
                         current.next = beli;
                     }
                 }else{
-                    System.out.println(curr.orang + " tidak cukup gold untuk membeli " + namasenjata + ".");
+                    System.out.println(curr.orang + " tidak cukup gold untuk membeli " + weaponToBuy.namasenjata + ".");
                 }
             }else{
-                System.out.println("Senjata dengan " + namasenjata + " tidak terdapat pada toko.");
+                System.out.println("Senjata dengan id " + idsenjata + " tidak terdapat pada toko.");
                 return;
             }
             

@@ -59,20 +59,20 @@ public class SenjataShop {
         }
         return null;
     }
-    public Weapon getweaponmagic(String nama){
+    public Weapon getweaponmagic(int nama){
         Weapon curr = headmagic;
         while(curr != null){
-            if(curr.namasenjata.equals(nama)){
+            if(curr.id == nama){
                 return curr;
             }
             curr = curr.next;
         }
         return null;
     }
-    public Weapon getweaponarcher(String nama){
+    public Weapon getweaponarcher(int nama){
         Weapon curr = headarcher;
         while(curr != null){
-            if(curr.namasenjata.equals(nama)){
+            if(curr.id == nama){
                 return curr;
             }
             curr = curr.next;
