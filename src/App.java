@@ -70,6 +70,9 @@ public class App {
             senjata.loadweapon();
             player.buyweapon(senjata);
             player.buyweapon(senjata);
+            player.buyweapon(senjata);
+            player.buyweapon(senjata);
+            player.buyweapon(senjata);
 
             player.displayfighter();
             player.weaponStackManager.equipWeapon();
