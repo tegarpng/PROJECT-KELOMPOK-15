@@ -3,6 +3,7 @@ public class ManagePlayer {
     Scanner input = new Scanner(System.in);
     Character head;
     SenjataShop shop;
+    WeaponStackManager weaponStackManager;
 
     public void addplayer(String nama, String Role){
         Character fighter;
@@ -19,6 +20,10 @@ public class ManagePlayer {
             System.out.println("Role tidak tersedia!");
             return;
         }
+        
+        SkillTreeGen generator = new SkillTreeGen();
+        fighter.mySkills = generator.generateSkillForRole(Role);
+
         head = fighter;
     }
 
@@ -82,63 +87,63 @@ public class ManagePlayer {
         }
     }
 
-    public void buyweapon(String namasenjata, SenjataShop shop){
+    public void buyweapon(SenjataShop shop){
+        int namasenjata;
         Character curr = head;
         if(curr != null){
-            Weapon weaponToBuy = shop.getweapon(namasenjata);
+            Weapon weaponToBuy;
+            //menentukan role senjata
+            if(curr.role.equals("Fighter")){  
+                shop.displayweapon(curr.role);
+                System.out.println("Mau yang mana senjatanya? :");
+                namasenjata = input.nextInt();
+                weaponToBuy = shop.getweaponfighter(namasenjata);
+            }else if(curr.role.equals("Magic")){
+                shop.displayweapon(curr.role);
+                System.out.println("Mau yang mana senjatanya? :");
+                namasenjata = input.nextInt();
+                weaponToBuy = shop.getweaponmagic(curr.role);
+            }else if(curr.role.equals("Archer")){
+                shop.displayweapon(curr.role);
+                System.out.println("Mau yang mana senjatanya? :");
+                namasenjata = input.nextInt();
+                weaponToBuy = shop.getweaponarcher(curr.role);
+            }else{
+                System.out.println("Role tidak tersedia!");
+                return;
+            }
 
+            //cek apakah sudah punya senjata yang sama
             Weapon check = curr.weapon;
             while(check != null){
-                if(check.namasenjata.equals(namasenjata)){
+                if(check.id == namasenjata){
                     System.out.println(curr.orang + " sudah memiliki senjata '" + namasenjata + "' !\nAnda tidak bisa membeli item yang sama");
                     return;
                 }
                 check = check.next;
             }
             
+            //proses pembelian
             if(weaponToBuy != null){
                 if(curr.gold >= weaponToBuy.cost){
                     curr.gold -= weaponToBuy.cost;
-                    if(!curr.role.equals(weaponToBuy.role)){
-                        System.out.println("Senjata ini bukan untuk role mu ( " + curr.role + " )");
-                    }
-                    System.out.println("Apakah kamu yakin membeli item yang bukan role mu ( " + curr.role + " ) \nYA atau TIDAK");
-                    Weapon beli = new Weapon(weaponToBuy.namasenjata, weaponToBuy.role, weaponToBuy.physicaldamage, weaponToBuy.magicpower, weaponToBuy.cost);
-                    String choice = input.nextLine(); 
-                    if(choice.equalsIgnoreCase("ya")){
-                        curr.physicaldamage += (beli.physicaldamage * 0.4);
-                        System.out.println(curr.orang + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
-                        System.out.println("Gold " + curr.orang + " tersisa " + curr.gold + " gold.");
-                        if(curr.weapon == null){
-                            curr.weapon = beli;
-                        }else{
-                            Weapon current = curr.weapon;
-                            while(current.next != null){
-                                current = current.next;
-                            }
-                            current.next = beli;
-                        }
-                        return;
+                    Weapon beli = new Weapon(weaponToBuy.namasenjata, weaponToBuy.role, weaponToBuy.physicaldamage, weaponToBuy.magicpower, weaponToBuy.cost, weaponToBuy.id);
+                    System.out.println(curr.orang + " membeli " + weaponToBuy.namasenjata + " seharga " + weaponToBuy.cost + " gold.");
+                    System.out.println("Gold " + curr.orang + " tersisa " + curr.gold + " gold.");
+                    if(curr.weapon == null){
+                        curr.weapon = beli;
                     }else{
-                        curr.physicaldamage += beli.physicaldamage;
-                        curr.magicpower += beli.magicpower;
-                        System.out.println(curr.orang + " membeli " + namasenjata + " seharga " + weaponToBuy.cost + " gold.");
-                        System.out.println("Gold " + curr.orang + " tersisa " + curr.gold + " gold.");
-                        if(curr.weapon == null){
-                            curr.weapon = beli;
-                        }else{
-                            Weapon current = curr.weapon;
-                            while(current.next != null){
-                                current = current.next;
-                            }
-                            current.next = beli;
+                        Weapon current = curr.weapon;
+                        while(current.next != null){
+                            current = current.next;
                         }
+                        current.next = beli;
                     }
                 }else{
                     System.out.println(curr.orang + " tidak cukup gold untuk membeli " + namasenjata + ".");
                 }
             }else{
-                System.out.println("Senjata " + namasenjata + " tidak terdapat pada toko.");
+                System.out.println("Senjata dengan " + namasenjata + " tidak terdapat pada toko.");
                 return;
             }
             
@@ -179,9 +184,10 @@ public class ManagePlayer {
         Character curr = head;
         while(curr != null){
             System.out.println("##==========================================================##");
-            System.out.printf("|| Nama  : " + curr.orang + "  | Role : " + curr.role + "||");
+            System.out.println("|| Nama  : " + curr.orang + "  | Role : " + curr.role + "||");
             System.out.println("|| HP    : " + curr.health + " | Gold : " + curr.gold + "||");
-            System.out.println("|| Stats   \n|| Physical Damage :" + curr.physicaldamage + " || Magical Power : " + curr.magicpower + "||");
+            System.out.println("|| Stats");
+            System.out.println("|| Physical Damage :" + curr.physicaldamage + " || Magical Power : " + curr.magicpower + "||");
             System.out.println("Items:");
             Weapon weaponCurr = curr.weapon;
             System.out.println("- Weapons:");

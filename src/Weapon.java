@@ -1,4 +1,5 @@
 public class Weapon {
+    int id = 1;
     String namasenjata;
     int cost;
     int physicaldamage;
@@ -6,6 +7,17 @@ public class Weapon {
     Weapon next;
     Weapon prev;
     String role;
+    public Weapon(String namasenjata, String role, int physicaldamage, int magicpower, int cost, int id) {
+        this.role = role;
+        this.namasenjata = namasenjata;
+        this.physicaldamage = physicaldamage;
+        this.magicpower = magicpower;
+        this.cost = cost;
+        this.next = null;
+        this.prev = null;
+        this.id = id;
+    }
+
     public Weapon(String namasenjata, String role, int physicaldamage, int magicpower, int cost) {
         this.role = role;
         this.namasenjata = namasenjata;
