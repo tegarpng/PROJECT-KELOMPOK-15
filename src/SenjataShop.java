@@ -106,7 +106,7 @@ public class SenjataShop {
         
         int count = 1;
         while(curr != null){
-            System.out.println(count +". "+ curr.namasenjata + " Damage : " + curr.physicaldamage + " Magic Power : " + curr.magicpower + " Cost : " + curr.cost + " - "+ curr.id);
+            System.out.println(count +". "+ curr.namasenjata + " Damage : " + curr.physicaldamage + " Magic Power : " + curr.magicpower + " Cost : " + curr.cost + " ID : "+ curr.id);
             count++;
             curr = curr.next;
         }
@@ -116,7 +116,7 @@ public class SenjataShop {
         Armor curr = headarmor;
         int count = 1;
         while(curr != null){
-            System.out.println(count +". "+ curr.namaarmor + " Physical Defense : " + curr.physicaldefense + " Magic Defense : " + curr.magicdefense);
+            System.out.println(count +". "+ curr.namaarmor + " Physical Defense : " + curr.physicaldefense + " Magic Defense : " + curr.magicdefense + " Cost : " + curr.cost + " ID : " + curr.id);
             count++;
             curr = curr.next;
         }

@@ -146,17 +146,17 @@ public class ManagePlayer {
         }
     }
 
-    public void sellweapon(){
+    public void sellweapon(){ //method baru
         int choice;
         Character curr = head;
         if(curr != null){
             Weapon weaponChar = curr.weapon;
-
+            //cek senjata yang dimiliki
             while(weaponChar != null){
                 System.out.println(weaponChar.namasenjata + " - " + weaponChar.cost + " - " + weaponChar.id);
                 weaponChar = weaponChar.next;
             }
-
+            //reset objek untuk memilih id
             weaponChar = curr.weapon;
 
             System.out.println("Ingin menjual senjata apa :");
@@ -167,7 +167,7 @@ public class ManagePlayer {
                 curr.weapon = weaponChar.next;
                 return;
             }
-
+            //cek data ditengah tengah
             while(weaponChar.next != null && weaponChar.next.id != choice){
                 weaponChar = weaponChar.next;
             }
@@ -188,12 +188,12 @@ public class ManagePlayer {
         Character curr = head;
         if(curr != null){
             Armor armorChar = curr.armorplayer;
-
+            //cek armor yang dimiliki
             while(armorChar != null){
                 System.out.println(armorChar.namaarmor + " - " + armorChar.cost + " - " + armorChar.id);
                 armorChar = armorChar.next;
             }
-
+            //reset objek untuk memilih id
             armorChar = curr.armorplayer;
             System.out.println("Ingin menjual armor mana : ");
             choice = input.nextInt();
@@ -203,7 +203,7 @@ public class ManagePlayer {
                     curr.armorplayer = armorChar.next;
                     return;
                 }
-
+                //cek data ditengah tengah
                 while(armorChar.next != null && armorChar.next.id != choice){
                     armorChar = armorChar.next;
                 }
