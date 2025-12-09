@@ -25,6 +25,7 @@ public class ManagePlayer {
         fighter.mySkills = generator.generateSkillForRole(Role);
 
         head = fighter;
+        weaponStackManager = new WeaponStackManager(fighter);
     }
 
     public Character getPlayerbyRole(String role){

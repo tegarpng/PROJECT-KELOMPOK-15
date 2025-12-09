@@ -69,9 +69,12 @@ public class App {
             SenjataShop senjata = new SenjataShop();
             senjata.loadweapon();
             player.buyweapon(senjata);
+            player.buyweapon(senjata);
 
             player.displayfighter();
-
+            player.weaponStackManager.equipWeapon();
+            player.weaponStackManager.equipWeapon();
+            player.weaponStackManager.showWeaponHistory();
         }else if(choice == 2){
             System.out.println("Belum ada");
         }else{
