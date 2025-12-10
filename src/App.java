@@ -179,7 +179,7 @@ public class App {
             System.out.println("Anda adalah seorang pahlawan (Fighter/Mage/Archer) yang kembali ke tanah kelahiran setelah sekian lama, hanya untuk menemukan kerajaan Anda telah hancur. Sebuah kekuatan");
             System.out.println("jahat telah merebut tahta dan membagi wilayah kerajaan menjadi zona-zona berbahaya yang dikuasai oleh para jenderal iblis. Misi Anda hanyalah satu: Pembalasan Dendam");
             System.out.println("dan merebut kembali kerajaan yang menjadi hak Anda.");
-            System.out.println("Dibuat oleh Mahasiswa Angkatad 24 untuk memenuhi tugas projek ALGODAT:");
+            System.out.println("Dibuat oleh Mahasiswa Angkatan 24 untuk memenuhi tugas projek ALGODAT:");
             System.out.println("Nama : LALU TAUFIK DEWO BAYUAJI");
             System.out.println("NIM  : F1D02410069");
             System.out.println("Nama : MUHAMMAD TEGAR BIJANTA");
