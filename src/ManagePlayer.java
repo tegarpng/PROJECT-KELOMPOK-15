@@ -335,7 +335,7 @@ public class ManagePlayer {
 
             if(curr.armorplayer != null || curr.weapon != null){
                 System.out.println("Total Stats with Equipment:");
-                System.out.println("  >> Total Physical Damage : " + curr.physicaldamage);
+                System.out.println("  >> Total Physical Damage : " + (curr.physicaldamage + curr.weapon.physicaldamage));
                 System.out.println("  >> Total Magic Power     : " + curr.magicpower);
                 System.out.println("  >> Total Physical Defense : " + curr.physicaldefense);
                 System.out.println("  >> Total Magic Defense    : " + curr.magicdefense);
@@ -532,11 +532,11 @@ public class ManagePlayer {
 class manageBoss{
     Boss head;
     public void loadBoss(){
-        Boss bossmain1 = new Boss("Death Knight", 5000, 50, 40);
-        Boss bossmain2 = new Boss("Euroboros", 8000, 70, 70);
-        Boss bossmain3 = new Boss("Omen", 12000, 120, 170);
-        Boss bossmain4 = new Boss("Chronos", 20000, 180, 170);
-        Boss finalboss = new Boss("Aetherius", 40000, 200, 250);
+        Boss bossmain1 = new Boss("Death Knight", 500, 50, 40);
+        Boss bossmain2 = new Boss("Euroboros", 800, 70, 70);
+        Boss bossmain3 = new Boss("Omen", 1200, 120, 170);
+        Boss bossmain4 = new Boss("Chronos", 2000, 180, 170);
+        Boss finalboss = new Boss("Aetherius", 4000, 200, 250);
         head = bossmain1;
         bossmain1.next = bossmain2;
         bossmain2.next = bossmain3;
