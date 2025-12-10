@@ -12,7 +12,8 @@ public class Character {
     Weapon weapon;
     Armor armorplayer;
     SkillList mySkills;
-    public Character(String orang, int health, String role,int physicaldamage, int magicpower, int physicaldefense, int magicdefense) {
+    
+    public Character(String orang, int health, String role, int physicaldamage, int magicpower, int physicaldefense, int magicdefense) {
         this.orang = orang;
         this.health = health;
         this.gold = 100000;

@@ -47,10 +47,7 @@ public class App {
         int choice = input.nextInt();
         System.out.flush();
 
-        peta.head.Quest.tampilkanQuestAktif();
-
         if(choice == 1){
-            loadbanner();
             // --- BAGIAN 1: PEMBUATAN KARAKTER ---
             input.nextLine(); // Membersihkan buffer enter
             System.out.print("\nMasukkan Nama Hero : ");
@@ -70,14 +67,13 @@ public class App {
             player.addplayer(nama, role);
             
             // --- BAGIAN 2: SHOP PERTAMA (PERSIAPAN) ---
-            System.out.println("\n\n");
-            System.out.println("=============================================");
-            System.out.println("   SELAMAT DATANG DI KOTA AWAL (PERSIAPAN)   ");
-            System.out.println("=============================================");
-            System.out.println("Silakan beli perlengkapan sebelum bertarung!");
+            peta.listlokasi();
+            // Set lokasi pemain di peta (mulai dari Castle)
+            peta.setCurrentLocation(peta.cariLokasi("Castle"));
+            peta.yourcurrentlocation();
             
             // Membuka menu shop. Player terjebak disini sampai memilih menu "0" (Lanjut)
-            player.openShopMenu(shop); 
+            player.openShopMenu(shop);
 
             // Otomatis pasang senjata/armor yang baru dibeli (opsional)
             if(player.weaponStackManager != null) {

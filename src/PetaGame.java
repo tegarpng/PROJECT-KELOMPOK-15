@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class PetaGame {
     Lokasi head;   // linked list dari semua lokasi
     QuestQueue quest;
+    Lokasi currentLocation;  // Lokasi saat ini yang sedang diakses/dimainkan
     
     // Tambah lokasi
     public void listlokasi() {
@@ -77,6 +78,64 @@ public class PetaGame {
         return c;
     }
 
+    // Tampilkan lokasi saat ini dan quest yang tersedia
+    public void yourcurrentlocation(){
+        if(currentLocation == null){
+            System.out.println("Anda belum berada di lokasi manapun.");
+            return;
+        }
+        System.out.println("\n##==========================================================##");
+        System.out.println("|| LOKASI SAAT INI: " + String.format("%-40s", currentLocation.nama) + "  ||");
+        System.out.println("##==========================================================##");
+        System.out.println("Quest yang tersedia di lokasi ini:");
+        currentLocation.Quest.tampilkanQuestAktif();
+        System.out.println("##==========================================================##\n");
+    }
+
+    // Set lokasi pemain saat ini
+    public void setCurrentLocation(Lokasi loc){
+        this.currentLocation = loc;
+    }
+
+    // Get lokasi pemain saat ini
+    public Lokasi getCurrentLocation(){
+        return this.currentLocation;
+    }
+
+    // Pindah ke lokasi tetangga (yang terhubung langsung via jalur)
+    public boolean moveToLocation(String namaLokasi){
+        if(currentLocation == null){
+            System.out.println("Anda belum berada di lokasi manapun. Gunakan setCurrentLocation terlebih dahulu.");
+            return false;
+        }
+
+        // Cek apakah ada jalur dari lokasi saat ini ke lokasi tujuan
+        if(!hasPath(currentLocation, namaLokasi)){
+            System.out.println("Tidak ada jalur dari " + currentLocation.nama + " ke " + namaLokasi + ".");
+            return false;
+        }
+
+        // Dapatkan lokasi tujuan
+        Lokasi tujuan = cariLokasi(namaLokasi);
+        if(tujuan == null){
+            System.out.println("Lokasi " + namaLokasi + " tidak ditemukan pada peta.");
+            return false;
+        }
+
+        // Dapatkan info jalur (untuk cek tipe jalur)
+        Jalur j = getJalurFromTo(currentLocation, namaLokasi);
+        if(j != null && j.teleport){
+            System.out.println(">> Menggunakan TELEPORT dari " + currentLocation.nama + " ke " + namaLokasi + "!");
+        } else {
+            System.out.println(">> Berjalan dari " + currentLocation.nama + " ke " + namaLokasi + "...");
+        }
+
+        // Set lokasi baru
+        this.currentLocation = tujuan;
+        System.out.println(">> Tiba di lokasi: " + currentLocation.nama);
+        return true;
+    }
+
     // Tampilkan keseluruhan peta beserta jalur dari setiap lokasi
     public void displayMap() {
         listlokasi();
@@ -104,4 +163,20 @@ public class PetaGame {
             cur = cur.nextLokasi;
         }
     }
+    
+        // Kembalikan Jalur dari 'from' ke lokasi bernama 'toName', atau null jika tidak ada
+        public Jalur getJalurFromTo(Lokasi from, String toName) {
+            if (from == null) return null;
+            Jalur j = from.headJalur;
+            while (j != null) {
+                if (j.tujuan != null && j.tujuan.nama.equals(toName)) return j;
+                j = j.next;
+            }
+            return null;
+        }
+    
+        // Apakah ada jalur langsung dari 'from' ke 'toName'?
+        public boolean hasPath(Lokasi from, String toName) {
+            return getJalurFromTo(from, toName) != null;
+        }
 }

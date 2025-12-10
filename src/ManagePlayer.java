@@ -4,6 +4,7 @@ public class ManagePlayer {
     Character head;
     SenjataShop shop;
     WeaponStackManager weaponStackManager;
+    PetaGame currentLocation;
 
     public void addplayer(String nama, String Role){
         Character fighter;
