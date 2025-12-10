@@ -50,13 +50,15 @@ public class QuestQueue {
     public void inisialisasiQuest() {
         // MAIN QUESTS
         enqueue(new Quest("Pembukaan Gerbang", "MAIN", 
-            "Kalahkan Guardian untuk membuka gerbang istana", "BOSS", 500, "Double Strike"));
+            "Kalahkan Death Knight untuk membuka gerbang istana", "BOSS", 500, "Double Strike"));
         enqueue(new Quest("Misteri Hutan Terlarang", "MAIN",
-            "Temukan artefak kuno di dalam hutan", "PUZZLE", 300, "Magic Shield"));
-        enqueue(new Quest("Penyelamatan Tawanan", "MAIN",
-            "Selamatkan tawanan dari penjara bawah tanah", "COLLECT", 400, "Heal"));
-        enqueue(new Quest("Konfrontasi Akhir", "MAIN",
-            "Hadapi Raja Kegelapan di tahtanya", "BOSS", 1000, "Ultimate Skill"));
+            "Kalahkan Euroboros", "BOSS", 700, "Magic Shield"));
+        enqueue(new Quest("Mengungkap Misteri Danger Hill", "MAIN",
+            "Kalahkan OMEN", "BOSS", 400, "Heal"));
+        enqueue(new Quest("Konfrontasi Astral", "MAIN",
+            "Hadapi Raja Astral di tahtanya", "BOSS", 1000, "Ultimate Skill"));
+        enqueue(new Quest("Final Boss", "MAIN",
+            "Hadapi Sisi Gelap dari dirimu sendiri", "BOSS", 1000, "Ultimate Skill"));
         
         // SIDE QUESTS
         enqueue(new Quest("Pengumpulan Bahan", "SIDE",

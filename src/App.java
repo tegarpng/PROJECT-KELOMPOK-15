@@ -22,6 +22,8 @@ public class App {
     public static void main(String[] args) throws Exception {
         ManagePlayer player = new ManagePlayer();
         Scanner input = new Scanner(System.in);
+        PetaGame peta = new PetaGame();
+        peta.displayMap();
         
 
         loadbanner();

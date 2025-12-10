@@ -5,11 +5,11 @@ class QuestItem {
     String deskripsi;
     String tujuan;
     int rewardGold;
-    String rewardSkill;
+    SkillTreeGen rewardSkill;
     boolean selesai;
     QuestItem next;  // Ganti dari Quest menjadi QuestItem
     
-    public QuestItem(String namaQuest, String jenis, String deskripsi, String tujuan, int rewardGold, String rewardSkill) {
+    public QuestItem(String namaQuest, String jenis, String deskripsi, String tujuan, int rewardGold, SkillTreeGen rewardSkill) {
         this.namaQuest = namaQuest;
         this.jenis = jenis;
         this.deskripsi = deskripsi;

@@ -1,12 +1,10 @@
 public class Jalur {
-    Lokasi tujuan;
-    int jarak;          // weight
+    Lokasi tujuan;          // weight
     boolean teleport;   // apakah jalur teleport
     Jalur next;
 
-    public Jalur(Lokasi tujuan, int jarak, boolean teleport) {
+    public Jalur(Lokasi tujuan, boolean teleport) {
         this.tujuan = tujuan;
-        this.jarak = jarak;
         this.teleport = teleport;
         this.next = null;
     }
