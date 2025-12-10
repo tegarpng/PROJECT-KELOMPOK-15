@@ -350,89 +350,98 @@ public class ManagePlayer {
         Scanner sc = new Scanner(System.in);
         SearchItem si = new SearchItem();
 
-        System.out.println("\n=== MENU PENCARIAN ITEM ===");
-        System.out.println("1. Pencarian Weapon");
-        System.out.println("2. Pencarian Armor");
-        System.out.println("0. Kembali");
-        System.out.print(">> Pilih: ");
-        int pilih = sc.nextInt();
-        sc.nextLine();
+        while(true){
+            System.out.println("\n=== MENU PENCARIAN ITEM ===");
+            System.out.println("1. Pencarian Weapon");
+            System.out.println("2. Pencarian Armor");
+            System.out.println("0. Kembali");
+            System.out.print(">> Pilih: ");
+            int pilih = sc.nextInt();
+            sc.nextLine();
 
-        switch(pilih){
-            case 1:
-                System.out.println("\n--- PENCARIAN WEAPON ---");
-                System.out.println("1. Cari berdasarkan Nama");
-                System.out.println("2. Cari berdasarkan Physical Damage");
-                System.out.println("3. Cari berdasarkan Magic Power");
-                System.out.println("4. Cari berdasarkan Cost");
-                System.out.println("5. Cari berdasarkan ID");  
-                System.out.println("0. Kembali");
-                System.out.print(">> Pilih: ");
-                int w = sc.nextInt();
-                sc.nextLine();
-                
-                switch(w){
-                    case 1:
-                        System.out.print("Nama Weapon: ");
-                        si.searchWeaponByName(head.weapon, sc.nextLine());
-                        break;
-                    case 2:
-                        System.out.print("Physical Damage: ");
-                        si.searchWeaponByPhysicalDamage(head.weapon, sc.nextInt());
-                        break;
-                    case 3:
-                        System.out.print("Magic Power: ");
-                        si.searchWeaponByMagicPower(head.weapon, sc.nextInt());
-                        break;
-                    case 4:
-                        System.out.print("Cost Weapon: ");
-                        si.searchWeaponByCost(head.weapon, sc.nextInt());
-                        break;
-                    case 5: 
-                        System.out.print("ID Weapon: ");
-                        si.searchWeaponById(head.weapon, sc.nextInt());
-                        break;
-                    default:
-                        System.out.println("Kembali...");
-                }
-                break;
-            case 2:
-                System.out.println("\n--- PENCARIAN ARMOR ---");
-                System.out.println("1. Cari berdasarkan Nama");
-                System.out.println("2. Cari berdasarkan Physical Defense");
-                System.out.println("3. Cari berdasarkan Magic Defense");
-                System.out.println("4. Cari berdasarkan Cost");
-                System.out.println("0. Kembali");
-                System.out.print(">> Pilih: ");
-                int a = sc.nextInt();
-                sc.nextLine();
+            if(pilih == 0){
+                break; 
+            }
 
-                switch(a){
-                    case 1:
-                        System.out.print("Nama Armor: ");
-                        si.searchArmorByName(head.armorplayer, sc.nextLine());
-                        break;
-                    case 2:
-                        System.out.print("Physical Defense: ");
-                        si.searchArmorByPhysicalDefense(head.armorplayer, sc.nextInt());
-                        break;
-                    case 3:
-                        System.out.print("Magic Defense: ");
-                        si.searchArmorByMagicDefense(head.armorplayer, sc.nextInt());
-                        break;
-                    case 4:
-                        System.out.print("Cost Armor: ");
-                        si.searchArmorByCost(head.armorplayer, sc.nextInt());
-                        break;
-                    default:
-                        System.out.println("Kembali...");
-                }
-                break;
-            case 0:
-                System.out.println("Kembali...");
-                break;
-            default:
-                System.out.println("Pilihan tidak valid!");
+            switch(pilih){
+                case 1:
+                    while(true){
+                        System.out.println("\n--- PENCARIAN WEAPON ---");
+                        System.out.println("1. Cari berdasarkan Nama");
+                        System.out.println("2. Cari berdasarkan Physical Damage");
+                        System.out.println("3. Cari berdasarkan Magic Power");
+                        System.out.println("4. Cari berdasarkan Cost");
+                        System.out.println("5. Cari berdasarkan ID");  
+                        System.out.println("0. Kembali");
+                        System.out.print(">> Pilih: ");
+                        int w = sc.nextInt();
+                        sc.nextLine();
+                        
+                        if(w == 0) break;
+                        switch(w){
+                            case 1:
+                                System.out.print("Nama Weapon: ");
+                                si.searchWeaponByName(head.weapon, sc.nextLine());
+                                break;
+                            case 2:
+                                System.out.print("Physical Damage: ");
+                                si.searchWeaponByPhysicalDamage(head.weapon, sc.nextInt());
+                                break;
+                            case 3:
+                                System.out.print("Magic Power: ");
+                                si.searchWeaponByMagicPower(head.weapon, sc.nextInt());
+                                break;
+                            case 4:
+                                System.out.print("Cost Weapon: ");
+                                si.searchWeaponByCost(head.weapon, sc.nextInt());
+                                break;
+                            case 5: 
+                                System.out.print("ID Weapon: ");
+                                si.searchWeaponById(head.weapon, sc.nextInt());
+                                break;
+                            default:
+                                System.out.println("Kembali...");
+                        }
+                    }
+                    break;
+                case 2:
+                    while(true){
+                        System.out.println("\n--- PENCARIAN ARMOR ---");
+                        System.out.println("1. Cari berdasarkan Nama");
+                        System.out.println("2. Cari berdasarkan Physical Defense");
+                        System.out.println("3. Cari berdasarkan Magic Defense");
+                        System.out.println("4. Cari berdasarkan Cost");
+                        System.out.println("0. Kembali");
+                        System.out.print(">> Pilih: ");
+                        int a = sc.nextInt();
+                        sc.nextLine();
+
+                        if(a == 0) break;
+                        switch(a){
+                            case 1:
+                                System.out.print("Nama Armor: ");
+                                si.searchArmorByName(head.armorplayer, sc.nextLine());
+                                break;
+                            case 2:
+                                System.out.print("Physical Defense: ");
+                                si.searchArmorByPhysicalDefense(head.armorplayer, sc.nextInt());
+                                break;
+                            case 3:
+                                System.out.print("Magic Defense: ");
+                                si.searchArmorByMagicDefense(head.armorplayer, sc.nextInt());
+                                break;
+                            case 4:
+                                System.out.print("Cost Armor: ");
+                                si.searchArmorByCost(head.armorplayer, sc.nextInt());
+                                break;
+                            default:
+                                System.out.println("Kembali...");
+                        }
+                    }
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid!");
+            }
         }
     }
 
