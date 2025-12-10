@@ -237,7 +237,7 @@ public class WeaponStackManager {
      */
     public void undoEquipWeapon() {
         if (isWeaponHistoryEmpty()) {
-            System.out.println("❌ No weapon history available to undo.");
+            System.out.println("No weapon history available to undo.");
             return;
         }
 
@@ -266,7 +266,7 @@ public class WeaponStackManager {
         // 4. PUSH data Pistol B (oldEquippedData) ke history
         push(oldEquippedData);
 
-        // 5. CRITICAL FIX: Overwrite node kedua (yang sebelumnya duplikat Pedang A) 
+        // 5. Overwrite node kedua (yang sebelumnya duplikat Pedang A) 
         // dengan data Pistol B (item yang baru saja dicopot).
         if (currentlyEquipped.next != null) {
             Weapon secondNode = currentlyEquipped.next;
@@ -279,7 +279,7 @@ public class WeaponStackManager {
             secondNode.id = oldEquippedData.id;
         }
 
-        System.out.println("✅ Undo successful! " + character.orang + " now equips: " + character.weapon.namasenjata);
+        System.out.println("Undo successful! " + character.orang + " now equips: " + character.weapon.namasenjata);
     }
     
     /**
@@ -288,7 +288,7 @@ public class WeaponStackManager {
      */
     public void undoEquipArmor() {
         if (isArmorHistoryEmpty()) {
-            System.out.println("❌ No armor history available to undo.");
+            System.out.println("No armor history available to undo.");
             return;
         }
 
@@ -315,7 +315,7 @@ public class WeaponStackManager {
         // 4. PUSH data Armor B (oldEquippedData) ke history
         push(oldEquippedData);
 
-        // 5. CRITICAL FIX: Overwrite node kedua (yang sebelumnya duplikat Armor A) 
+        // 5. Overwrite node kedua (yang sebelumnya duplikat Armor A) 
         // dengan data Armor B (item yang baru saja dicopot).
         if (currentlyEquipped.next != null) {
             Armor secondNode = (Armor)currentlyEquipped.next; // Cast necessary if next is defined as Object/general type
@@ -327,7 +327,7 @@ public class WeaponStackManager {
             secondNode.id = oldEquippedData.id;
         }
 
-        System.out.println("✅ Undo successful! " + character.orang + " now equips: " + character.armorplayer.namaarmor);
+        System.out.println("Undo successful! " + character.orang + " now equips: " + character.armorplayer.namaarmor);
     }
 
     // =======================================================
