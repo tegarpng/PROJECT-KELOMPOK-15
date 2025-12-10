@@ -8,5 +8,6 @@ public class Lokasi {
         this.nama = nama;
         this.headJalur = null;
         this.nextLokasi = null;
+        this.Quest = new QuestQueue();
     }
 }

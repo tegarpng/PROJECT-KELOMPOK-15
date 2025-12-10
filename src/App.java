@@ -47,6 +47,8 @@ public class App {
         int choice = input.nextInt();
         System.out.flush();
 
+        peta.head.Quest.tampilkanQuestAktif();
+
         if(choice == 1){
             loadbanner();
             // --- BAGIAN 1: PEMBUATAN KARAKTER ---

@@ -16,6 +16,9 @@ public class PetaGame {
         lokasi3.nextLokasi = lokasi4;
         lokasi4.nextLokasi = lokasi5;
 
+        lokasi1.Quest.enqueue(new Quest("Pembukaan Gerbang", "MAIN", 
+            "Kalahkan Death Knight untuk membuka gerbang istana", "BOSS", 500, "Double Strike"));
+
         // Castle → Forest (jalur normal)
         lokasi1.headJalur = new Jalur(lokasi2, false);
 
