@@ -346,6 +346,7 @@ public class ManagePlayer {
             curr = curr.next;
         }
 
+
         Scanner sc = new Scanner(System.in);
         SearchItem si = new SearchItem();
 
@@ -434,6 +435,60 @@ public class ManagePlayer {
                 System.out.println("Pilihan tidak valid!");
         }
     }
+
+    public void manageEquipment() {
+        Character curr = head;
+        if (curr == null) {
+            System.out.println("Player tidak ditemukan.");
+            return;
+        }
+
+        boolean managing = true;
+        while (managing) {
+            System.out.println("\n========== MANAGE EQUIPMENT ==========");
+            System.out.println("Karakter saat ini: " + curr.orang);
+            System.out.println("Weapon: " + (curr.weapon != null ? curr.weapon.namasenjata : "None"));
+            System.out.println("Armor: " + (curr.armorplayer != null ? curr.armorplayer.namaarmor : "None"));
+            System.out.println("--------------------------------------");
+            System.out.println("1. Equip Weapon Baru");
+            System.out.println("2. Undo Equip Weapon (Kembali ke senjata sebelumnya)");
+            System.out.println("3. Tampilkan Weapon History");
+            System.out.println("4. Equip Armor Baru");
+            System.out.println("5. Undo Equip Armor (Kembali ke armor sebelumnya)");
+            System.out.println("6. Tampilkan Armor History");
+            System.out.println("0. Kembali ke Menu Explore");
+            System.out.print("Pilih: ");
+            int choice = input.nextInt();
+            input.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    weaponStackManager.equipWeapon();
+                    break;
+                case 2:
+                    weaponStackManager.undoEquipWeapon(); // PENGGUNAAN POP!
+                    break;
+                case 3:
+                    weaponStackManager.showWeaponHistory();
+                    break;
+                case 4:
+                    weaponStackManager.equipArmor();
+                    break;
+                case 5:
+                    weaponStackManager.undoEquipArmor(); // PENGGUNAAN POP!
+                    break;
+                case 6:
+                    weaponStackManager.showArmorHistory();
+                    break;
+                case 0:
+                    managing = false;
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid!");
+            }
+        }
+    }
+
     public void openShopMenu(SenjataShop shop) {
         Character curr = head;
         if (curr == null) {
@@ -566,7 +621,8 @@ public class ManagePlayer {
             System.out.println("\n[1] Jalankan Quest Lokasi");
             System.out.println("[2] Pindah Lokasi");
             System.out.println("[3] Lihat Status Pemain");
-            System.out.println("[4] Lihat Peta");
+            System.out.println("[4] Manage Equipment");
+            System.out.println("[5] Lihat Peta");
             System.out.println("[0] Kembali");
             System.out.print("Pilihan: ");
             
@@ -605,6 +661,9 @@ public class ManagePlayer {
                     displayfighter();
                     break;
                 case 4:
+                    manageEquipment();
+                    break;
+                case 5:
                     peta.displayMap();
                     break;
                 case 0:
