@@ -43,9 +43,8 @@ public class BattleManager {
                 System.out.println(centerText("PILIH AKSI", 90));
                 System.out.println("                         > " + YELLOW + "Skills" + RESET + " <");
                 System.out.println("                           Attack"); 
-                System.out.println("                           Kabur");
                 System.out.println("==========================================================================================");
-                System.out.print("Pilihan (1. Skill / 2. Attack / 3. Kabur): ");
+                System.out.print("Pilihan (1. Skill / 2. Attack): ");
                 
                 int aksi = 0;
                 if(input.hasNextInt()) aksi = input.nextInt();
@@ -76,10 +75,6 @@ public class BattleManager {
                         lastLog = "Serangan fisik! " + enemy.namaboss + " terkena " + damageDealt + " dmg.";
                         break;
 
-                    case 3: // KABUR
-                        lastLog = "Gagal kabur! Arena terkunci.";
-                        break;
-                        
                     default:
                         lastLog = "Aksi tidak valid.";
                         turnStack.push("PLAYER"); 
