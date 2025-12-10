@@ -594,7 +594,6 @@ public class ManagePlayer {
 
             if(choice == 1) {
                 currentLok.Quest.prosesQuest(curr);
-                peta.doquest(null);
                 System.out.println("\nQuest diselesaikan!");
                 try { Thread.sleep(1500); } catch(Exception e) {}
             }
@@ -632,7 +631,7 @@ public class ManagePlayer {
             System.out.println("[2] Pindah Lokasi");
             System.out.println("[3] Lihat Status Pemain");
             System.out.println("[4] Manage Equipment");
-            System.out.println("[0] Kembali");
+            System.out.println("[0] Kembali ke shop");
             System.out.print("Pilihan: ");
             
             int choice = 0;
@@ -673,7 +672,7 @@ public class ManagePlayer {
                     manageEquipment();
                     break;
                 case 0:
-                    exploring = false;
+                    openShopMenu(shop);
                     break;
                 default:
                     System.out.println("Pilihan tidak valid!");

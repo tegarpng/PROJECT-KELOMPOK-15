@@ -92,25 +92,6 @@ public class PetaGame {
         return c;
     }
 
-    public void doquest(Quest quest){
-        // Metode untuk memproses satu quest
-        if(quest == null) return;
-        String sep50 = "";
-        for(int i = 0; i < 50; i++) sep50 += "=";
-        System.out.println("\n" + sep50);
-        System.out.println("Mengerjakan Quest: " + quest.namaQuest);
-        System.out.println(quest.deskripsi);
-        System.out.println("Reward: " + quest.rewardGold + " Gold" + 
-                         (quest.rewardSkill != null ? " + " + quest.rewardSkill : ""));
-        System.out.println(sep50);
-        System.out.println("\nTekan ENTER untuk melanjutkan...");
-        new Scanner(System.in).nextLine();
-        
-        // Quest selesai
-        quest.selesai = true;
-        System.out.println("\n✓ Quest '" + quest.namaQuest + "' berhasil diselesaikan!");
-    }
-
     // Cek apakah semua quest di lokasi saat ini sudah selesai
     public boolean areAllQuestsCompleted(){
         if(currentLocation == null) return false;
