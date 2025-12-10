@@ -626,12 +626,12 @@ public class ManagePlayer {
         while(exploring) {
             Lokasi currentLok = peta.getCurrentLocation();
             System.out.println("\n=== LOKASI: " + currentLok.nama + " ===");
+            peta.displayMap();
             
             System.out.println("\n[1] Jalankan Quest Lokasi");
             System.out.println("[2] Pindah Lokasi");
             System.out.println("[3] Lihat Status Pemain");
             System.out.println("[4] Manage Equipment");
-            System.out.println("[5] Lihat Peta");
             System.out.println("[0] Kembali");
             System.out.print("Pilihan: ");
             
@@ -672,9 +672,6 @@ public class ManagePlayer {
                 case 4:
                     manageEquipment();
                     break;
-                case 5:
-                    peta.displayMap();
-                    break;
                 case 0:
                     exploring = false;
                     break;
@@ -688,11 +685,11 @@ public class ManagePlayer {
 class manageBoss{
     Boss head;
     public void loadBoss(){
-        Boss bossmain1 = new Boss("Death Knight", 5000, 50, 40);
-        Boss bossmain2 = new Boss("Euroboros", 8000, 70, 70);
-        Boss bossmain3 = new Boss("Omen", 12000, 120, 170);
-        Boss bossmain4 = new Boss("Chronos", 20000, 180, 170);
-        Boss finalboss = new Boss("Aetherius", 40000, 200, 250);
+        Boss bossmain1 = new Boss("Death Knight", 5000, 100, 80);
+        Boss bossmain2 = new Boss("Euroboros", 8000, 330, 100);
+        Boss bossmain3 = new Boss("Omen", 12000, 200, 470);
+        Boss bossmain4 = new Boss("Chronos", 20000, 550, 450);
+        Boss finalboss = new Boss("Aetherius", 40000, 800, 850);
         head = bossmain1;
         bossmain1.next = bossmain2;
         bossmain2.next = bossmain3;

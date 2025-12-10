@@ -91,7 +91,7 @@ public class BattleManager {
                 if (currentBossHP < (maxBossHP / 2)) {
                     bossDmg = enemy.magicpower;
                     int pDef = player.magicdefense + ((player.armorplayer != null) ? player.armorplayer.magicdefense : 0);
-                    bossDmg = Math.max(1, bossDmg - pDef); 
+                    bossDmg = Math.max(1, bossDmg - pDef);
                     attackName = "Ultimate Magic";
                 } else {
                     bossDmg = enemy.physicaldamage;
