@@ -159,46 +159,35 @@ public class QuestQueue {
     }
 
     // Set Boss awal untuk lokasi ini (Opsional, jika ingin manual set boss)
-    public void setStartBoss(String bossName) {
+public void setStartBoss(String bossName) {
         Boss temp = this.bossData.head;
         while (temp != null) {
             if (temp.namaboss.equalsIgnoreCase(bossName)) {
-                this.currentBoss = temp;
+                this.currentBoss = temp; // Boss ditemukan & diset
                 return;
             }
             temp = temp.next;
         }
+        System.out.println("Error: Boss " + bossName + " tidak ditemukan di data.");
     }
     
     // === INTEGRASI BATTLE MANAGER DI SINI ===
     private boolean melawanBoss(Character player, Quest quest) {
-        // Cek apakah boss masih ada
-        if (this.currentBoss == null) {
-            System.out.println("Tidak ada Boss ditemukan (Anda mungkin sudah mengalahkan semuanya!)");
-            return true; // Auto-win jika boss habis
-        }
+        if (this.currentBoss == null) return true;
         
-        System.out.println("BOSS TERDETEKSI: " + this.currentBoss.namaboss);
-        
-        // 1. Instansiasi BattleManager
+        System.out.println("MENANTANG BOSS: " + this.currentBoss.namaboss);
         BattleManager battle = new BattleManager();
-        
-        // 2. Mulai Battle (BattleManager menghandle UI dan Loop turn)
         boolean menang = battle.startBattle(player, this.currentBoss);
         
-        // 3. Cek Hasil
         if (menang) {
-            System.out.println("\n>> " + this.currentBoss.namaboss + " telah dikalahkan!");
-            
-            // PENTING: Maju ke Boss berikutnya setelah menang
-            this.currentBoss = this.currentBoss.next;
-            
+            // Setelah menang, maju ke boss.next (jika ada multi-boss di satu map)
+            // Tapi karena kita pindah lokasi, setStartBoss di PetaGame akan mereset ini nanti
+            this.currentBoss = this.currentBoss.next; 
             return true;
-        } else {
-            // BattleManager sudah print "YOU DIED"
-            return false;
         }
+        return false;
     }
+
     
     // Method untuk puzzle sederhana
     private boolean pecahkanPuzzle() {

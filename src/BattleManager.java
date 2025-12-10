@@ -35,8 +35,8 @@ public class BattleManager {
 
             String currentTurn = turnStack.pop();
             
-            // Render UI
-            printUI(player, enemy, currentBossHP, maxBossHP, turnCount, currentTurn, lastLog);
+            // Render UI (Gunakan Math.max agar HP tidak terlihat minus di layar)
+            printUI(player, enemy, Math.max(0, currentBossHP), maxBossHP, turnCount, currentTurn, lastLog);
 
             if (currentTurn.equals("PLAYER")) {
                 // === GILIRAN PLAYER ===
@@ -47,8 +47,12 @@ public class BattleManager {
                 System.out.print("Pilihan (1. Skill / 2. Attack): ");
                 
                 int aksi = 0;
-                if(input.hasNextInt()) aksi = input.nextInt();
-                else input.next();
+                // Validasi input agar tidak crash jika user input huruf
+                if(input.hasNextInt()) {
+                    aksi = input.nextInt();
+                } else {
+                    input.next(); // Bersihkan buffer
+                }
 
                 int damageDealt = 0;
 
@@ -56,10 +60,11 @@ public class BattleManager {
                     case 1: // SKILL
                         if (player.mySkills == null || player.mySkills.head == null) {
                             lastLog = "Skill tidak tersedia!";
+                            turnStack.push("PLAYER"); // Ulang giliran
                         } else {
                             damageDealt = useSkillMenu(player);
                             if (damageDealt == -1) { 
-                                turnStack.push("PLAYER"); 
+                                turnStack.push("PLAYER"); // Batal, ulang giliran
                                 continue; 
                             }
                             damageDealt = Math.max(0, damageDealt); 
@@ -82,29 +87,38 @@ public class BattleManager {
                 }
 
             } else {
-                // === GILIRAN BOSS ===
+                // === GILIRAN BOSS (Logika Damage Spesifik) ===
                 try { Thread.sleep(1000); } catch (Exception e) {}
 
                 int bossDmg = 0;
                 String attackName = "";
+                
+                // Hitung Defense Player
+                int pPhysDef = player.physicaldefense + ((player.armorplayer != null) ? player.armorplayer.physicaldefense : 0);
+                int pMagDef = player.magicdefense + ((player.armorplayer != null) ? player.armorplayer.magicdefense : 0);
 
+                // LOGIKA: HP < 50% = Magic (Ultimate), HP > 50% = Physical (Attack)
+                // Note: Karena HP Boss diset 1, maxBossHP/2 = 0. Jadi logic akan masuk ke 'else' (Physical)
+                // kecuali Anda nanti mengubah HP Boss menjadi angka besar lagi.
+                
                 if (currentBossHP < (maxBossHP / 2)) {
-                    bossDmg = enemy.magicpower;
-                    int pDef = player.magicdefense + ((player.armorplayer != null) ? player.armorplayer.magicdefense : 0);
-                    bossDmg = Math.max(1, bossDmg - pDef);
-                    attackName = "Ultimate Magic";
+                    // FASE 2: ULTIMATE (MAGIC)
+                    bossDmg = enemy.magicpower - pMagDef;
+                    attackName = "Ultimate Arts (Magic Type)";
                 } else {
-                    bossDmg = enemy.physicaldamage;
-                    int pDef = player.physicaldefense + ((player.armorplayer != null) ? player.armorplayer.physicaldefense : 0);
-                    bossDmg = Math.max(1, bossDmg - pDef);
-                    attackName = "Smash Attack";
+                    // FASE 1: SMASH (PHYSICAL)
+                    bossDmg = enemy.physicaldamage - pPhysDef;
+                    attackName = "Smash Attack (Physical Type)";
                 }
 
+                bossDmg = Math.max(1, bossDmg); // Minimal 1 damage
                 player.health -= bossDmg;
-                lastLog = enemy.namaboss + " menggunakan " + attackName + "! HP -" + bossDmg;
+                System.out.println(">> " + enemy.namaboss + " menggunakan " + attackName + "!");
+                System.out.println(">> Anda terkena " + bossDmg + " damage.");
             }
         }
 
+        // Print hasil akhir
         printUI(player, enemy, Math.max(0, currentBossHP), maxBossHP, turnCount, "SELESAI", lastLog);
         
         if (player.health > 0) {
@@ -126,7 +140,7 @@ public class BattleManager {
         SkillNode curr = player.mySkills.head;
         int idx = 1;
         while (curr != null) {
-            System.out.println(idx + ". " + curr.name + " (Pwr: " + curr.damage + ")");
+            System.out.println(idx + ". " + curr.name + " (Base Pwr: " + curr.damage + ")");
             curr = curr.next;
             idx++;
         }
@@ -141,6 +155,7 @@ public class BattleManager {
         while (curr != null) {
             if (count == choice) {
                 int weaponMagic = (player.weapon != null) ? player.weapon.magicpower : 0;
+                // Total Dmg = Magic Player + Magic Weapon + Base Skill Dmg
                 return player.magicpower + weaponMagic + curr.damage;
             }
             count++;
@@ -160,14 +175,20 @@ public class BattleManager {
         System.out.println(centerText("TURN " + turn, 90));
         System.out.println(border);
         
-        String bossInfo = "BOSS: " + PURPLE + b.namaboss + RESET + " | HP: " + bhp + "/" + maxBhp;
+        String bossInfo = "BOSS: " + PURPLE + b.namaboss + RESET + " | HP: " + bhp + "/" + maxBhp + 
+                          " | PHY: " + b.physicaldamage + " | MAG: " + b.magicpower;
         System.out.println(" " + bossInfo);
         
         // PANGGIL GAMBAR SESUAI NAMA BOSS
         printBossArt(b.namaboss);
         
         System.out.println(border);
-        System.out.println("| " + CYAN + p.orang + RESET + " | HP: " + p.health + " | PHYSICAL DAMAGE: " + (p.physicaldamage + p.weapon.physicaldamage) + " | MAGIC POWER: " + p.magicpower); 
+        
+        // --- PERBAIKAN CRASH JIKA WEAPON NULL ---
+        int totalPhysDmg = p.physicaldamage + ((p.weapon != null) ? p.weapon.physicaldamage : 0);
+        int totalMagicPwr = p.magicpower + ((p.weapon != null) ? p.weapon.magicpower : 0);
+        
+        System.out.println("| " + CYAN + p.orang + RESET + " | HP: " + p.health + " | ATK (Phys): " + totalPhysDmg + " | MAG: " + totalMagicPwr); 
         System.out.println(border);
         
         if (turnName.equals("PLAYER")) {
@@ -425,7 +446,7 @@ public class BattleManager {
                 "                   VHACCCAAS      CFFCAACCAAAAAAF    HAAAAAAAAAAAHC       VHCACAAACAN               ",
                 "                    HFAFAAAK      KCFCAAAAAAAAAAN    NAAAAAAAAAACHAV        CAACCAAC                ",
                 "                    KCAHFAHH       FHCAAAAAAAAAAV  X SAAACAAAAACAAN         CACAACAK                ",
-                "                    KCFFFAACX     HCCCAACAAAAAAA   X SAAAAACAAAACFC       SAAAAACACC                ",
+                "                    KCFFFAACX     HCCCAACAAAAAAA   X SAAACAAAAACAACFC       SAAAAACACC                ",
                 "                    FCFFCAACAS  X KCFCAAAAAAAAAA    XVAAAAAAACCAFHK     NAAAACACCACA                ",
                 "                   VCCFCCAACCCCACKSCFCFAAAAAAAAC    X ACAAAACAACCHP    SACAAAAACCACA                ",
                 "                   ACAFCCCCCC PAACCACAACCAAAAAAH      AAAAAACAACCFV  PCAAH NAACAAK F                ",
@@ -580,7 +601,7 @@ public class BattleManager {
                 "          ……       oÎöööööö©©  … oððêðÿðð§ö… ²¬¬†o¬¬²²¬†¬¬¬†o©©öööö©ððÿÿÿÿð§oÎ²²©ööo¬†²               ",
                 "                      … …     ©ððððððððððöo… … ……²¬†¬²……o¬oööööö©ððÿÿÿÿÿðÿÿÎ©oo©©o²…                ",
                 "                         …² öðððððððððÿððoö …  … …†oooo²†oo²………o†ÿðððÿÿÿðÿÿðÿö…   …                 ",
-                "                      …öðððêðÿðÿððððððððö†ö² …  ²©ööoöoo†©… ……²†¬Îðÿÿðÿÿðÿÿÿÿÿðöoo…                 ",
+                "                      …öðððêðÿðÿððððððððö†ö² …  ²©ööoöoo†©… ……²†¬Îðÿÿðÿÿÿÿÿÿðöoo…                 ",
                 "                    ¬ÿÿÿÿÿÿðêðððÿððððððÿ†o²²………²öÎ§öö©Î§©……†…†…†¬Îðððÿÿðÿÿÿÿÿÿððÿÿð§…               ",
                 "                 ¬§ÿÿÿÿÿÿÿðÿÿðððððððÿðÿ§¬†  ………©ÎÎÎ¬…ÎÎÎÎ§ … ……o†Îððÿÿÿððÿðððÿÿÿÿÿð§ÿ§…             ",
                 "            …o§ÿðÿÿÿÿÿÿÿÿÿÿÿðÿÿÿÿðððððÿððÎ¬†o†o†o©öö©††oöööo¬²††o†¬Îððððððððÿÿððÿÿÿÿÿÿÿÿÿÿ†           ",
@@ -603,7 +624,7 @@ public class BattleManager {
                 "             öÿÎ©ÎöoöÎ²²†………ðððêðððÿ§ÿðÿÿðÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿðððÿðððÿêðððððððÿ……©²†ðö©ÎÎÿ…            ",
                 "              †§Î§§ÿ§ÿö†………oðððÿðððÿ§ÿððÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿðÿÿÿðððððêððêððððððð¬……†……öÿ§ö              ",
                 "               …ÿÿÿ©¬…†………Îððððððÿÿ§ÿðÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿðÿÿðððððÿððêêðððððêö………²   …  …            ",
-                "             … … …   …†…²§ðððÿðððÿÿÿððÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿðÿðððÿðÿêêêêððððÿ………ö…    …             ",
+                "             … … …   …†…²§ðððÿðððÿÿÿððÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿðÿðððÿðÿêêêêððððÿ………ö…    …             ",
                 "                   …²²o¬ðÿððððððððÿðÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿðððððððÿðððÿÿðêêððððð§……†…†                 ",
                 "                     †©ððððððððððÿðÿððÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿðÿÿððÿðÿðð§ðððêêêðððÎ……¬†…                ",
                 "                    …§ðððððððððððÎÿðððÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿððÿððððððÿðÿððêêêêêðð§²…                  ",

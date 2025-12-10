@@ -19,26 +19,40 @@ public class PetaGame {
         lokasi3.nextLokasi = lokasi4;
         lokasi4.nextLokasi = lokasi5;
 
+// --- LOKASI 1: CASTLE (Boss: Death Knight) ---
+        lokasi1.Quest.setStartBoss("Death Knight"); // Set Boss Spesifik
         lokasi1.Quest.enqueue(new Quest("Pengumpulan Bahan", "SIDE", 
-            "Kumpulkan 5 herbal langka untuk penyembuh", "COLLECT", 100, null));
+            "Kumpulkan 5 herbal langka", "COLLECT", 100, null));
         lokasi1.Quest.enqueue(new Quest("Pembukaan Gerbang", "MAIN", 
-            "Kalahkan Death Knight untuk membuka gerbang istana", "BOSS", 500, "Double Strike"));
+            "Kalahkan Death Knight untuk membuka gerbang", "BOSS", 500, "Double Strike"));
+
+        // --- LOKASI 2: FOREST (Boss: Euroboros) ---
+        lokasi2.Quest.setStartBoss("Euroboros"); // Boss otomatis ganti ke Euroboros di sini
         lokasi2.Quest.enqueue(new Quest("Pembasmi Monster", "SIDE", 
-            "Kalahkan 10 monster kecil di hutan", "PUZZLE", 150, null));
+            "Kalahkan 10 monster kecil", "BOSS", 150, null));
         lokasi2.Quest.enqueue(new Quest("Misteri Hutan Terlarang", "MAIN", 
-            "Kalahkan Euroboros", "BOSS", 700, "Magic Shield"));
+            "Kalahkan Euroboros sang Naga Hutan", "BOSS", 700, "Magic Shield"));
+
+        // --- LOKASI 3: HILL (Boss: Omen) ---
+        lokasi3.Quest.setStartBoss("Omen"); // Boss ganti ke Omen
         lokasi3.Quest.enqueue(new Quest("Penjelajahan Gua", "SIDE", 
-            "Jelajahi seluruh area gua tersembunyi", "EXPLORE", 180, null));
+            "Jelajahi gua tersembunyi", "EXPLORE", 180, null));
         lokasi3.Quest.enqueue(new Quest("Mengungkap Misteri Danger Hill", "MAIN", 
-            "Kalahkan OMEN", "BOSS", 400, "Heal"));
-        lokasi4.Quest.enqueue(new Quest("Pengumpulan Bahan", "SIDE", 
-            "Kumpulkan 5 herbal langka untuk penyembuh", "COLLECT", 100, null));
+            "Kalahkan OMEN si Iblis Bukit", "BOSS", 400, "Heal"));
+
+        // --- LOKASI 4: ASTRAL (Boss: Chronos) ---
+        lokasi4.Quest.setStartBoss("Chronos"); // Boss ganti ke Chronos
+        lokasi4.Quest.enqueue(new Quest("Pengumpulan Mana", "SIDE", 
+            "Kumpulkan partikel astral", "COLLECT", 100, null));
         lokasi4.Quest.enqueue(new Quest("Konfrontasi Astral", "MAIN", 
-            "Hadapi Raja Astral di tahtanya", "BOSS", 1000, "Ultimate Skill"));
+            "Hadapi Chronos Penguasa Waktu", "BOSS", 1000, "Ultimate Skill"));
+
+        // --- LOKASI 5: DEATH LEAF (Boss: Aetherius) ---
+        lokasi5.Quest.setStartBoss("Aetherius"); // Final Boss
         lokasi5.Quest.enqueue(new Quest("Teka-teki Batu", "SIDE", 
-            "Selesaikan puzzle batu kuno untuk mendapat harta", "PUZZLE", 250, null));
+            "Selesaikan puzzle kuno", "PUZZLE", 250, null));
         lokasi5.Quest.enqueue(new Quest("Final Boss", "MAIN", 
-            "Hadapi Sisi Gelap dari dirimu sendiri", "BOSS", 2000, "Ultimate Skill"));
+            "Hadapi Sisi Gelap Aetherius", "BOSS", 2000, "God Mode"));
 
 
         // Castle → Forest (jalur normal)
