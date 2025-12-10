@@ -650,7 +650,7 @@ public class ManagePlayer {
                     System.out.print("Pilih lokasi (atau 0 untuk batal): ");
                     String locName = "";
                     try {
-                        locName = input.nextLine();
+                        locName = input.next();
                     } catch (Exception e) {
                         System.out.println("Input tidak valid!");
                         input.nextLine();
@@ -683,11 +683,11 @@ public class ManagePlayer {
 class manageBoss{
     Boss head;
     public void loadBoss(){
-        Boss bossmain1 = new Boss("Death Knight", 5000, 100, 80);
-        Boss bossmain2 = new Boss("Euroboros", 8000, 330, 100);
-        Boss bossmain3 = new Boss("Omen", 12000, 200, 470);
-        Boss bossmain4 = new Boss("Chronos", 20000, 550, 450);
-        Boss finalboss = new Boss("Aetherius", 40000, 800, 850);
+        Boss bossmain1 = new Boss("Death Knight", 1, 100, 80);
+        Boss bossmain2 = new Boss("Euroboros", 1, 330, 100);
+        Boss bossmain3 = new Boss("Omen", 1, 200, 470);
+        Boss bossmain4 = new Boss("Chronos", 1, 550, 450);
+        Boss finalboss = new Boss("Aetherius", 1, 800, 850);
         head = bossmain1;
         bossmain1.next = bossmain2;
         bossmain2.next = bossmain3;
