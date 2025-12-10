@@ -29,134 +29,219 @@ public class ManagePlayer {
     }
 
     public void buyweapon(SenjataShop shop){
-        int idsenjata;
         Character curr = head;
-        if(curr != null){
-            Weapon weaponToBuy;
-            //menentukan role senjata
-            shop.loadweapon();
-            if(curr.role.equals("Fighter")){  
-                shop.displayweapon(curr.role);
-                System.out.println("Mau yang mana senjatanya? :");
-                idsenjata = input.nextInt();
-                weaponToBuy = shop.getweaponfighter(idsenjata);
-            }else if(curr.role.equals("Magic")){
-                shop.displayweapon(curr.role);
-                System.out.println("Mau yang mana senjatanya? :");
-                idsenjata = input.nextInt();
-                weaponToBuy = shop.getweaponmagic(idsenjata);
-            }else if(curr.role.equals("Archer")){
-                shop.displayweapon(curr.role);
-                System.out.println("Mau yang mana senjatanya? :");
-                idsenjata = input.nextInt();
-                weaponToBuy = shop.getweaponarcher(idsenjata);
-            }else{
-                System.out.println("Role tidak tersedia!");
-                return;
-            }
-
-            //cek apakah sudah punya senjata yang sama
-            Weapon check = curr.weapon;
-            while(check != null){
-                if(check.id == idsenjata){
-                    System.out.println(curr.orang + " sudah memiliki senjata '" + idsenjata + "' !\nAnda tidak bisa membeli item yang sama");
-                    return;
-                }
-                check = check.next;
-            }
-            
-            //proses pembelian
-            if(weaponToBuy != null){
-                if(curr.gold >= weaponToBuy.cost){
-                    curr.gold -= weaponToBuy.cost;
-                    Weapon beli = new Weapon(weaponToBuy.namasenjata, weaponToBuy.role, weaponToBuy.physicaldamage, weaponToBuy.magicpower, weaponToBuy.cost, weaponToBuy.id);
-                    System.out.println(curr.orang + " membeli " + weaponToBuy.namasenjata + " seharga " + weaponToBuy.cost + " gold.");
-                    System.out.println("Gold " + curr.orang + " tersisa " + curr.gold + " gold.");
-                    if(curr.weapon == null){
-                        curr.weapon = beli;
-                    }else{
-                        Weapon current = curr.weapon;
-                        while(current.next != null){
-                            current = current.next;
-                        }
-                        current.next = beli;
-                    }
-                }else{
-                    System.out.println(curr.orang + " tidak cukup gold untuk membeli " + weaponToBuy.namasenjata + ".");
-                }
-            }else{
-                System.out.println("Senjata dengan id " + idsenjata + " tidak terdapat pada toko.");
-                return;
-            }
-            
-        }else{
+        if(curr == null){
             System.out.println("Player tidak ditemukan");
             return;
+        }
+        
+        boolean shoppingWeapon = true;
+        while(shoppingWeapon) {
+            System.out.println("\n++=============================================++");
+            System.out.println("||        TOKO SENJATA (Role: " + String.format("%-7s", curr.role) + ")      ||");
+            System.out.println("|| ------------------------------------------- ||");
+            System.out.println("||  GOLD ANDA SAAT INI : " + String.format("%-21d", curr.gold) + " ||");
+            System.out.println("++=============================================++");            
+            if(curr.role.equals("Fighter")) shop.displayweapon("Fighter");
+            else if(curr.role.equals("Magic")) shop.displayweapon("Magic");
+            else if(curr.role.equals("Archer")) shop.displayweapon("Archer");
+            else { 
+                System.out.println("Role error."); 
+                return; 
+            }
+
+            System.out.println("++---------------------------------------------++");
+            System.out.println("|| OPSI SORTING:                               ||");
+            System.out.println("|| [91] Harga Termurah   [92] Harga Termahal   ||");
+            System.out.println("|| [93] Damage Terbesar  [94] Magic Terbesar   ||");
+            System.out.println("||---------------------------------------------||");
+            System.out.println("|| KETIK ID BARANG UNTUK MEMBELI               ||");
+            System.out.println("|| KETIK 0 UNTUK KEMBALI                       ||");
+            System.out.println("++=============================================++");
+            System.out.print("Pilihan Anda >> ");
+            
+            int inputPilihan = input.nextInt();
+
+            if (inputPilihan == 0) {
+                shoppingWeapon = false;
+            }
+            else if (inputPilihan == 91) {
+                shop.sortWeapon(curr.role, 1);
+                System.out.println(">> List diurutkan: Harga Termurah.");
+            }
+            else if (inputPilihan == 92) {
+                shop.sortWeapon(curr.role, 2);
+                System.out.println(">> List diurutkan: Harga Termahal.");
+            }
+            else if (inputPilihan == 93) {
+                shop.sortWeapon(curr.role, 3);
+                System.out.println(">> List diurutkan: Physical Damage Terbesar.");
+            }
+            else if (inputPilihan == 94) {
+                shop.sortWeapon(curr.role, 4);
+                System.out.println(">> List diurutkan: Magic Power Terbesar.");
+            }
+            else {
+                int idsenjata = inputPilihan;
+                Weapon weaponToBuy = null;
+                
+                if(curr.role.equals("Fighter")) weaponToBuy = shop.getweaponfighter(idsenjata);
+                else if(curr.role.equals("Magic")) weaponToBuy = shop.getweaponmagic(idsenjata);
+                else if(curr.role.equals("Archer")) weaponToBuy = shop.getweaponarcher(idsenjata);
+
+                if(weaponToBuy != null) {
+                    boolean punya = false;
+                    Weapon check = curr.weapon;
+                    while(check != null){
+                        if(check.id == idsenjata){
+                            System.out.println(">> GAGAL: Anda sudah memiliki " + check.namasenjata + "!");
+                            punya = true;
+                            break;
+                        }
+                        check = check.next;
+                    }
+                    
+                    if(!punya){
+                        if(curr.gold >= weaponToBuy.cost){
+                            curr.gold -= weaponToBuy.cost;
+                            
+                            Weapon beli = new Weapon(weaponToBuy.namasenjata, weaponToBuy.role, 
+                                                     weaponToBuy.physicaldamage, weaponToBuy.magicpower, 
+                                                     weaponToBuy.cost, weaponToBuy.id);
+                            
+                            if(curr.weapon == null){
+                                curr.weapon = beli;
+                            } else {
+                                Weapon current = curr.weapon;
+                                while(current.next != null){
+                                    current = current.next;
+                                }
+                                current.next = beli;
+                            }
+                            System.out.println(">> SUKSES: Membeli " + weaponToBuy.namasenjata + "!");
+                        } else {
+                            System.out.println(">> GAGAL: Gold tidak cukup! (Kurang " + (weaponToBuy.cost - curr.gold) + ")");
+                        }
+                    }
+                } else {
+                    System.out.println(">> ERROR: Item dengan ID " + idsenjata + " tidak ditemukan.");
+                }
+                
+                try { Thread.sleep(1500); } catch(Exception e){}
+            }
         }
     }
 
     public void buyarmor(SenjataShop shop){
-        int idarmor;
         Character curr = head;
-        if(curr != null){
-            Armor Armortobuy;
-            shop.loadrmor();
-            shop.displayarmor();
-            System.out.println("Mau yang mana armornya? :");
-            idarmor = input.nextInt();
-            Armortobuy = shop.getArmor(idarmor);
-
-            //cek apakah sudah punya armor yang sama
-            Armor check = curr.armorplayer;
-            while(check != null){
-                if(check.id == idarmor){
-                    System.out.println(curr.orang + " sudah memiliki armor '" + check.namaarmor + "' !\nAnda tidak bisa membeli item yang sama");
-                    return;
-                }
-                check = check.next;
-            }
-            
-            //proses pembelian
-            if(Armortobuy != null){
-                if(curr.gold >= Armortobuy.cost){
-                    curr.gold -= Armortobuy.cost;
-                    Armor beli = new Armor(Armortobuy.namaarmor, Armortobuy.physicaldefense, Armortobuy.magicdefense, Armortobuy.cost, Armortobuy.id);
-                    System.out.println(curr.orang + " membeli " + Armortobuy.namaarmor + " seharga " + Armortobuy.cost + " gold.");
-                    System.out.println("Gold " + curr.orang + " tersisa " + curr.gold + " gold.");
-                    if(curr.armorplayer == null){
-                        curr.armorplayer = beli;
-                    }else{
-                        Armor current = curr.armorplayer;
-                        while(current.next != null){
-                            current = current.next;
-                        }
-                        current.next = beli;
-                    }
-                }else{
-                    System.out.println(curr.orang + " tidak cukup gold untuk membeli " + Armortobuy.namaarmor + ".");
-                }
-            }else{
-                System.out.println("Armor dengan id " + idarmor + " tidak terdapat pada toko.");
-                return;
-            }
-            
-        }else{
+        if(curr == null){
             System.out.println("Player tidak ditemukan");
             return;
         }
+
+        boolean shoppingArmor = true;
+        while(shoppingArmor) {
+            System.out.println("\n++=============================================++");
+            System.out.println("||              TOKO ARMOR (UMUM)              ||");
+            System.out.println("|| ------------------------------------------- ||");
+            System.out.println("||  GOLD ANDA SAAT INI : " + String.format("%-21d", curr.gold) + " ||");
+            System.out.println("++=============================================++");
+
+            shop.displayarmor(); 
+
+            System.out.println("++---------------------------------------------++");
+            System.out.println("|| OPSI SORTING:                               ||");
+            System.out.println("|| [91] Harga Termurah   [92] Harga Termahal   ||");
+            System.out.println("|| [93] Phys Def Besar   [94] Magic Def Besar  ||");
+            System.out.println("||---------------------------------------------||");
+            System.out.println("|| KETIK ID BARANG UNTUK MEMBELI               ||");
+            System.out.println("|| KETIK 0 UNTUK KEMBALI                       ||");
+            System.out.println("++=============================================++");
+            System.out.print("Pilihan Anda >> ");
+
+            int inputPilihan = 0;
+            try {
+                inputPilihan = input.nextInt();
+            } catch (Exception e) {
+                System.out.println("Input harus angka!");
+                input.nextLine(); 
+                continue;
+            }
+
+            if (inputPilihan == 0) {
+                shoppingArmor = false;
+            } 
+            else if (inputPilihan == 91) {
+                shop.sortArmor(1);
+                System.out.println(">> List Armor diurutkan: Harga Termurah.");
+            }
+            else if (inputPilihan == 92) {
+                shop.sortArmor(2);
+                System.out.println(">> List Armor diurutkan: Harga Termahal.");
+            }
+            else if (inputPilihan == 93) {
+                shop.sortArmor(3);
+                System.out.println(">> List Armor diurutkan: Physical Defense Terbesar.");
+            }
+            else if (inputPilihan == 94) {
+                shop.sortArmor(4);
+                System.out.println(">> List Armor diurutkan: Magic Defense Terbesar.");
+            }
+            else {
+                int idarmor = inputPilihan;
+                Armor armorToBuy = shop.getArmor(idarmor);
+
+                if (armorToBuy != null) {
+                    boolean punya = false;
+                    Armor check = curr.armorplayer;
+                    while(check != null){
+                        if(check.id == idarmor){
+                            System.out.println(">> GAGAL: Anda sudah memiliki " + check.namaarmor + "!");
+                            punya = true;
+                            break;
+                        }
+                        check = check.next;
+                    }
+
+                    if (!punya) {
+                        if (curr.gold >= armorToBuy.cost) {
+                            curr.gold -= armorToBuy.cost;
+                            
+                            Armor beli = new Armor(armorToBuy.namaarmor, armorToBuy.physicaldefense, 
+                                                   armorToBuy.magicdefense, armorToBuy.cost, armorToBuy.id);
+                            
+                            if (curr.armorplayer == null) {
+                                curr.armorplayer = beli;
+                            } else {
+                                Armor current = curr.armorplayer;
+                                while (current.next != null) {
+                                    current = current.next;
+                                }
+                                current.next = beli;
+                            }
+                            System.out.println(">> SUKSES: Membeli " + armorToBuy.namaarmor + "!");
+                        } else {
+                            System.out.println(">> GAGAL: Gold tidak cukup! (Kurang " + (armorToBuy.cost - curr.gold) + ")");
+                        }
+                    }
+                } else {
+                    System.out.println(">> ERROR: Armor dengan ID " + idarmor + " tidak ditemukan.");
+                }
+                
+                try { Thread.sleep(1000); } catch(Exception e){}
+            }
+        }
     }
 
-    public void sellweapon(){ //method baru
+    public void sellweapon(){ 
         int choice;
         Character curr = head;
         if(curr != null){
             Weapon weaponChar = curr.weapon;
-            //cek senjata yang dimiliki
             while(weaponChar != null){
                 System.out.println(weaponChar.namasenjata + " - " + weaponChar.cost + " - " + weaponChar.id);
                 weaponChar = weaponChar.next;
             }
-            //reset objek untuk memilih id
             weaponChar = curr.weapon;
 
             System.out.println("Ingin menjual senjata apa :");
@@ -167,7 +252,6 @@ public class ManagePlayer {
                 curr.weapon = weaponChar.next;
                 return;
             }
-            //cek data ditengah tengah
             while(weaponChar.next != null && weaponChar.next.id != choice){
                 weaponChar = weaponChar.next;
             }
@@ -188,12 +272,10 @@ public class ManagePlayer {
         Character curr = head;
         if(curr != null){
             Armor armorChar = curr.armorplayer;
-            //cek armor yang dimiliki
             while(armorChar != null){
                 System.out.println(armorChar.namaarmor + " - " + armorChar.cost + " - " + armorChar.id);
                 armorChar = armorChar.next;
             }
-            //reset objek untuk memilih id
             armorChar = curr.armorplayer;
             System.out.println("Ingin menjual armor mana : ");
             choice = input.nextInt();
@@ -203,7 +285,6 @@ public class ManagePlayer {
                     curr.armorplayer = armorChar.next;
                     return;
                 }
-                //cek data ditengah tengah
                 while(armorChar.next != null && armorChar.next.id != choice){
                     armorChar = armorChar.next;
                 }
@@ -274,7 +355,7 @@ public class ManagePlayer {
         boolean shopping = true;
         while (shopping) {
             System.out.println("\n++==========================================================++");
-            System.out.println("||                    WEAPON & ARMOR SHOP                   ||");
+            System.out.println("||                      WEAPON & ARMOR SHOP                   ||");
             System.out.println("++==========================================================++");
             System.out.println("|| Halo, " + String.format("%-15s", curr.orang) + " Gold Anda: " + String.format("%-14d", curr.gold) + " ||");
             System.out.println("++==========================================================++");
@@ -292,7 +373,7 @@ public class ManagePlayer {
                 choice = Integer.parseInt(input.next());
             } catch (Exception e) {
                 System.out.println("Input harus angka!");
-                input.nextLine(); // clear buffer
+                input.nextLine(); 
             }
 
             switch (choice) {
