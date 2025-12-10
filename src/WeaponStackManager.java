@@ -142,11 +142,13 @@ public class WeaponStackManager {
             idx++;
         }
 
-        System.out.print("Choose armor number: ");
+        System.out.print("Choose armor number: (0 untuk batal)");
         int choice = scanner.nextInt();
-        if (choice < 1 || choice >= idx) {
+        if (choice >= idx) {
             System.out.println("Invalid choice.");
             return;
+        }else{
+            System.out.println("Batal mengganti senjata");
         }
 
         // temukan selected node pada linked list karakter
@@ -186,7 +188,7 @@ public class WeaponStackManager {
         // push headCopy (old weapon) ke history
         push(headCopy);
 
-        System.out.println(character.orang + " successfully equipped: " + character.weapon.namasenjata);
+        System.out.println(character.orang + " successfully equipped: " + character.armorplayer.namaarmor);
     }
 
     // Tampilkan riwayat stack

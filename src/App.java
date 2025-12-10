@@ -90,6 +90,7 @@ public class App {
             // Pasang senjata/armor yang dibeli
             if(player.weaponStackManager != null) {
                 player.weaponStackManager.equipWeapon();
+                player.weaponStackManager.equipArmor();
             }
 
             // --- BAGIAN 3: GAME LOOP (QUEST -> MOVEMENT -> BATTLE -> REWARD -> REPEAT) ---
