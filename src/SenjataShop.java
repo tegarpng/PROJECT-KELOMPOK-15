@@ -106,10 +106,8 @@ public class SenjataShop {
             return;
         }
         
-        int count = 1;
         while(curr != null){
-            System.out.println(count +". "+ curr.namasenjata + " ==> Physical Damage : " + curr.physicaldamage + "|| Magic Power : " + curr.magicpower + "|| Cost : " + curr.cost + "|| ID : "+ curr.id);
-            count++;
+            System.out.println(curr.id +". "+ curr.namasenjata + " ==> Physical Damage : " + curr.physicaldamage + " || Magic Power : " + curr.magicpower + " || Cost : " + curr.cost + "|| ID : "+ curr.id);
             curr = curr.next;
         }
     }
