@@ -1,6 +1,14 @@
 import java.util.Scanner;
 
 public class App {
+    public static String repeatString(String str, int count) {
+        String result = "";
+        for(int i = 0; i < count; i++) {
+            result += str;
+        }
+        return result;
+    }
+
     public static void loadbanner(){
         System.out.println("++========================================================================================================================================================================++");
         System.out.println("|| :::::::::: ::::::::::: :::::::::: :::::::::  ::::    :::     :::     :::               ::::::::  :::    :::     :::     :::::::::   ::::::::  :::       :::  ::::::::  ||\r\n" + //
@@ -66,86 +74,122 @@ public class App {
 
             player.addplayer(nama, role);
             
-            // --- BAGIAN 2: SHOP PERTAMA (PERSIAPAN) ---
+            // --- BAGIAN 2: INISIALISASI PETA DAN LOKASI AWAL ---
             peta.listlokasi();
             // Set lokasi pemain di peta (mulai dari Castle)
             peta.setCurrentLocation(peta.cariLokasi("Castle"));
+            
+            System.out.println("\n=== SELAMAT DATANG DI GAME ===");
+            System.out.println("Anda telah tiba di Castle sebagai poin awal petualangan!");
             peta.yourcurrentlocation();
             
-            // Membuka menu shop. Player terjebak disini sampai memilih menu "0" (Lanjut)
+            // Membuka menu shop awal. Player berbelanja persiapan
+            System.out.println("\n--- SHOP PERSIAPAN AWAL ---");
             player.openShopMenu(shop);
 
-            // Otomatis pasang senjata/armor yang baru dibeli (opsional)
+            // Pasang senjata/armor yang dibeli
             if(player.weaponStackManager != null) {
                 player.weaponStackManager.equipWeapon();
             }
 
-            // --- BAGIAN 3: GAME LOOP (BATTLE -> REWARD -> SHOP -> NEXT BATTLE) ---
+            // --- BAGIAN 3: GAME LOOP (QUEST -> MOVEMENT -> BATTLE -> REWARD -> REPEAT) ---
             Boss currentBoss = bossManager.head; // Mulai dari boss pertama
             int stage = 1;
+            boolean gameRunning = true;
 
             // Loop ini akan berjalan selama masih ada Boss yang harus dikalahkan
-            while(currentBoss != null) {
+            while(gameRunning && currentBoss != null) {
                 
-                // 1. Tampilkan Banner Stage
-                System.out.println("\n\n");
-                System.out.println("#############################################");
-                System.out.println("          MEMASUKI STAGE " + stage + " : ARENA " + currentBoss.namaboss.toUpperCase());
-                System.out.println("#############################################");
-                System.out.println("Bersiaplah untuk bertarung...");
-                try { Thread.sleep(2000); } catch(Exception e){} // Jeda sebentar biar dramatis
+                // 1. STAGE QUEST - Player harus menyelesaikan semua quest di lokasi sebelum bertarung
+                System.out.println("\n\n===============================================");
+                System.out.println("     STAGE " + stage + " - QUEST DI " + peta.getCurrentLocation().nama.toUpperCase());
+                System.out.println("===============================================");
+                System.out.println("Sebelum menghadapi boss, selesaikan semua quest di lokasi ini!");
+                
+                // Player explore lokasi dan menjalankan quest
+                player.exploreLocation(peta);
 
-                // 2. MULAI BATTLE DISINI
-                // Method startBattle akan menjalankan pertarungan ronde demi ronde
-                // Jika menang, return true. Jika kalah, return false.
-                boolean win = battleManager.startBattle(player.head, currentBoss); // <--- INI KODE YANG MEMICU BATTLE
+                // Cek apakah semua quest selesai, jika belum ulangi
+                while(!peta.areAllQuestsCompleted()) {
+                    System.out.println("\nAnda belum menyelesaikan semua quest di lokasi ini!");
+                    System.out.println("Silakan kembali ke lokasi untuk menyelesaikan quest yang tersisa.");
+                    player.exploreLocation(peta);
+                }
 
-                // 3. Cek Hasil Battle
+                // 2. PERSIAPAN BATTLE
+                System.out.println("\n===============================================");
+                System.out.println("     ARENA PERTARUNGAN DENGAN " + currentBoss.namaboss.toUpperCase());
+                System.out.println("===============================================");
+                System.out.println("Semua quest selesai! Sekarang saatnya menghadapi boss...");
+                System.out.println("Bersiaplah untuk bertarung melawan: " + currentBoss.namaboss);
+                try { Thread.sleep(2000); } catch(Exception e){} 
+
+                // 3. MULAI BATTLE
+                boolean win = battleManager.startBattle(player.head, currentBoss);
+
+                // 4. CEK HASIL BATTLE
                 if (win) {
                     // --- JIKA MENANG ---
-                    System.out.println("\nVICTORY! " + currentBoss.namaboss + " Telah dikalahkan!");
+                    System.out.println("\n" + repeatString("=", 47));
+                    System.out.println("VICTORY! " + currentBoss.namaboss + " Telah dikalahkan!");
+                    System.out.println(repeatString("=", 47));
                     
-                    // Berikan Reward
+                    // Berikan Reward Gold
                     int rewardGold = 500 * stage;
                     player.head.gold += rewardGold;
-                    System.out.println("Reward: Anda mendapatkan " + rewardGold + " Gold!");
+                    System.out.println("Reward: " + rewardGold + " Gold!");
 
                     // Cek apakah ini boss terakhir?
                     if (currentBoss.next != null) {
                         System.out.println("\n--- ISTIRAHAT DI CAMP ---");
-                        System.out.println("Pedagang keliling menghampiri anda.");
-                        System.out.println("Gunakan Gold anda untuk persiapan boss selanjutnya!");
+                        System.out.println("Pedagang keliling menghampiri anda untuk berbisnis.");
+                        System.out.println("Gunakan Gold untuk persiapan boss selanjutnya!");
                         
-                        // Buka Shop Lagi sebelum lanjut ke boss berikutnya
+                        // Buka Shop sebelum pindah lokasi
                         player.openShopMenu(shop); 
                         
                         // Equip senjata baru jika ada
-                        player.weaponStackManager.equipWeapon();
+                        if(player.weaponStackManager != null) {
+                            player.weaponStackManager.equipWeapon();
+                        }
+                        
+                        // PINDAH KE LOKASI BERIKUTNYA (otomatis reset quest)
+                        String nextLocation = peta.getCurrentLocation().headJalur != null ? 
+                                               peta.getCurrentLocation().headJalur.tujuan.nama : null;
+                        if(nextLocation != null) {
+                            System.out.println("\n--- BERPERGIAN KE LOKASI BERIKUTNYA ---");
+                            peta.moveToLocation(nextLocation);
+                            peta.yourcurrentlocation();
+                        }
                         
                         // Pindah ke Boss Berikutnya
                         currentBoss = currentBoss.next;
                         stage++;
                     } else {
-                        // Boss Habis (Tamat)
-                        System.out.println("\n\n============================================");
-                        System.out.println("         SELAMAT! ANDA MENAMATKAN GAME      ");
-                        System.out.println("           SEMUA BOSS TELAH KALAH           ");
-                        System.out.println("============================================");
-                        break; // Keluar dari loop while
+                        // Boss Habis (Tamat Game)
+                        System.out.println("\n\n" + repeatString("=", 50));
+                        System.out.println("              SELAMAT! ANDA MENANG!            ");
+                        System.out.println("          SEMUA BOSS TELAH KALAH              ");
+                        System.out.println("           GAME SELESAI - TERIMA KASIH!        ");
+                        System.out.println(repeatString("=", 50));
+                        gameRunning = false;
                     }
 
                 } else {
                     // --- JIKA KALAH ---
-                    System.out.println("\nGAME OVER. Perjuangan anda terhenti di Stage " + stage);
-                    System.out.println("Silakan coba lagi dari awal.");
-                    break; // Keluar dari loop while
+                    System.out.println("\n" + repeatString("=", 47));
+                    System.out.println("             GAME OVER - ANDA KALAH!            ");
+                    System.out.println("   Perjuangan anda terhenti di Stage " + stage);
+                    System.out.println("        Silakan mainkan kembali dari awal        ");
+                    System.out.println(repeatString("=", 47));
+                    gameRunning = false;
                 }
             }
         }else if(choice == 2){
             System.out.println("Belum ada");
         }else{
-            input.close();
-            return;
+            System.out.println("Terima kasih telah bermain!");
         }
+        input.close();
     }
 }

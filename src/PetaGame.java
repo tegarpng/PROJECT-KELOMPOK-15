@@ -78,6 +78,91 @@ public class PetaGame {
         return c;
     }
 
+    public void doquest(Quest quest){
+        // Metode untuk memproses satu quest
+        if(quest == null) return;
+        String sep50 = "";
+        for(int i = 0; i < 50; i++) sep50 += "=";
+        System.out.println("\n" + sep50);
+        System.out.println("Mengerjakan Quest: " + quest.namaQuest);
+        System.out.println(quest.deskripsi);
+        System.out.println("Reward: " + quest.rewardGold + " Gold" + 
+                         (quest.rewardSkill != null ? " + " + quest.rewardSkill : ""));
+        System.out.println(sep50);
+        System.out.println("\nTekan ENTER untuk melanjutkan...");
+        new Scanner(System.in).nextLine();
+        
+        // Quest selesai
+        quest.selesai = true;
+        System.out.println("\n✓ Quest '" + quest.namaQuest + "' berhasil diselesaikan!");
+    }
+
+    // Cek apakah semua quest di lokasi saat ini sudah selesai
+    public boolean areAllQuestsCompleted(){
+        if(currentLocation == null) return false;
+        
+        Quest current = currentLocation.Quest.peek();
+        while(current != null){
+            if(!current.selesai){
+                return false;  // Ada quest yang belum selesai
+            }
+            current = current.next;
+        }
+        return true;  // Semua quest sudah selesai
+    }
+
+    // Hitung quest yang sudah selesai di lokasi saat ini
+    public int getCompletedQuestCount(){
+        if(currentLocation == null) return 0;
+        
+        int count = 0;
+        Quest current = currentLocation.Quest.peek();
+        while(current != null){
+            if(current.selesai) count++;
+            current = current.next;
+        }
+        return count;
+    }
+
+    // Hitung total quest di lokasi saat ini
+    public int getTotalQuestCount(){
+        if(currentLocation == null) return 0;
+        
+        int count = 0;
+        Quest current = currentLocation.Quest.peek();
+        while(current != null){
+            count++;
+            current = current.next;
+        }
+        return count;
+    }
+
+    // Tampilkan progress quest di lokasi saat ini
+    public void showQuestProgress(){
+        if(currentLocation == null){
+            System.out.println("Anda belum berada di lokasi manapun.");
+            return;
+        }
+        
+        int completed = getCompletedQuestCount();
+        int total = getTotalQuestCount();
+        
+        String sep60 = "";
+        for(int i = 0; i < 60; i++) sep60 += "=";
+        System.out.println("\n" + sep60);
+        System.out.println("LOKASI: " + currentLocation.nama);
+        System.out.println("PROGRESS QUEST: " + completed + "/" + total);
+        
+        if(completed == total && total > 0){
+            System.out.println("✓ SEMUA QUEST SELESAI! Anda bisa berpindah ke lokasi berikutnya.");
+        } else if(total == 0){
+            System.out.println("Tidak ada quest di lokasi ini.");
+        } else {
+            System.out.println("Masih ada " + (total - completed) + " quest yang perlu diselesaikan.");
+        }
+        System.out.println(sep60);
+    }
+
     // Tampilkan lokasi saat ini dan quest yang tersedia
     public void yourcurrentlocation(){
         if(currentLocation == null){
@@ -106,6 +191,16 @@ public class PetaGame {
     public boolean moveToLocation(String namaLokasi){
         if(currentLocation == null){
             System.out.println("Anda belum berada di lokasi manapun. Gunakan setCurrentLocation terlebih dahulu.");
+            return false;
+        }
+
+        // PENTING: Cek apakah semua quest di lokasi saat ini sudah selesai
+        if(!areAllQuestsCompleted()){
+            int completed = getCompletedQuestCount();
+            int total = getTotalQuestCount();
+            System.out.println("\n❌ Anda tidak bisa berpindah lokasi!");
+            System.out.println("Selesaikan semua quest di " + currentLocation.nama + " terlebih dahulu.");
+            System.out.println("Progress: " + completed + "/" + total + " quest selesai.");
             return false;
         }
 

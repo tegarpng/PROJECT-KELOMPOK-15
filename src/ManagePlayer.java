@@ -407,6 +407,126 @@ public class ManagePlayer {
             }
         }
     }
+
+    public void runAllQuestsAtCurrentLocation(PetaGame peta) {
+        Character curr = head;
+        if(curr == null) {
+            System.out.println("Player tidak ditemukan!");
+            return;
+        }
+
+        Lokasi currentLok = peta.getCurrentLocation();
+        if(currentLok == null) {
+            System.out.println("Lokasi tidak valid!");
+            return;
+        }
+
+        System.out.println("\n=== QUEST DI " + currentLok.nama + " ===");
+        currentLok.Quest.tampilkanQuestAktif();
+
+        boolean doingQuests = true;
+        while(doingQuests && !peta.areAllQuestsCompleted()) {
+            System.out.println("\n[1] Jalankan Quest");
+            System.out.println("[2] Lihat Progress");
+            System.out.println("[0] Kembali");
+            System.out.print("Pilihan: ");
+            
+            int choice = 0;
+            try {
+                choice = input.nextInt();
+            } catch (Exception e) {
+                System.out.println("Input harus angka!");
+                input.nextLine();
+                continue;
+            }
+
+            if(choice == 1) {
+                currentLok.Quest.prosesQuest(curr);
+                peta.doquest(null);
+                System.out.println("\nQuest diselesaikan!");
+                try { Thread.sleep(1500); } catch(Exception e) {}
+            }
+            else if(choice == 2) {
+                peta.showQuestProgress();
+            }
+            else if(choice == 0) {
+                doingQuests = false;
+            }
+            else {
+                System.out.println("Pilihan tidak valid!");
+            }
+        }
+
+        if(peta.areAllQuestsCompleted()) {
+            System.out.println("\n*** SEMUA QUEST DI " + currentLok.nama + " SELESAI! ***");
+            System.out.println("Anda sekarang dapat berpindah ke lokasi lain.");
+        }
+    }
+
+    public void exploreLocation(PetaGame peta) {
+        Character curr = head;
+        if(curr == null) {
+            System.out.println("Player tidak ditemukan!");
+            return;
+        }
+
+        boolean exploring = true;
+        while(exploring) {
+            Lokasi currentLok = peta.getCurrentLocation();
+            System.out.println("\n=== LOKASI: " + currentLok.nama + " ===");
+            
+            System.out.println("\n[1] Jalankan Quest Lokasi");
+            System.out.println("[2] Pindah Lokasi");
+            System.out.println("[3] Lihat Status Pemain");
+            System.out.println("[4] Lihat Peta");
+            System.out.println("[0] Kembali");
+            System.out.print("Pilihan: ");
+            
+            int choice = 0;
+            try {
+                choice = input.nextInt();
+            } catch (Exception e) {
+                System.out.println("Input harus angka!");
+                input.nextLine();
+                continue;
+            }
+
+            switch(choice) {
+                case 1:
+                    runAllQuestsAtCurrentLocation(peta);
+                    break;
+                case 2:
+                    System.out.print("Pilih lokasi (atau 0 untuk batal): ");
+                    String locName = "";
+                    try {
+                        locName = input.next();
+                    } catch (Exception e) {
+                        System.out.println("Input tidak valid!");
+                        input.nextLine();
+                        break;
+                    }
+                    
+                    if(locName.equals("0")) {
+                        System.out.println("Dibatalkan.");
+                        break;
+                    }
+                    
+                    peta.moveToLocation(locName);
+                    break;
+                case 3:
+                    displayfighter();
+                    break;
+                case 4:
+                    peta.displayMap();
+                    break;
+                case 0:
+                    exploring = false;
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid!");
+            }
+        }
+    }
 }
 
 class manageBoss{

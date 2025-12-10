@@ -12,6 +12,7 @@ public class Character {
     Weapon weapon;
     Armor armorplayer;
     SkillList mySkills;
+    ManagePlayer managePlayer;
     
     public Character(String orang, int health, String role, int physicaldamage, int magicpower, int physicaldefense, int magicdefense) {
         this.orang = orang;
@@ -23,6 +24,7 @@ public class Character {
         this.physicaldefense = physicaldefense;
         this.magicdefense = magicdefense;
         this.mySkills = new SkillList();
+        this.managePlayer = new ManagePlayer();
         this.weapon = null;
         this.armorplayer = null;
         this.next = null;

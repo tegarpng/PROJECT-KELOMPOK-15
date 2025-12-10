@@ -167,7 +167,7 @@ public class BattleManager {
         printBossArt(b.namaboss);
         
         System.out.println(border);
-        System.out.println("| " + CYAN + p.orang + RESET + " | HP: " + p.health + " | MP: " + p.magicpower); 
+        System.out.println("| " + CYAN + p.orang + RESET + " | HP: " + p.health + " | PHYSICAL DAMAGE: " + (p.physicaldamage + p.weapon.physicaldamage) + " | MAGIC POWER: " + p.magicpower); 
         System.out.println(border);
         
         if (turnName.equals("PLAYER")) {

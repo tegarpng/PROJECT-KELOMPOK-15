@@ -7,7 +7,7 @@ public class SenjataShop {
 
     public void loadweapon(){
         Weapon weapon1 = new Weapon("Garnok's Fist", "Fighter", 20, 0, 50, 1);
-        Weapon weapon2 = new Weapon("Zephyrum Cleaver", "Fighter", 20, 0, 230, 2);
+        Weapon weapon2 = new Weapon("Zephyrum Cleaver", "Fighter", 40, 0, 230, 2);
         Weapon weapon3 = new Weapon("Vat'gir Jawblade", "Fighter", 20, 0, 478, 3);
         Weapon weapon4 = new Weapon("Kraken's Gavel", "Fighter", 20, 0, 650, 4);
         Weapon weapon5 = new Weapon("Whisperwire Cord", "Archer", 20, 0, 50, 1);
