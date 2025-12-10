@@ -650,7 +650,7 @@ public class ManagePlayer {
                     System.out.print("Pilih lokasi (atau 0 untuk batal): ");
                     String locName = "";
                     try {
-                        locName = input.next();
+                        locName = input.nextLine();
                     } catch (Exception e) {
                         System.out.println("Input tidak valid!");
                         input.nextLine();
