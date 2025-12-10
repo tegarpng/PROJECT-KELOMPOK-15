@@ -18,6 +18,7 @@ public class PetaGame {
         lokasi2.nextLokasi = lokasi3;
         lokasi3.nextLokasi = lokasi4;
         lokasi4.nextLokasi = lokasi5;
+        lokasi5.nextLokasi = null;
 
 // --- LOKASI 1: CASTLE (Boss: Death Knight) ---
         lokasi1.Quest.setStartBoss("Death Knight"); // Set Boss Spesifik
