@@ -143,11 +143,6 @@ public class App {
                         // Buka Shop sebelum pindah lokasi
                         player.openShopMenu(shop); 
                         
-                        // Equip senjata baru jika ada
-                        if(player.weaponStackManager != null) {
-                            player.weaponStackManager.equipWeapon();
-                        }
-                        
                         // PINDAH KE LOKASI BERIKUTNYA (otomatis reset quest)
                         String nextLocation = peta.getCurrentLocation().headJalur != null ? 
                                                peta.getCurrentLocation().headJalur.tujuan.nama : null;

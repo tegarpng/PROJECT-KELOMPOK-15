@@ -96,10 +96,6 @@ public class BattleManager {
                 // Hitung Defense Player
                 int pPhysDef = player.physicaldefense + ((player.armorplayer != null) ? player.armorplayer.physicaldefense : 0);
                 int pMagDef = player.magicdefense + ((player.armorplayer != null) ? player.armorplayer.magicdefense : 0);
-
-                // LOGIKA: HP < 50% = Magic (Ultimate), HP > 50% = Physical (Attack)
-                // Note: Karena HP Boss diset 1, maxBossHP/2 = 0. Jadi logic akan masuk ke 'else' (Physical)
-                // kecuali Anda nanti mengubah HP Boss menjadi angka besar lagi.
                 
                 if (currentBossHP < (maxBossHP / 2)) {
                     // FASE 2: ULTIMATE (MAGIC)

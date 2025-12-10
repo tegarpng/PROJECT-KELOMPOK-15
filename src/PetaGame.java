@@ -29,7 +29,7 @@ public class PetaGame {
         // --- LOKASI 2: FOREST (Boss: Euroboros) ---
         lokasi2.Quest.setStartBoss("Euroboros"); // Boss otomatis ganti ke Euroboros di sini
         lokasi2.Quest.enqueue(new Quest("Pembasmi Monster", "SIDE", 
-            "Kalahkan 10 monster kecil", "BOSS", 150, null));
+            "Kalahkan 10 monster kecil", "PUZZLE", 150, null));
         lokasi2.Quest.enqueue(new Quest("Misteri Hutan Terlarang", "MAIN", 
             "Kalahkan Euroboros sang Naga Hutan", "BOSS", 700, "Magic Shield"));
 

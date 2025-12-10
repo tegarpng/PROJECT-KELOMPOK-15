@@ -123,6 +123,7 @@ public class QuestQueue {
                 case "PUZZLE":
                     System.out.println("\nMemecahkan puzzle...");
                     if (pecahkanPuzzle()) {
+                        System.out.println("Puzzle terpecahkan!");
                         success = true;
                     } else {
                         System.out.println("Puzzle belum terpecahkan!");
@@ -131,6 +132,7 @@ public class QuestQueue {
                 case "COLLECT":
                     System.out.println("\nMengumpulkan item...");
                     if (kumpulkanItem()) {
+                        System.out.println("Item sudah lengkap!");
                         success = true;
                     } else {
                         System.out.println("Item belum lengkap!");
@@ -139,6 +141,7 @@ public class QuestQueue {
                 case "EXPLORE":
                     System.out.println("\nMenjelajahi area...");
                     if (jelajahiArea()) {
+                        System.out.println("Area sudah sepenuhnya dijelajahi!");
                         success = true;
                     } else {
                         System.out.println("Area belum sepenuhnya dijelajahi!");
@@ -287,7 +290,7 @@ public void setStartBoss(String bossName) {
         }
         System.out.println("++============================================================++");
         
-        dequeue(); // Hapus dari antrian
+        dequeue();
     }
     
     // Tampilkan statistik quest

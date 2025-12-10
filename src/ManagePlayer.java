@@ -594,7 +594,6 @@ public class ManagePlayer {
 
             if(choice == 1) {
                 currentLok.Quest.prosesQuest(curr);
-                System.out.println("\nQuest diselesaikan!");
                 try { Thread.sleep(1500); } catch(Exception e) {}
             }
             else if(choice == 2) {
