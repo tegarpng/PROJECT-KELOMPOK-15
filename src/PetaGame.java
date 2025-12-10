@@ -24,7 +24,7 @@ public class PetaGame {
         lokasi1.Quest.enqueue(new Quest("Pembukaan Gerbang", "MAIN", 
             "Kalahkan Death Knight untuk membuka gerbang istana", "BOSS", 500, "Double Strike"));
         lokasi2.Quest.enqueue(new Quest("Pembasmi Monster", "SIDE", 
-            "Kalahkan 10 monster kecil di hutan", "BOSS", 150, null));
+            "Kalahkan 10 monster kecil di hutan", "PUZZLE", 150, null));
         lokasi2.Quest.enqueue(new Quest("Misteri Hutan Terlarang", "MAIN", 
             "Kalahkan Euroboros", "BOSS", 700, "Magic Shield"));
         lokasi3.Quest.enqueue(new Quest("Penjelajahan Gua", "SIDE", 
