@@ -176,7 +176,24 @@ public class App {
                 }
             }
         }else if(choice == 2){
-            System.out.println("Belum ada");
+            System.out.println("Anda adalah seorang pahlawan (Fighter/Mage/Archer) yang kembali ke tanah kelahiran setelah sekian lama, hanya untuk menemukan kerajaan Anda telah hancur. Sebuah kekuatan");
+            System.out.println("jahat telah merebut tahta dan membagi wilayah kerajaan menjadi zona-zona berbahaya yang dikuasai oleh para jenderal iblis. Misi Anda hanyalah satu: Pembalasan Dendam");
+            System.out.println("dan merebut kembali kerajaan yang menjadi hak Anda.");
+            System.out.println("Dibuat oleh Mahasiswa Angkatad 24 untuk memenuhi tugas projek ALGODAT:");
+            System.out.println("Nama : LALU TAUFIK DEWO BAYUAJI");
+            System.out.println("NIM  : F1D02410069");
+            System.out.println("Nama : MUHAMMAD TEGAR BIJANTA");
+            System.out.println("NIM  : F1D02410081");
+            System.out.println("Nama : REVANO JANUAR ADIGUNA PRAWIRA");
+            System.out.println("NIM  : F1D02410146");
+            System.out.println("Nama : NYOMAN ADHI DHIRA PURNOMO ");
+            System.out.println("NIM  : F1D02410132");
+            System.out.println("Nama : IMAS NAZALIA RAHMAWATI");
+            System.out.println("NIM  : F1D02410055");
+            System.out.println("Nama : ANNISA MAKARIMA AHLAQ");
+            System.out.println("NIM  : F1D02410106");
+            System.out.println("Nama : BAIQ SABRINA RAMADHANI");
+            System.out.println("NIM  : F1D02410040");
         }else{
             System.out.println("Terima kasih telah bermain!");
         }

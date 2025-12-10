@@ -11,7 +11,7 @@ public class PetaGame {
         Lokasi lokasi2 = new Lokasi("Forest");
         Lokasi lokasi3 = new Lokasi("Hill");
         Lokasi lokasi4 = new Lokasi("Astral");
-        Lokasi lokasi5 = new Lokasi("Death Leaf");
+        Lokasi lokasi5 = new Lokasi("Purgatory");
 
         head = lokasi1;
         lokasi1.nextLokasi = lokasi2;
