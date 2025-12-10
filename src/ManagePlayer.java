@@ -264,6 +264,67 @@ public class ManagePlayer {
             curr = curr.next;
         }
     }
+    public void openShopMenu(SenjataShop shop) {
+        Character curr = head;
+        if (curr == null) {
+            System.out.println("Error: Player belum dibuat!");
+            return;
+        }
+
+        boolean shopping = true;
+        while (shopping) {
+            System.out.println("\n++==========================================================++");
+            System.out.println("||                    WEAPON & ARMOR SHOP                   ||");
+            System.out.println("++==========================================================++");
+            System.out.println("|| Halo, " + String.format("%-15s", curr.orang) + " Gold Anda: " + String.format("%-14d", curr.gold) + " ||");
+            System.out.println("++==========================================================++");
+            System.out.println("|| 1. Beli Senjata (Weapon)                                 ||");
+            System.out.println("|| 2. Beli Armor                                            ||");
+            System.out.println("|| 3. Jual Senjata                                          ||");
+            System.out.println("|| 4. Jual Armor                                            ||");
+            System.out.println("|| 5. Cek Inventory (Status)                                ||");
+            System.out.println("|| 0. Keluar dari Shop                                      ||");
+            System.out.println("++==========================================================++");
+            System.out.print("Pilihan Anda >> ");
+            
+            int choice = -1;
+            try {
+                choice = Integer.parseInt(input.next());
+            } catch (Exception e) {
+                System.out.println("Input harus angka!");
+                input.nextLine(); // clear buffer
+            }
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\n--- MEMBELI SENJATA ---");
+                    buyweapon(shop);
+                    break;
+                case 2:
+                    System.out.println("\n--- MEMBELI ARMOR ---");
+                    buyarmor(shop);
+                    break;
+                case 3:
+                    System.out.println("\n--- MENJUAL SENJATA ---");
+                    sellweapon();
+                    break;
+                case 4:
+                    System.out.println("\n--- MENJUAL ARMOR ---");
+                    sellArmor();
+                    break;
+                case 5:
+                    System.out.println("\n--- STATUS PEMAIN ---");
+                    displayfighter();
+                    break;
+                case 0:
+                    System.out.println("Terima kasih sudah berkunjung!");
+                    shopping = false;
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid.");
+            }
+        }
+    }
 }
 
 class manageBoss{
