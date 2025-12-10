@@ -78,7 +78,7 @@ public class WeaponStackManager {
         }
 
         System.out.println("\n========== EQUIP WEAPON ==========");
-        System.out.println("Currently equipped: " + character.weapon.namasenjata);
+        System.out.println("Currently equipped: " + character.weapon.namasenjata + " ==> Physical Damage : " + character.weapon.physicaldamage + " || Magic Power : " + character.weapon.magicpower);
         System.out.println("\nAvailable weapons to equip:");
 
         Weapon cursor = character.weapon.next;
@@ -89,7 +89,7 @@ public class WeaponStackManager {
             return;
         }
         while (cursor != null) {
-            System.out.println(idx + ". " + cursor.namasenjata + " (Phys: " + cursor.physicaldamage + " - Mag: " + cursor.magicpower + ")");
+            System.out.println(idx + ". " + cursor.namasenjata + " (Physical Damage: " + cursor.physicaldamage + " - Magic Power: " + cursor.magicpower + ")");
             cursor = cursor.next;
             idx++;
         }
@@ -158,7 +158,7 @@ public class WeaponStackManager {
         }
 
         System.out.println("\n========== EQUIP ARMOR ==========");
-        System.out.println("Currently equipped: " + character.armorplayer.namaarmor);
+        System.out.println("Currently equipped: " + character.armorplayer.namaarmor + " ==> Physical Defense : " + character.armorplayer.physicaldefense + " || Magic Defense : " + character.armorplayer.magicdefense);
         System.out.println("\nAvailable armor to equip:");
 
         Armor cursor = character.armorplayer.next;
@@ -231,10 +231,6 @@ public class WeaponStackManager {
     // FUNGSI UNDO (menggunakan POP)
     // =======================================================
     
-    /**
-     * Mengembalikan senjata karakter ke senjata yang terakhir kali diganti (Undo).
-     * Senjata yang saat ini terpasang akan di-push kembali ke history.
-     */
     public void undoEquipWeapon() {
         if (isWeaponHistoryEmpty()) {
             System.out.println("No weapon history available to undo.");
@@ -282,10 +278,7 @@ public class WeaponStackManager {
         System.out.println("Undo successful! " + character.orang + " now equips: " + character.weapon.namasenjata);
     }
     
-    /**
-     * Mengembalikan armor karakter ke armor yang terakhir kali diganti (Undo).
-     * Armor yang saat ini terpasang akan di-push kembali ke history.
-     */
+
     public void undoEquipArmor() {
         if (isArmorHistoryEmpty()) {
             System.out.println("No armor history available to undo.");

@@ -466,7 +466,7 @@ public class ManagePlayer {
                     weaponStackManager.equipWeapon();
                     break;
                 case 2:
-                    weaponStackManager.undoEquipWeapon(); // PENGGUNAAN POP!
+                    weaponStackManager.undoEquipWeapon();
                     break;
                 case 3:
                     weaponStackManager.showWeaponHistory();
@@ -475,7 +475,7 @@ public class ManagePlayer {
                     weaponStackManager.equipArmor();
                     break;
                 case 5:
-                    weaponStackManager.undoEquipArmor(); // PENGGUNAAN POP!
+                    weaponStackManager.undoEquipArmor();
                     break;
                 case 6:
                     weaponStackManager.showArmorHistory();

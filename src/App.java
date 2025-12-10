@@ -87,12 +87,6 @@ public class App {
             System.out.println("\n--- SHOP PERSIAPAN AWAL ---");
             player.openShopMenu(shop);
 
-            // Pasang senjata/armor yang dibeli
-            if(player.weaponStackManager != null) {
-                player.weaponStackManager.equipWeapon();
-                player.weaponStackManager.equipArmor();
-            }
-
             // --- BAGIAN 3: GAME LOOP (QUEST -> MOVEMENT -> BATTLE -> REWARD -> REPEAT) ---
             Boss currentBoss = bossManager.head; // Mulai dari boss pertama
             int stage = 1;
