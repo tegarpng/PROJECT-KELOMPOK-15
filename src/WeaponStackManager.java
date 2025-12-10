@@ -24,8 +24,8 @@ public class WeaponStackManager {
         if (armor == null) return;
         // buat salinan supaya stack terpisah dari linked list utama
         Armor copy = new Armor(armor.namaarmor, armor.physicaldefense, armor.magicdefense, armor.cost, armor.id);
-        copy.next = armor;
-        armor = copy;
+        copy.next = temparmor;
+        temparmor = copy;
     }
 
     // POP stack
