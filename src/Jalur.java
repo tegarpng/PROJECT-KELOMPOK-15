@@ -9,3 +9,17 @@ public class Jalur {
         this.next = null;
     }
 }
+
+class Lokasi {
+    String nama;
+    Jalur headJalur;
+    Lokasi nextLokasi;
+    QuestQueue Quest;
+
+    public Lokasi(String nama) {
+        this.nama = nama;
+        this.headJalur = null;
+        this.nextLokasi = null;
+        this.Quest = new QuestQueue();
+    }
+}

@@ -6,18 +6,18 @@ public class SenjataShop {
     Weapon head;
 
     public void loadweapon(){
-        Weapon weapon1 = new Weapon("Garnok's Fist", "Fighter", 20, 0, 50, 1);
-        Weapon weapon2 = new Weapon("Zephyrum Cleaver", "Fighter", 40, 0, 230, 2);
-        Weapon weapon3 = new Weapon("Vat'gir Jawblade", "Fighter", 20, 0, 478, 3);
-        Weapon weapon4 = new Weapon("Kraken's Gavel", "Fighter", 20, 0, 650, 4);
-        Weapon weapon5 = new Weapon("Whisperwire Cord", "Archer", 20, 0, 50, 1);
-        Weapon weapon6 = new Weapon("Thrynne's Shard", "Archer", 20, 0, 300, 2);
-        Weapon weapon7 = new Weapon("Aethelwin", "Archer", 20, 0, 520, 3);
-        Weapon weapon8 = new Weapon("Voidlash", "Archer", 20, 0, 680, 4);
-        Weapon weapon9 = new Weapon("Ostracon of Yl'geth", "Magic", 20, 0, 50, 1);
-        Weapon weapon10 = new Weapon("Kyanix Prism", "Magic", 20, 0, 278, 2);
-        Weapon weapon11 = new Weapon("Voidalith Shard", "Magic", 20, 0, 450, 3);
-        Weapon weapon12 = new Weapon("Zir'ael Focus", "Magic", 20, 0, 700, 4);
+        Weapon weapon1 = new Weapon("Garnok's Fist", "Fighter", 700, 0, 50, 1);
+        Weapon weapon2 = new Weapon("Zephyrum Cleaver", "Fighter", 1300, 0, 230, 2);
+        Weapon weapon3 = new Weapon("Vat'gir Jawblade", "Fighter", 3000, 0, 478, 3);
+        Weapon weapon4 = new Weapon("Kraken's Gavel", "Fighter", 5000, 0, 650, 4);
+        Weapon weapon5 = new Weapon("Whisperwire Cord", "Archer", 450, 350, 50, 1);
+        Weapon weapon6 = new Weapon("Thrynne's Shard", "Archer", 750, 450, 300, 2);
+        Weapon weapon7 = new Weapon("Aethelwin", "Archer", 1700, 1800, 520, 3);
+        Weapon weapon8 = new Weapon("Voidlash", "Archer", 3000, 2500, 680, 4);
+        Weapon weapon9 = new Weapon("Ostracon of Yl'geth", "Magic", 0, 700, 50, 1);
+        Weapon weapon10 = new Weapon("Kyanix Prism", "Magic", 0, 1300, 278, 2);
+        Weapon weapon11 = new Weapon("Voidalith Shard", "Magic", 0, 3000, 450, 3);
+        Weapon weapon12 = new Weapon("Zir'ael Focus", "Magic", 0, 5000, 700, 4);
 
         headfighter = weapon1;
         weapon1.next = weapon2;
@@ -36,11 +36,11 @@ public class SenjataShop {
     }
 
     public void loadrmor(){
-        Armor armor1 = new Armor("Steel Armor", 10, 5, 20, 1);
-        Armor armor2 = new Armor("Dragon Scale", 25, 20, 70, 2);
-        Armor armor3 = new Armor("Mystic Robe", 10, 30, 0, 3);
-        Armor armor4 = new Armor("Black Knight Armor", 10, 30, 0, 4);
-        Armor armor5 = new Armor("Abyssal Armor", 10, 30, 0, 5);
+        Armor armor1 = new Armor("Steel Armor", 250, 120, 50, 1);
+        Armor armor2 = new Armor("Dragon Scale", 500, 300, 120, 2);
+        Armor armor3 = new Armor("Mystic Robe", 700, 500, 500, 3);
+        Armor armor4 = new Armor("Black Knight Armor", 1000, 750, 750, 4);
+        Armor armor5 = new Armor("Abyssal Armor", 1400, 1200, 900, 5);
 
         headarmor = armor1;
         armor1.next = armor2;
@@ -107,17 +107,15 @@ public class SenjataShop {
         }
         
         while(curr != null){
-            System.out.println(curr.id +". "+ curr.namasenjata + " ==> Physical Damage : " + curr.physicaldamage + " || Magic Power : " + curr.magicpower + " || Cost : " + curr.cost + "|| ID : "+ curr.id);
+            System.out.println(curr.id +". "+ curr.namasenjata + " ==> Physical Damage : " + curr.physicaldamage + " || Magic Power : " + curr.magicpower + " || Cost : " + curr.cost);
             curr = curr.next;
         }
     }
 
     public void displayarmor(){
         Armor curr = headarmor;
-        int count = 1;
         while(curr != null){
-            System.out.println(count +". "+ curr.namaarmor + " Physical Defense : " + curr.physicaldefense + " Magic Defense : " + curr.magicdefense + " Cost : " + curr.cost + " ID : " + curr.id);
-            count++;
+            System.out.println(curr.id +". "+ curr.namaarmor + "==> Physical Defense : " + curr.physicaldefense + " || Magic Defense : " + curr.magicdefense + " || Cost : " + curr.cost);
             curr = curr.next;
         }
     }

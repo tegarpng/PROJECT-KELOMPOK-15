@@ -4,6 +4,7 @@ public class WeaponStackManager {
     Character character;
     Weapon tempsenjata;
     Weapon senjatanow;
+    Armor temparmor;
     Scanner scanner = new Scanner(System.in);
 
     public WeaponStackManager(Character character) {
@@ -17,6 +18,14 @@ public class WeaponStackManager {
         Weapon copy = new Weapon(senjata.namasenjata, senjata.role, senjata.physicaldamage, senjata.magicpower, senjata.cost, senjata.id);
         copy.next = tempsenjata;
         tempsenjata = copy;
+    }
+
+    public void push(Armor armor) {
+        if (armor == null) return;
+        // buat salinan supaya stack terpisah dari linked list utama
+        Armor copy = new Armor(armor.namaarmor, armor.physicaldefense, armor.magicdefense, armor.cost, armor.id);
+        copy.next = armor;
+        armor = copy;
     }
 
     // POP stack
@@ -109,7 +118,76 @@ public class WeaponStackManager {
         System.out.println(character.orang + " successfully equipped: " + character.weapon.namasenjata);
     }
 
-    // Remove and return the original Weapon (not a copy) from character linked list by id (searches head.next onward
+    public void equipArmor() {
+        if (character == null || character.armorplayer == null) {
+            System.out.println("No armors available to equip!");
+            return;
+        }
+
+        System.out.println("\n========== EQUIP ARMOR ==========");
+        System.out.println("Currently equipped: " + character.armorplayer.namaarmor);
+        System.out.println("\nAvailable armor to equip:");
+
+        // tampilkan semua weapon kecuali head
+        Armor cursor = character.armorplayer.next;
+        int idx = 1;
+        if (cursor == null) {
+            System.out.println("No other armor available.");
+            System.out.println("==================================\n");
+            return;
+        }
+        while (cursor != null) {
+            System.out.println(idx + ". " + cursor.namaarmor + " Physical Defense :" + cursor.physicaldefense + " - Magic Defense : " + cursor.magicdefense + ")");
+            cursor = cursor.next;
+            idx++;
+        }
+
+        System.out.print("Choose armor number: ");
+        int choice = scanner.nextInt();
+        if (choice < 1 || choice >= idx) {
+            System.out.println("Invalid choice.");
+            return;
+        }
+
+        // temukan selected node pada linked list karakter
+        Armor selected = character.armorplayer.next;
+        int count = 1;
+        while (selected != null && count < choice) {
+            selected = selected.next;
+            count++;
+        }
+        if (selected == null) {
+            System.out.println("Armor not found.");
+            return;
+        }
+
+        // buat salinan dari head untuk history
+        Armor headCopy = new Armor(character.armorplayer.namaarmor, character.armorplayer.physicaldefense, character.armorplayer.magicdefense, character.armorplayer.cost, character.armorplayer.id);
+
+        // swap data antara head dan selected
+        String tmpName = character.armorplayer.namaarmor;
+        int tmpPhys = character.armorplayer.physicaldefense;
+        int tmpMag = character.armorplayer.magicdefense;
+        int tmpCost = character.armorplayer.cost;
+        int tmpId = character.armorplayer.id;
+
+        character.armorplayer.namaarmor = selected.namaarmor;
+        character.armorplayer.physicaldefense = selected.physicaldefense;
+        character.armorplayer.magicdefense = selected.magicdefense;
+        character.armorplayer.cost = selected.cost;
+        character.armorplayer.id = selected.id;
+
+        selected.namaarmor = tmpName;
+        selected.physicaldefense = tmpPhys;
+        selected.magicdefense = tmpMag;
+        selected.cost = tmpCost;
+        selected.id = tmpId;
+
+        // push headCopy (old weapon) ke history
+        push(headCopy);
+
+        System.out.println(character.orang + " successfully equipped: " + character.weapon.namasenjata);
+    }
 
     // Tampilkan riwayat stack
     public void showWeaponHistory() {
