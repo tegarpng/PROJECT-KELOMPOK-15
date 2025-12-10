@@ -108,7 +108,7 @@ public class SenjataShop {
         
         int count = 1;
         while(curr != null){
-            System.out.println(count +". "+ curr.namasenjata + " Damage : " + curr.physicaldamage + " Magic Power : " + curr.magicpower + " Cost : " + curr.cost + " ID : "+ curr.id);
+            System.out.println(count +". "+ curr.namasenjata + " Physical Damage : " + curr.physicaldamage + "|| Magic Power : " + curr.magicpower + "|| Cost : " + curr.cost + "|| ID : "+ curr.id);
             count++;
             curr = curr.next;
         }
