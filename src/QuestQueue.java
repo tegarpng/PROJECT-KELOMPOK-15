@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class QuestQueue {
     private Quest front;
     private Quest rear;
+    private PetaGame peta;
     private Scanner input;
     
     public QuestQueue() {
@@ -50,7 +51,7 @@ public class QuestQueue {
     public void inisialisasiQuest() {
         // MAIN QUESTS
         enqueue(new Quest("Pembukaan Gerbang", "MAIN", 
-            "Kalahkan Death Knight untuk membuka gerbang istana", "BOSS", 500, "Double Strike"));
+            "Kalahkan Death Knight untuk membuka gerbang istana", "BOSS", 500, "Double Strike"));      
         enqueue(new Quest("Misteri Hutan Terlarang", "MAIN",
             "Kalahkan Euroboros", "BOSS", 700, "Magic Shield"));
         enqueue(new Quest("Mengungkap Misteri Danger Hill", "MAIN",

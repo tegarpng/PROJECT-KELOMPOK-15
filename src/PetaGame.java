@@ -16,9 +16,6 @@ public class PetaGame {
         lokasi3.nextLokasi = lokasi4;
         lokasi4.nextLokasi = lokasi5;
 
-        quest.inisialisasiQuest();        
-
-
         // Castle → Forest (jalur normal)
         lokasi1.headJalur = new Jalur(lokasi2, false);
 
