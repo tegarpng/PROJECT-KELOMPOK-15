@@ -3,15 +3,20 @@ import java.util.Scanner;
 public class QuestQueue {
     private Quest front;
     private Quest rear;
-    private PetaGame peta;
     private Scanner input;
+    private manageBoss bossData;
+    private Boss currentBoss;
     
     public QuestQueue() {
         this.front = null;
         this.rear = null;
         this.input = new Scanner(System.in);
+        this.bossData = new manageBoss(); 
+        this.bossData.loadBoss(); 
+        // Set boss pertama sebagai currentBoss
+        this.currentBoss = this.bossData.head; 
     }
-    
+
     // Enqueue - Tambah quest ke queue
     public void enqueue(Quest quest) {
         if (rear == null) {
@@ -47,31 +52,6 @@ public class QuestQueue {
         return front == null;
     }
     
-    // Inisialisasi semua quest
-    public void inisialisasiQuest() {
-        // MAIN QUESTS
-        enqueue(new Quest("Pembukaan Gerbang", "MAIN", 
-            "Kalahkan Death Knight untuk membuka gerbang istana", "BOSS", 500, "Double Strike"));      
-        enqueue(new Quest("Misteri Hutan Terlarang", "MAIN",
-            "Kalahkan Euroboros", "BOSS", 700, "Magic Shield"));
-        enqueue(new Quest("Mengungkap Misteri Danger Hill", "MAIN",
-            "Kalahkan OMEN", "BOSS", 400, "Heal"));
-        enqueue(new Quest("Konfrontasi Astral", "MAIN",
-            "Hadapi Raja Astral di tahtanya", "BOSS", 1000, "Ultimate Skill"));
-        enqueue(new Quest("Final Boss", "MAIN",
-            "Hadapi Sisi Gelap dari dirimu sendiri", "BOSS", 1000, "Ultimate Skill"));
-        
-        // SIDE QUESTS
-        enqueue(new Quest("Pengumpulan Bahan", "SIDE",
-            "Kumpulkan 5 herbal langka untuk penyembuh", "COLLECT", 200, null));
-        enqueue(new Quest("Pembasmi Monster", "SIDE",
-            "Kalahkan 10 monster kecil di hutan", "BOSS", 150, null));
-        enqueue(new Quest("Teka-teki Batu", "SIDE",
-            "Selesaikan puzzle batu kuno untuk mendapat harta", "PUZZLE", 250, null));
-        enqueue(new Quest("Penjelajahan Gua", "SIDE",
-            "Jelajahi seluruh area gua tersembunyi", "EXPLORE", 180, null));
-    }
-    
     // Tampilkan semua quest yang aktif
     public void tampilkanQuestAktif() {
         System.out.println("\n++=========================== QUEST ACTIVE ===========================++");
@@ -104,97 +84,120 @@ public class QuestQueue {
             return;
         }
         
-        Quest questSekarang = peek();
+        Quest q = peek();
+
+        if (q.selesai) {
+            System.out.println("Quest '" + q.namaQuest + "' sudah selesai.");
+            dequeue();
+            if(isEmpty()) return;
+            q = peek();
+        }
+
         System.out.println("\n=== MENGERJAKAN QUEST ===");
-        System.out.println("Quest: " + questSekarang.namaQuest);
-        System.out.println("Deskripsi: " + questSekarang.deskripsi);
-        
-        switch (questSekarang.tujuan) {
-            case "BOSS":
-                System.out.println("\nMelawan BOSS...");
-                if (melawanBoss(player)) {
-                    selesaikanQuest(player, questSekarang);
-                } else {
-                    System.out.println("Gagal mengalahkan boss! Coba lagi nanti.");
-                }
-                break;
+        System.out.println("Quest: " + q.namaQuest);
+        System.out.println("Deskripsi: " + q.deskripsi);
+
+        if (q.jenis.equalsIgnoreCase("MAIN")) {
+            // === LOGIKA MAIN QUEST (BOSS BATTLE) ===
+            // Menggunakan BattleManager
+            if (q.tujuan.equals("BOSS")) {
+                System.out.println("(!) PERINGATAN: Aura Boss yang kuat terdeteksi!");
                 
-            case "PUZZLE":
-                System.out.println("\nMemecahkan puzzle...");
-                if (pecahkanPuzzle()) {
-                    selesaikanQuest(player, questSekarang);
+                // Panggil logika battle manager di sini
+                if (melawanBoss(player, q)) {
+                    selesaikanQuest(player, q);
                 } else {
-                    System.out.println("Puzzle belum terpecahkan!");
+                    System.out.println("Anda Gagal! Silakan coba lagi setelah pulih/respawn.");
                 }
-                break;
-                
-            case "COLLECT":
-                System.out.println("\nMengumpulkan item...");
-                if (kumpulkanItem()) {
-                    selesaikanQuest(player, questSekarang);
-                } else {
-                    System.out.println("Item belum lengkap!");
-                }
-                break;
-                
-            case "EXPLORE":
-                System.out.println("\nMenjelajahi area...");
-                if (jelajahiArea()) {
-                    selesaikanQuest(player, questSekarang);
-                } else {
-                    System.out.println("Area belum sepenuhnya dijelajahi!");
-                }
-                break;
+            } else {
+                // Fallback jika ada main quest bukan boss
+                System.out.println("Mengerjakan tugas utama...");
+                selesaikanQuest(player, q);
+            }
+        } 
+        else {
+            // === LOGIKA SIDE QUEST ===
+            boolean success = false;
+            
+            switch(q.tujuan) {
+                case "PUZZLE":
+                    System.out.println("\nMemecahkan puzzle...");
+                    if (pecahkanPuzzle()) {
+                        success = true;
+                    } else {
+                        System.out.println("Puzzle belum terpecahkan!");
+                    }
+                    break;
+                case "COLLECT":
+                    System.out.println("\nMengumpulkan item...");
+                    if (kumpulkanItem()) {
+                        success = true;
+                    } else {
+                        System.out.println("Item belum lengkap!");
+                    }
+                    break;
+                case "EXPLORE":
+                    System.out.println("\nMenjelajahi area...");
+                    if (jelajahiArea()) {
+                        success = true;
+                    } else {
+                        System.out.println("Area belum sepenuhnya dijelajahi!");
+                    }
+                    break;
+                default:
+                    // Jika tipe quest tidak spesifik, anggap selesai otomatis (fetch quest sederhana)
+                    success = true;
+                    break;
+            }
+            
+            if (success) {
+                selesaikanQuest(player, q);
+            } else {
+                System.out.println("Gagal menyelesaikan misi sampingan.");
+            }
+        }
+    }
+
+    // Set Boss awal untuk lokasi ini (Opsional, jika ingin manual set boss)
+    public void setStartBoss(String bossName) {
+        Boss temp = this.bossData.head;
+        while (temp != null) {
+            if (temp.namaboss.equalsIgnoreCase(bossName)) {
+                this.currentBoss = temp;
+                return;
+            }
+            temp = temp.next;
         }
     }
     
-    // Method untuk melawan boss
-    private boolean melawanBoss(Character player) {
-        System.out.println("\n++======================== BOSS BATTLE ========================++");
-        System.out.println("Player HP: " + player.health);
-        System.out.println("Player Damage: " + player.physicaldamage);
-        System.out.println("++-------------------------------------------------------------++");
-        
-        // Simulasi pertarungan sederhana
-        int bossHP = 100;
-        int bossDamage = 20;
-        
-        while (bossHP > 0 && player.health > 0) {
-            System.out.println("\n1. Serang");
-            System.out.println("2. Bertahan");
-            System.out.println("3. Gunakan Skill");
-            System.out.print("Pilihan: ");
-            int pilihan = input.nextInt();
-            
-            switch (pilihan) {
-                case 1:
-                    int damage = player.physicaldamage + (int)(Math.random() * 10);
-                    bossHP -= damage;
-                    System.out.println("Anda memberikan " + damage + " damage kepada boss!");
-                    break;
-                case 2:
-                    System.out.println("Anda bertahan, mengurangi damage musuh!");
-                    bossDamage /= 2;
-                    break;
-                case 3:
-                    if (player.magicpower > 0) {
-                        int magicDamage = player.magicpower + (int)(Math.random() * 15);
-                        bossHP -= magicDamage;
-                        System.out.println("Anda menggunakan skill magic, memberikan " + magicDamage + " damage!");
-                    } else {
-                        System.out.println("Magic power tidak cukup!");
-                    }
-                    break;
-            }
-            
-            // Boss menyerang
-            if (bossHP > 0) {
-                player.health -= Math.max(0, bossDamage - player.physicaldefense);
-                System.out.println("Boss menyerang! HP anda tersisa: " + player.health);
-            }
+    // === INTEGRASI BATTLE MANAGER DI SINI ===
+    private boolean melawanBoss(Character player, Quest quest) {
+        // Cek apakah boss masih ada
+        if (this.currentBoss == null) {
+            System.out.println("Tidak ada Boss ditemukan (Anda mungkin sudah mengalahkan semuanya!)");
+            return true; // Auto-win jika boss habis
         }
         
-        return bossHP <= 0;
+        System.out.println("BOSS TERDETEKSI: " + this.currentBoss.namaboss);
+        
+        // 1. Instansiasi BattleManager
+        BattleManager battle = new BattleManager();
+        
+        // 2. Mulai Battle (BattleManager menghandle UI dan Loop turn)
+        boolean menang = battle.startBattle(player, this.currentBoss);
+        
+        // 3. Cek Hasil
+        if (menang) {
+            System.out.println("\n>> " + this.currentBoss.namaboss + " telah dikalahkan!");
+            
+            // PENTING: Maju ke Boss berikutnya setelah menang
+            this.currentBoss = this.currentBoss.next;
+            
+            return true;
+        } else {
+            // BattleManager sudah print "YOU DIED"
+            return false;
+        }
     }
     
     // Method untuk puzzle sederhana
@@ -207,11 +210,16 @@ public class QuestQueue {
         System.out.println("||    Apakah aku?'                                             ||");
         System.out.println("++-------------------------------------------------------------++");
         
-        System.out.println("\nJawaban (1 huruf): ");
-        input.nextLine(); // Clear buffer
-        String jawaban = input.nextLine().toLowerCase();
+        System.out.print("\nJawaban (1 kata): ");
+        // Bersihkan buffer jika perlu, tapi hati-hati dengan nextInt sebelumnya di menu lain
+        String jawaban = "";
+        try {
+            jawaban = input.next().toLowerCase();
+        } catch (Exception e) {
+            input.nextLine();
+        }
         
-        return jawaban.equals("e") || jawaban.equals("echo") || jawaban.equals("gema");
+        return jawaban.equals("e") || jawaban.equals("echo") || jawaban.equals("gema") || jawaban.equals("angin");
     }
     
     // Method untuk mengumpulkan item
@@ -226,7 +234,7 @@ public class QuestQueue {
             return true;
         } else {
             System.out.println("Masih kurang " + (5 - collected) + " item.");
-            System.out.println("Lanjut mencari? (ya/tidak): ");
+            System.out.print("Lanjut mencari? (ya/tidak): ");
             String lanjut = input.next();
             
             if (lanjut.equalsIgnoreCase("ya")) {
@@ -253,70 +261,68 @@ public class QuestQueue {
             System.out.println("2. Periksa kanan");
             System.out.println("3. Lanjut ke depan");
             System.out.print("Pilihan: ");
-            int pilihan = input.nextInt();
             
+            int pilihan = 0;
+            if(input.hasNextInt()) pilihan = input.nextInt();
+            else input.next(); 
+            
+            // Logika sederhana: jawaban benar beda-beda tiap area
             if ((i == 1 && pilihan == 2) || 
                 (i == 2 && pilihan == 1) || 
                 (i == 3 && pilihan == 3)) {
-                System.out.println("Anda menemukan sesuatu yang menarik!");
+                System.out.println(">> Anda menemukan jalan yang benar!");
                 areaTerselesaikan++;
             } else {
-                System.out.println("Tidak ada yang istimewa di sini...");
+                System.out.println(">> Jalan buntu/tidak ada apa-apa.");
             }
         }
         
-        System.out.println("\nArea yang berhasil dijelajahi: " + areaTerselesaikan + "/3");
+        System.out.println("\nJalur benar ditemukan: " + areaTerselesaikan + "/3");
         return areaTerselesaikan >= 2;
     }
     
-    // Method untuk menyelesaikan quest (DIPERBAIKI)
+    // Method untuk menyelesaikan quest
     private void selesaikanQuest(Character player, Quest quest) {
         quest.selesai = true;
         player.gold += quest.rewardGold;
         
-        System.out.println("\n++======================== QUEST COMPLETED ========================++");
-        System.out.println("||    Quest '" + quest.namaQuest + "' berhasil diselesaikan!        ||");
-        System.out.println("||    Anda mendapatkan " + quest.rewardGold + " Gold!                ||");
+        System.out.println("\n++====================== QUEST COMPLETE ======================++");
+        System.out.println("|| Selamat! Quest '" + quest.namaQuest + "' Selesai.");
+        System.out.println("|| Hadiah: " + quest.rewardGold + " Gold");
         
-        // --- LOGIC SKILL TREE DIINTEGRASIKAN ---
-        if (player.mySkills != null) {
-            // Memanggil method yang ada di SkillList.java (Uploaded)
+        // Cek jika ada reward skill (String di Quest.java, tapi dicek ke SkillList player)
+        if (quest.rewardSkill != null && player.mySkills != null) {
+            System.out.println("|| BONUS: Skill Point Diperoleh!");
+            // Asumsi: Method pickAndUpgradeSkill ada di SkillList (Linked List skill player)
             player.mySkills.pickAndUpgradeSkill();
         }
-        // ---------------------------------------
-
-        System.out.println("||    Gold total: " + player.gold + "                             ||");
-        System.out.println("++==================================================================++");
+        System.out.println("++============================================================++");
         
-        // Dequeue quest yang sudah selesai
-        dequeue();
+        dequeue(); // Hapus dari antrian
     }
     
     // Tampilkan statistik quest
     public void tampilkanStatistik() {
         System.out.println("\n=== QUEST STATISTICS ===");
         
-        Quest current = front;
-        int totalMain = 0, selesaiMain = 0;
-        int totalSide = 0, selesaiSide = 0;
+        Quest current = front; // Hanya menghitung yang AKTIF di queue
+        // Jika ingin menghitung history, perlu list terpisah 'completedQuests'
         
-        while (current != null) {
-            if (current.jenis.equals("MAIN")) {
-                totalMain++;
-                if (current.selesai) selesaiMain++;
-            } else {
-                totalSide++;
-                if (current.selesai) selesaiSide++;
+        if (current == null) {
+            System.out.println("Tidak ada quest aktif.");
+        } else {
+            int count = 0;
+            while (current != null) {
+                count++;
+                current = current.next;
             }
-            current = current.next;
+            System.out.println("Jumlah Quest Aktif: " + count);
         }
         
-        System.out.println("Main Quest: " + selesaiMain + "/" + totalMain + " selesai");
-        System.out.println("Side Quest: " + selesaiSide + "/" + totalSide + " selesai");
-        System.out.println("Total Progress: " + (selesaiMain + selesaiSide) + "/" + (totalMain + totalSide));
-        
-        if (selesaiMain == totalMain && totalMain > 0) {
-            System.out.println("\n*** SELAMAT! Semua Main Quest telah diselesaikan! ***");
+        if (bossData != null && currentBoss != null) {
+             System.out.println("Boss Berikutnya: " + currentBoss.namaboss);
+        } else {
+             System.out.println("Semua Boss telah dikalahkan!");
         }
     }
 }
