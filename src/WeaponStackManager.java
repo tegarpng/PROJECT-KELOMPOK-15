@@ -10,10 +10,6 @@ public class WeaponStackManager {
         this.character = character;
     }
 
-    // =======================================================
-    // PUSH ke Stack (History)
-    // =======================================================
-
     // PUSH Weapon ke tempsenjata stack
     public void push(Weapon senjata) {
         if (senjata == null) return;
@@ -23,7 +19,7 @@ public class WeaponStackManager {
         tempsenjata = copy;
     }
 
-    // PUSH Armor ke temparmor stack
+    // PUSH Armor ke temparmor stac
     public void push(Armor armor) {
         if (armor == null) return;
         // buat salinan supaya stack terpisah dari linked list utama
@@ -32,10 +28,6 @@ public class WeaponStackManager {
         temparmor = copy;
     }
 
-    // =======================================================
-    // POP dari Stack (Undo)
-    // =======================================================
-    
     // POP Weapon (mengambil dan menghapus elemen teratas dari stack senjata)
     public Weapon popWeapon() {
         if (tempsenjata != null) {
@@ -65,10 +57,6 @@ public class WeaponStackManager {
     public boolean isArmorHistoryEmpty(){
         return temparmor == null;
     }
-
-    // =======================================================
-    // OPERASI EQUIP
-    // =======================================================
 
     // EQUIP WEAPON (Logika sama, hanya perbaikan nama pop)
     public void equipWeapon() {
@@ -226,11 +214,7 @@ public class WeaponStackManager {
 
         System.out.println(character.orang + " successfully equipped: " + character.armorplayer.namaarmor);
     }
-    
-    // =======================================================
-    // FUNGSI UNDO (menggunakan POP)
-    // =======================================================
-    
+
     public void undoEquipWeapon() {
         if (isWeaponHistoryEmpty()) {
             System.out.println("No weapon history available to undo.");
@@ -263,7 +247,6 @@ public class WeaponStackManager {
         push(oldEquippedData);
 
         // 5. Overwrite node kedua (yang sebelumnya duplikat Pedang A) 
-        // dengan data Pistol B (item yang baru saja dicopot).
         if (currentlyEquipped.next != null) {
             Weapon secondNode = currentlyEquipped.next;
             
@@ -322,10 +305,6 @@ public class WeaponStackManager {
 
         System.out.println("Undo successful! " + character.orang + " now equips: " + character.armorplayer.namaarmor);
     }
-
-    // =======================================================
-    // Tampilkan Riwayat Stack
-    // =======================================================
 
     // Tampilkan riwayat stack Weapon
     public void showWeaponHistory() {
