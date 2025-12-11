@@ -108,6 +108,7 @@ public class QuestQueue {
                     selesaikanQuest(player, q);
                 } else {
                     System.out.println("Anda Gagal! Silakan coba lagi setelah pulih/respawn.");
+                    return;
                 }
             } else {
                 // Fallback jika ada main quest bukan boss
@@ -123,6 +124,15 @@ public class QuestQueue {
                 case "PUZZLE":
                     System.out.println("\nMemecahkan puzzle...");
                     if (pecahkanPuzzle()) {
+                        System.out.println("Puzzle terpecahkan!");
+                        success = true;
+                    } else {
+                        System.out.println("Puzzle belum terpecahkan!");
+                    }
+                    break;
+                case "PUZZLE2":
+                    System.out.println("\nMemecahkan puzzle...");
+                    if (pecahkanPuzzle2()) {
                         System.out.println("Puzzle terpecahkan!");
                         success = true;
                     } else {
@@ -213,6 +223,31 @@ public void setStartBoss(String bossName) {
         
         return jawaban.equals("e") || jawaban.equals("echo") || jawaban.equals("gema") || jawaban.equals("angin");
     }
+
+    private boolean pecahkanPuzzle2() {
+    System.out.println("\n++=========================== PUZZLE ===========================++");
+    System.out.println("||   Sebuah prasasti kuno terpampang di depanmu:              ||");
+    System.out.println("||   'Aku selalu datang, tetapi tidak pernah tiba.             ||");
+    System.out.println("||    Aku memakan segala sesuatu yang hidup.                  ||");
+    System.out.println("||    Aku punya masa lalu, tetapi tidak punya masa kini.      ||");
+    System.out.println("||    Apakah aku?'                                            ||");
+    System.out.println("++-------------------------------------------------------------++");
+    
+    System.out.print("\nJawaban (1 kata): ");
+    
+    String jawaban = "";
+    try {
+        // Asumsi 'input' adalah Scanner yang sudah didefinisikan
+        jawaban = input.next().toLowerCase();
+        input.nextLine(); // Membersihkan sisa newline (kebiasaan yang baik)
+    } catch (Exception e) {
+        input.nextLine();
+        return false;
+    }
+    
+    // Jawaban yang diterima: waktu, masa, mendatang
+    return jawaban.equals("waktu") || jawaban.equals("masa") || jawaban.equals("mendatang");
+}
     
     // Method untuk mengumpulkan item
     private boolean kumpulkanItem() {

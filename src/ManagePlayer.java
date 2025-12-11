@@ -5,6 +5,7 @@ public class ManagePlayer {
     SenjataShop shop;
     WeaponStackManager weaponStackManager;
     PetaGame currentLocation;
+    Scanner sc = new Scanner(System.in);
 
     public void addplayer(String nama, String Role){
         Character fighter;
@@ -148,7 +149,7 @@ public class ManagePlayer {
             System.out.println("||  GOLD ANDA SAAT INI : " + String.format("%-21d", curr.gold) + " ||");
             System.out.println("++=============================================++");
 
-            shop.displayarmor(); 
+            shop.displayarmor();
 
             System.out.println("++---------------------------------------------++");
             System.out.println("|| OPSI SORTING:                               ||");
@@ -239,13 +240,18 @@ public class ManagePlayer {
         Character curr = head;
         if(curr != null){
             Weapon weaponChar = curr.weapon;
+            if(weaponChar == null){
+                System.out.println(curr.orang + " Tidak memiliki senjata\ntekan enter untuk kembali");
+                sc.nextLine();
+                return;
+            }
             while(weaponChar != null){
-                System.out.println(weaponChar.namasenjata + " - " + weaponChar.cost + " - " + weaponChar.id);
+                System.out.println("ID " + weaponChar.id + " | " + weaponChar.namasenjata + " Cost : " + weaponChar.cost);
                 weaponChar = weaponChar.next;
             }
             weaponChar = curr.weapon;
 
-            System.out.println("Ingin menjual senjata apa :");
+            System.out.print("Ingin menjual senjata mana? (Pilih berdasarkan ID) >>");
             choice = input.nextInt();
             if(weaponChar.id == choice){
                 curr.gold += weaponChar.cost;
@@ -273,12 +279,17 @@ public class ManagePlayer {
         Character curr = head;
         if(curr != null){
             Armor armorChar = curr.armorplayer;
+            if(armorChar == null){
+                System.out.print(curr.orang + " Tidak memiliki armor\ntekan enter untuk kembali");
+                sc.nextLine();
+                return;
+            }
             while(armorChar != null){
-                System.out.println(armorChar.namaarmor + " - " + armorChar.cost + " - " + armorChar.id);
+                System.out.println("ID " + armorChar.id + " | " + armorChar.namaarmor + " Cost : " + armorChar.cost);
                 armorChar = armorChar.next;
             }
             armorChar = curr.armorplayer;
-            System.out.println("Ingin menjual armor mana : ");
+            System.out.println("Ingin menjual armor mana? (Pilih berdasarkan ID) >>");
             choice = input.nextInt();
                 if(armorChar.id == choice){
                     curr.gold += armorChar.cost;
@@ -307,7 +318,7 @@ public class ManagePlayer {
             System.out.println("##==========================================================##");
             System.out.println("|| Nama  : " + curr.orang + "  | Role : " + curr.role + "||");
             System.out.println("|| HP    : " + curr.health + " | Gold : " + curr.gold + "||");
-            System.out.println("|| Stats");
+            System.out.println("|| Stats :                                               ||");
             System.out.println("|| Physical Damage :" + curr.physicaldamage + " || Magical Power : " + curr.magicpower + "||");
             System.out.println("Items:");
             Weapon weaponCurr = curr.weapon;
@@ -334,20 +345,23 @@ public class ManagePlayer {
             }
 
             if(curr.armorplayer != null || curr.weapon != null){
+                int displayphysicaldamage = (curr.weapon == null) ? curr.physicaldamage : (curr.physicaldamage + curr.weapon.physicaldamage);
+                int displaymagicpower = (curr.weapon == null) ? curr.magicpower : (curr.magicpower + curr.weapon.magicpower);
+                int displayphysicaldefense = (curr.armorplayer == null) ? curr.physicaldefense : (curr.physicaldefense + curr.armorplayer.physicaldefense);
+                int displaymagicdefense = (curr.armorplayer == null) ? curr.magicdefense : (curr.magicdefense + curr.armorplayer.magicdefense);
                 System.out.println("Total Stats with Equipment:");
-                System.out.println("  >> Total Physical Damage : " + (curr.physicaldamage + curr.weapon.physicaldamage));
-                System.out.println("  >> Total Magic Power     : " + (curr.magicpower + curr.weapon.magicpower));
-                System.out.println("  >> Total Physical Defense : " + (curr.physicaldefense));
-                System.out.println("  >> Total Magic Defense    : " + (curr.magicdefense));
+                System.out.println("  >> Total Physical Damage : " + displayphysicaldamage);
+                System.out.println("  >> Total Magic Power     : " + displaymagicpower);
+                System.out.println("  >> Total Physical Defense : " + displayphysicaldefense);
+                System.out.println("  >> Total Magic Defense    : " + displaymagicdefense);
             }
-
 
             System.out.println("-------------------------------------------");
             curr = curr.next;
         }
 
 
-        Scanner sc = new Scanner(System.in);
+        
         SearchItem si = new SearchItem();
 
         while(true){
@@ -508,7 +522,7 @@ public class ManagePlayer {
         boolean shopping = true;
         while (shopping) {
             System.out.println("\n++==========================================================++");
-            System.out.println("||                      WEAPON & ARMOR SHOP                   ||");
+            System.out.println("||                    WEAPON & ARMOR SHOP                   ||");
             System.out.println("++==========================================================++");
             System.out.println("|| Halo, " + String.format("%-15s", curr.orang) + " Gold Anda: " + String.format("%-14d", curr.gold) + " ||");
             System.out.println("++==========================================================++");
@@ -647,7 +661,7 @@ public class ManagePlayer {
                     runAllQuestsAtCurrentLocation(peta);
                     break;
                 case 2:
-                    System.out.print("Pilih lokasi (atau 0 untuk batal): ");
+                    System.out.print("Pilih lokasi (Masukkan nama lokasi atau ketik 0 untuk batal): ");
                     String locName = "";
                     try {
                         locName = input.next();
@@ -662,6 +676,9 @@ public class ManagePlayer {
                         break;
                     }
                     
+                    if(curr.role.equals("Fighter")) curr.health = 1300;
+                    else if(curr.role.equals("Magic")) curr.health = 1000;
+                    else curr.health = 950;
                     peta.moveToLocation(locName);
                     break;
                 case 3:
@@ -687,12 +704,13 @@ class manageBoss{
         Boss bossmain2 = new Boss("Euroboros", 8000, 330, 100);
         Boss bossmain3 = new Boss("Omen", 12000, 200, 470);
         Boss bossmain4 = new Boss("Chronos", 20000, 550, 450);
-        Boss finalboss = new Boss("Aetherius", 40000, 800, 850);
+        Boss finalboss = new Boss("Aetherius", 25000, 600, 650);
         head = bossmain1;
         bossmain1.next = bossmain2;
         bossmain2.next = bossmain3;
         bossmain3.next = bossmain4;
         bossmain4.next = finalboss;
+        finalboss.next = null;
     }
 
     public void displayboss(){

@@ -17,7 +17,7 @@ public class Character {
     public Character(String orang, int health, String role, int physicaldamage, int magicpower, int physicaldefense, int magicdefense) {
         this.orang = orang;
         this.health = health;
-        this.gold = 100000;
+        this.gold = 10000;
         this.role = role;
         this.physicaldamage = physicaldamage;
         this.magicpower = magicpower;

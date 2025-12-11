@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class BattleManager {
     Scanner input = new Scanner(System.in);
     
-    // Custom Stack Manual
     private TurnStack turnStack;
 
     // Warna ANSI
@@ -41,8 +40,8 @@ public class BattleManager {
             if (currentTurn.equals("PLAYER")) {
                 // === GILIRAN PLAYER ===
                 System.out.println(centerText("PILIH AKSI", 90));
-                System.out.println("                         > " + YELLOW + "Skills" + RESET + " <");
-                System.out.println("                           Attack"); 
+                System.out.println("                         1. " + YELLOW + "Skills" + RESET );
+                System.out.println("                         2. " + YELLOW + "Attack" + RESET );
                 System.out.println("==========================================================================================");
                 System.out.print("Pilihan (1. Skill / 2. Attack): ");
                 
@@ -74,10 +73,24 @@ public class BattleManager {
                         break;
                     
                     case 2: // BASIC ATTACK
-                        int weaponDmg = (player.weapon != null) ? player.weapon.physicaldamage : 0;
-                        damageDealt = player.physicaldamage + weaponDmg;
-                        currentBossHP -= damageDealt;
-                        lastLog = "Serangan fisik! " + enemy.namaboss + " terkena " + damageDealt + " dmg.";
+                        if(player.role.equals("Fighter")){
+                            int weaponDmg = (player.weapon != null) ? player.weapon.physicaldamage : 0;
+                            damageDealt = player.physicaldamage + weaponDmg;
+                            currentBossHP -= damageDealt;
+                            lastLog = "Basic Attack!! " + enemy.namaboss + " terkena " + damageDealt + " dmg.";
+                        }else if(player.role.equals("Magic")){
+                            int weaponDmg = (player.weapon != null) ? player.weapon.magicpower : 0;
+                            damageDealt = player.magicpower + weaponDmg;
+                            currentBossHP -= damageDealt;
+                            lastLog = "Basic Attack!! " + enemy.namaboss + " terkena " + damageDealt + " dmg.";
+                        }else if(player.role.equals("Archer")){
+                            int damagearcher = (player.weapon.physicaldamage + player.weapon.magicpower);
+                            int basedamage = player.physicaldamage + player.magicpower;
+                            int weaponDmg = (player.weapon != null) ? (damagearcher) : 0;
+                            damageDealt = basedamage + weaponDmg;
+                            currentBossHP -= damageDealt;
+                            lastLog = "Basic Attack!! " + enemy.namaboss + " terkena " + damageDealt + " dmg.";
+                        }
                         break;
 
                     default:
@@ -88,14 +101,14 @@ public class BattleManager {
 
             } else {
                 // === GILIRAN BOSS (Logika Damage Spesifik) ===
-                try { Thread.sleep(1000); } catch (Exception e) {}
+                try { Thread.sleep(1500); } catch (Exception e) {}
 
                 int bossDmg = 0;
                 String attackName = "";
                 
                 // Hitung Defense Player
-                int pPhysDef = player.physicaldefense + ((player.armorplayer != null) ? player.armorplayer.physicaldefense : 0);
-                int pMagDef = player.magicdefense + ((player.armorplayer != null) ? player.armorplayer.magicdefense : 0);
+                int pPhysDef = (player.armorplayer == null) ? 0 : (int)((player.physicaldamage + player.armorplayer.physicaldefense) * 0.20);
+                int pMagDef = (player.armorplayer == null) ? 0 : (int)((player.physicaldamage + player.armorplayer.physicaldefense) * 0.15);
                 
                 if (currentBossHP < (maxBossHP / 2)) {
                     // FASE 2: ULTIMATE (MAGIC)
@@ -106,8 +119,7 @@ public class BattleManager {
                     bossDmg = enemy.physicaldamage - pPhysDef;
                     attackName = "Smash Attack (Physical Type)";
                 }
-
-                bossDmg = Math.max(1, bossDmg); // Minimal 1 damage
+    
                 player.health -= bossDmg;
                 System.out.println(">> " + enemy.namaboss + " menggunakan " + attackName + "!");
                 System.out.println(">> Anda terkena " + bossDmg + " damage.");
@@ -122,6 +134,9 @@ public class BattleManager {
             return true;
         } else {
             System.out.println("\n" + RED + "=== YOU DIED ===" + RESET);
+            if(player.role.equals("Fighter")) player.health = 1300;
+                else if(player.role.equals("Magic")) player.health = 1000;
+                else player.health = 950;
             return false;
         }
     }
@@ -184,7 +199,7 @@ public class BattleManager {
         int totalPhysDmg = p.physicaldamage + ((p.weapon != null) ? p.weapon.physicaldamage : 0);
         int totalMagicPwr = p.magicpower + ((p.weapon != null) ? p.weapon.magicpower : 0);
         
-        System.out.println("| " + CYAN + p.orang + RESET + " | HP: " + p.health + " | ATK (Phys): " + totalPhysDmg + " | MAG: " + totalMagicPwr); 
+        System.out.println("| " + CYAN + p.orang + RESET + " | HP: " + p.health + " | ATK (Phys): " + totalPhysDmg + " | MAG: " + totalMagicPwr + " | Player Weapon : " + p.weapon.namasenjata);
         System.out.println(border);
         
         if (turnName.equals("PLAYER")) {
@@ -442,7 +457,7 @@ public class BattleManager {
                 "                   VHACCCAAS      CFFCAACCAAAAAAF    HAAAAAAAAAAAHC       VHCACAAACAN               ",
                 "                    HFAFAAAK      KCFCAAAAAAAAAAN    NAAAAAAAAAACHAV        CAACCAAC                ",
                 "                    KCAHFAHH       FHCAAAAAAAAAAV  X SAAACAAAAACAAN         CACAACAK                ",
-                "                    KCFFFAACX     HCCCAACAAAAAAA   X SAAACAAAAACAACFC       SAAAAACACC                ",
+                "                    KCFFFAACX     HCCCAACAAAAAAA   X SAAACAAAAACAACFC       SAAAAACACC              ",
                 "                    FCFFCAACAS  X KCFCAAAAAAAAAA    XVAAAAAAACCAFHK     NAAAACACCACA                ",
                 "                   VCCFCCAACCCCACKSCFCFAAAAAAAAC    X ACAAAACAACCHP    SACAAAAACCACA                ",
                 "                   ACAFCCCCCC PAACCACAACCAAAAAAH      AAAAAACAACCFV  PCAAH NAACAAK F                ",

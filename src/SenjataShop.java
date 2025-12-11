@@ -8,16 +8,16 @@ public class SenjataShop {
     public void loadweapon(){
         Weapon weapon1 = new Weapon("Garnok's Fist", "Fighter", 700, 0, 50, 1);
         Weapon weapon2 = new Weapon("Zephyrum Cleaver", "Fighter", 1300, 0, 230, 2);
-        Weapon weapon3 = new Weapon("Vat'gir Jawblade", "Fighter", 3000, 0, 478, 3);
-        Weapon weapon4 = new Weapon("Kraken's Gavel", "Fighter", 5000, 0, 650, 4);
+        Weapon weapon3 = new Weapon("Vat'gir Jawblade", "Fighter", 3800, 0, 500, 3);
+        Weapon weapon4 = new Weapon("Kraken's Gavel", "Fighter", 6200, 0, 900, 4);
         Weapon weapon5 = new Weapon("Whisperwire Cord", "Archer", 450, 350, 50, 1);
         Weapon weapon6 = new Weapon("Thrynne's Shard", "Archer", 750, 450, 300, 2);
-        Weapon weapon7 = new Weapon("Aethelwin", "Archer", 1700, 1800, 520, 3);
-        Weapon weapon8 = new Weapon("Voidlash", "Archer", 3000, 2500, 680, 4);
+        Weapon weapon7 = new Weapon("Aethelwin", "Archer", 2700, 1800, 500, 3);
+        Weapon weapon8 = new Weapon("Voidlash", "Archer", 3000, 3200, 900, 4);
         Weapon weapon9 = new Weapon("Ostracon of Yl'geth", "Magic", 0, 700, 50, 1);
         Weapon weapon10 = new Weapon("Kyanix Prism", "Magic", 0, 1300, 278, 2);
-        Weapon weapon11 = new Weapon("Voidalith Shard", "Magic", 0, 3000, 450, 3);
-        Weapon weapon12 = new Weapon("Zir'ael Focus", "Magic", 0, 5000, 700, 4);
+        Weapon weapon11 = new Weapon("Voidalith Shard", "Magic", 0, 3800, 500, 3);
+        Weapon weapon12 = new Weapon("Zir'ael Focus", "Magic", 0, 6200, 900, 4);
 
         headfighter = weapon1;
         weapon1.next = weapon2;
