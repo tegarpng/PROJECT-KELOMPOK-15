@@ -41,15 +41,10 @@ public class App {
     }
     public static void main(String[] args) throws Exception {
         ManagePlayer player = new ManagePlayer();
-        manageBoss bossManager = new manageBoss();
         BattleManager battleManager = new BattleManager();
-        SenjataShop shop = new SenjataShop();
         PetaGame peta = new PetaGame();
         Scanner input = new Scanner(System.in);
         
-        shop.loadweapon();
-        shop.loadrmor();
-        bossManager.loadBoss();
         boolean run = true;
         while(run){
             loadbanner();
@@ -63,8 +58,13 @@ public class App {
             System.out.print("++========================================================================================================================================================================++\n");
             System.out.print("Masukkan pilihan anda : ");
             int choice = input.nextInt();
-
+            
             if(choice == 1){
+                SenjataShop shop = new SenjataShop();
+                manageBoss bossManager = new manageBoss();
+                shop.loadweapon();
+                shop.loadrmor();
+                bossManager.loadBoss();
                 // --- BAGIAN 1: PEMBUATAN KARAKTER ---
                 input.nextLine();
                 System.out.print("\nMasukkan Nama Hero : ");
@@ -105,6 +105,7 @@ public class App {
 
                 // Loop ini akan berjalan selama masih ada Boss yang harus dikalahkan
                 while(gameRunning && currentBoss != null) {
+                    
                     
                     // 1. STAGE QUEST - Player harus menyelesaikan semua quest di lokasi sebelum bertarung
                     System.out.println("\n\n===============================================");
@@ -173,18 +174,10 @@ public class App {
                             System.out.println("          SEMUA BOSS TELAH KALAH              ");
                             System.out.println("           GAME SELESAI - TERIMA KASIH!        ");
                             System.out.println(repeatString("=", 50));
-                            gameRunning = true;
-                            run = false;
+                            gameRunning = false;
+                            currentBoss = null;
+                            break;
                         }
-
-                    } else {
-                        // --- JIKA KALAH ---
-                        System.out.println("\n" + repeatString("=", 47));
-                        System.out.println("             GAME OVER - ANDA KALAH!            ");
-                        System.out.println("   Perjuangan anda terhenti di Stage " + stage);
-                        System.out.println("        Silakan mainkan kembali dari awal        ");
-                        System.out.println(repeatString("=", 47));
-                        gameRunning = false;
                     }
                 }
             }else if(choice == 2){

@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class PetaGame {
     Lokasi head;   // linked list dari semua lokasi
     QuestQueue quest;
